@@ -15,10 +15,6 @@ exports.userInfoValidator = [
   check("name").trim().not().isEmpty().withMessage("Name is missing!!"),
   check("email").trim().not().isEmpty().withMessage("Email is missing!"),
   check("email").trim().isEmail().withMessage("Email is invalid!"),
-  check("role").custom((role) => {
-    if (role && !userRoles.includes(role)) throw new Error("Invalid role");
-    return true;
-  }),
   check("password").not().isEmpty().withMessage("Password cannot be empty!"),
   check("password")
     .isLength({ min: 8, max: 20 })
@@ -68,6 +64,29 @@ exports.examValidator = [
 exports.signInValidator = [
   check("email").trim().not().isEmpty().withMessage("email is empty!"),
   check("password").trim().not().isEmpty().withMessage("password is empty!"),
+];
+
+exports.studentInfoValidator = [
+  check("class").not().isEmpty().withMessage("class is missing!"),
+  check("subjects")
+    .isArray({ min: 1 })
+    .withMessage("subjects must be a array!"),
+  check("subjects").custom((subjectArr) => {
+    if (subjectArr.length === 0) throw new Error("Array cannot be empty!");
+
+    const invalidIndex = subjectArr.findIndex((id) => isValidObjectId(id));
+    if (invalidIndex < 0) throw new Error("Invalid classId!");
+    return true;
+  }),
+  check("nameList")
+    .isArray({ min: 1 })
+    .withMessage("nameList must be a array!"),
+  check("nameList").custom((list) => {
+    list.forEach((name, i) => {
+      if (!name) throw new Error("Empty student name!");
+    });
+    return true;
+  }),
 ];
 
 exports.userValidator = async (req, res, next) => {

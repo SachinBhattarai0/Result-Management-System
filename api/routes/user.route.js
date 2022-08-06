@@ -1,19 +1,32 @@
-const { createUser, signIn } = require("../controllers/user.controller");
 const { userValidator, allowedRoles } = require("../middlewares/validator");
 const {
+  createTeacher,
+  createStudent,
+  signIn,
+} = require("../controllers/user.controller");
+const {
   userInfoValidator,
+  studentInfoValidator,
   validate,
   signInValidator,
 } = require("../middlewares/validator");
 const router = require("express").Router();
 
 router.post(
-  "/create",
+  "/create-teacher",
   userValidator,
   allowedRoles("admin"),
   userInfoValidator,
   validate,
-  createUser
+  createTeacher
+);
+router.post(
+  "/create-student",
+  userValidator,
+  allowedRoles("admin"),
+  studentInfoValidator,
+  validate,
+  createStudent
 );
 router.post("/sign-in", signInValidator, validate, signIn);
 

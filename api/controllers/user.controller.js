@@ -1,11 +1,15 @@
 const User = require("../models/user.model");
+const Student = require("../models/student.model");
 const jwt = require("jsonwebtoken");
-const { sendError, STUDENT } = require("../utils/utils");
+const { sendError, TEACHER } = require("../utils/utils");
+const mongoose = require("mongoose");
 require("dotenv").config();
 
-exports.createUser = async (req, res) => {
-  let { name, email, password, role } = req.body;
-  if (!role) role = STUDENT;
+console.log("create admin");
+
+exports.createTeacher = async (req, res) => {
+  let { name, email, password } = req.body;
+  let role = TEACHER;
 
   try {
     const newUser = new User({ name, email, password, role });
@@ -34,4 +38,22 @@ exports.signIn = async (req, res) => {
     jwtToken: token,
     user: { id: user._id, name: user.name, email: user.email, role: user.role },
   });
+};
+
+exports.createStudent = async (req, res) => {
+  const { nameList, class: _class, subjects } = req.body;
+
+  const studentList = nameList.map((name, i) => {
+    return { name, class: _class, subjects, rollNo: i };
+  });
+
+  try {
+    const res = await Student.insertMany(studentList);
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+
+  return res
+    .status(201)
+    .json({ error: false, message: "Students created Successfully!" });
 };
