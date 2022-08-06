@@ -48,7 +48,7 @@ exports.createStudent = async (req, res) => {
   });
 
   try {
-    const res = await Student.insertMany(studentList);
+    await Student.insertMany(studentList);
   } catch (error) {
     return sendError(res, error.message);
   }
@@ -56,4 +56,20 @@ exports.createStudent = async (req, res) => {
   return res
     .status(201)
     .json({ error: false, message: "Students created Successfully!" });
+};
+
+exports.verify = (req, res) => {
+  const user = req.user;
+  if (user)
+    return res.json({
+      error: false,
+      message: "User Validated Successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  return res.sendError(res, "User Validaton failed", 401);
 };

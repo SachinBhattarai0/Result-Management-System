@@ -3,6 +3,7 @@ const {
   createTeacher,
   createStudent,
   signIn,
+  verify,
 } = require("../controllers/user.controller");
 const {
   userInfoValidator,
@@ -20,6 +21,7 @@ router.post(
   validate,
   createTeacher
 );
+
 router.post(
   "/create-student",
   userValidator,
@@ -28,6 +30,9 @@ router.post(
   validate,
   createStudent
 );
+
+router.post("/verify", userValidator, validate, verify);
+
 router.post("/sign-in", signInValidator, validate, signIn);
 
 module.exports = router;
