@@ -10,12 +10,7 @@ exports.createUser = async (req, res) => {
     await newUser.save();
     return res.status(201).json({
       message: "User Created Successfully!",
-      user: {
-        id: newUser._id,
-        name: newUser.name,
-        email: newUser.email,
-        role: newUser.role,
-      },
+      error: false,
     });
   } catch (error) {
     return sendError(res, error.message);
