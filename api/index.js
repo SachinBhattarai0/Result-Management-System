@@ -8,7 +8,6 @@ require("./models/user.model");
 require("./db");
 
 const app = express();
-
 app.use(express.json());
 
 app.use("/api/user", userRoutes);

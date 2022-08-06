@@ -1,6 +1,9 @@
 const { check, validationResult } = require("express-validator");
 const { isValidObjectId } = require("mongoose");
 const { userRoles, sendError } = require("../utils/utils");
+const User = require("../models/user.model");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 exports.validate = (req, res, next) => {
   const error = validationResult(req).errors[0];
@@ -8,7 +11,7 @@ exports.validate = (req, res, next) => {
   next();
 };
 
-exports.userValidator = [
+exports.userInfoValidator = [
   check("name").trim().not().isEmpty().withMessage("Name is missing!!"),
   check("email").trim().not().isEmpty().withMessage("Email is missing!"),
   check("email").trim().isEmail().withMessage("Email is invalid!"),
@@ -60,7 +63,39 @@ exports.examValidator = [
   check("year").trim().not().isEmpty().withMessage("year is empty!"),
   check("month").trim().not().isEmpty().withMessage("month is empty!"),
   check("date").trim().not().isEmpty().withMessage("date is empty!"),
-  check("year").not().isNumeric().withMessage("year must be a number!"),
-  check("month").not().isNumeric().withMessage("month must be a number!"),
-  check("date").not().isNumeric().withMessage("date must be a number!"),
 ];
+
+exports.signInValidator = [
+  check("email").trim().not().isEmpty().withMessage("email is empty!"),
+  check("password").trim().not().isEmpty().withMessage("password is empty!"),
+];
+
+exports.userValidator = async (req, res, next) => {
+  const jwtToken = req.headers.authorization?.split(" ")[1];
+  if (!jwtToken) return sendError(res, "jwtToken is not present!");
+
+  try {
+    const { userId } = await jwt.verify(jwtToken, process.env.JWT_SECRET);
+
+    const user = await User.findById(userId).lean();
+    if (!user) return sendError(res, "Invalid jwtToken!");
+
+    req.user = user;
+    next();
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+};
+
+exports.allowedRoles = (roles) => {
+  if (!Array.isArray(roles)) roles = [roles];
+
+  return (req, res, next) => {
+    const user = req.user;
+    if (!user) return sendError(res, "User is not validated!");
+
+    if (!roles.includes(user.role))
+      return sendError(res, "user is unauthorized", 401);
+    next();
+  };
+};
