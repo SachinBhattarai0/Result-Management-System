@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { api } from "../axios";
 import { useAlert } from "../context/AlertContext";
 import { useUserState } from "../context/UserContext";
@@ -12,6 +13,7 @@ const SignIn = () => {
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
   const { updateAlert } = useAlert();
   const { userInfo, setUserInfo } = useUserState();
+  const navigate = useNavigate();
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -38,6 +40,11 @@ const SignIn = () => {
       updateAlert(error.response.data.message);
     }
   };
+
+  useEffect(() => {
+    if (userInfo.isAuthenticated)
+      navigate("/rms/dashboard/", { replace: true });
+  }, [userInfo.isAuthenticated]);
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">

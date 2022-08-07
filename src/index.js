@@ -5,6 +5,7 @@ import App from "./App";
 import AlertProvider from "./context/AlertContext";
 import UserContextProvider from "./context/UserContext";
 import { BrowserRouter } from "react-router-dom";
+import NavContextProvider from "./context/NavContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -12,7 +13,9 @@ root.render(
     <BrowserRouter>
       <AlertProvider>
         <UserContextProvider>
-          <App />
+          <NavContextProvider>
+            <App />
+          </NavContextProvider>
         </UserContextProvider>
       </AlertProvider>
     </BrowserRouter>
