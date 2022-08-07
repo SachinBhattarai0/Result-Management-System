@@ -15,11 +15,9 @@ const UserContextProvider = ({ children }) => {
   console.log(userInfo);
 
   useEffect(() => {
-    const jwtToken = localStorage.getItem("jwtToken");
-
     const verifyJwtToken = async () => {
       try {
-        const response = await apiWithJwt("/user/verify/", {}, jwtToken);
+        const response = await apiWithJwt("/user/verify/");
 
         if (response.status === 200)
           setUserInfo({
@@ -32,7 +30,7 @@ const UserContextProvider = ({ children }) => {
       }
     };
 
-    if (jwtToken) verifyJwtToken();
+    verifyJwtToken();
   }, []);
 
   return (

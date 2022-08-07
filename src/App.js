@@ -1,6 +1,6 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import Alert from "./components/alert/Alert";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar/SideNav";
 import NotFound from "./components/notFound/NotFound";
 import Protected from "./components/protected/Protected";
 import Dashboard from "./pages/Dashboard";
@@ -8,7 +8,7 @@ import SignIn from "./pages/SignIn";
 
 function App() {
   return (
-    <div className="flex">
+    <div className="flex bg-gray-100 text-slate-700">
       <Alert />
       <Routes>
         <Route path="/" element={<Navigate to="/sign-in/" />} />
@@ -32,7 +32,8 @@ function App() {
             element={<h2>This isadmin dashboard</h2>}
           />
         </Route>
-        <Route path={"*"} element={<NotFound />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

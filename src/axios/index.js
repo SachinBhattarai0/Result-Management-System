@@ -5,10 +5,13 @@ export const api = axios.create({
   baseURL,
 });
 
-export const apiWithJwt = async (url, data, jwt) => {
-  return await axios.post(baseURL + url, data, {
-    headers: {
-      Authorization: "Bearer " + jwt,
-    },
-  });
+export const apiWithJwt = async (url, data = {}) => {
+  const jwt = localStorage.getItem("jwtToken");
+  if (jwt) {
+    return await axios.post(baseURL + url, data, {
+      headers: {
+        Authorization: "Bearer " + jwt,
+      },
+    });
+  }
 };
