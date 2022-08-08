@@ -5,18 +5,28 @@ import TopNav from "../components/Navbar/TopNav";
 import { apiWithJwt } from "../axios";
 import { Link } from "react-router-dom";
 import Button from "../components/form/Button";
+import Spinner from "../components/spinner/Spinner";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { userInfo } = useUserState();
-  const [assignments, setAssignments] = useState([]);
+  const [assignmentState, setAssignmentState] = useState({
+    assignments: [],
+    isPending: false,
+  });
 
   useEffect(() => {
     const getUserAssignments = async () => {
       try {
+        setAssignmentState({ ...assignmentState, isPending: true });
+
         const { data } = await apiWithJwt("/assignment/list");
-        setAssignments([...data.assignments]);
+        setAssignmentState({
+          assignments: [...data.assignments],
+          isPending: false,
+        });
       } catch (error) {
+        setAssignmentState({ ...assignmentState, isPending: false });
         console.log(error);
       }
     };
@@ -32,7 +42,7 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col flex-1">
       <TopNav />
-      <div className="flex-1 p-5">
+      <div className="flex-1 p-1 md:p-5">
         <table className="bg-white w-full rounded shadow-sm">
           <tbody>
             <tr>
@@ -43,7 +53,7 @@ const Dashboard = () => {
               <th className="border-2 py-3 px-1">Action</th>
             </tr>
 
-            {assignments.map((assignment, index) => {
+            {assignmentState.assignments.map((assignment, index) => {
               const { _id, exam, class: _class, subject } = assignment;
 
               return (
@@ -70,6 +80,7 @@ const Dashboard = () => {
             })}
           </tbody>
         </table>
+        {assignmentState.isPending && <Spinner h="h-28" w="w-28" />}
       </div>
     </div>
   );

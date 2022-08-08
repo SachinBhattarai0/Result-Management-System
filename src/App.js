@@ -9,7 +9,7 @@ import SignIn from "./pages/SignIn";
 
 function App() {
   return (
-    <div className="flex font-roboto bg-gray-100 text-slate-800">
+    <div className="flex font-roboto bg-gray-100 text-slate-800 max-h-screen">
       <Alert />
       <Routes>
         <Route path="/" element={<Navigate to="/sign-in/" />} />

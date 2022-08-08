@@ -3,7 +3,9 @@ import React, { useState, createContext, useContext } from "react";
 const NavContext = createContext();
 
 const NavContextProvider = ({ children }) => {
-  const [navState, setNavState] = useState({ open: true });
+  const [navState, setNavState] = useState({
+    open: window.innerHeight < 768 ? false : true,
+  });
 
   const toggleNavState = () => {
     setNavState({ ...navState, open: !navState.open });

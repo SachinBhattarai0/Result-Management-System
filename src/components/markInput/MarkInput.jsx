@@ -1,15 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { apiWithJwt } from "../../axios";
-import { useAlert } from "../../context/AlertContext";
+import { SUCCESS, useAlert } from "../../context/AlertContext";
 import Button from "../form/Button";
 import TopNav from "../Navbar/TopNav";
+import Spinner from "../../components/spinner/Spinner";
 
 const MarkInput = () => {
   const { state: assignment } = useLocation();
   const { updateAlert } = useAlert();
   const ThInputRef = useRef([]);
   const PrInputRef = useRef([]);
+  const navigate = useNavigate();
+  const [markPending, setMarkPending] = useState(false);
   const [studentList, setStudentList] = useState({
     students: [],
     isPending: false,
@@ -17,7 +20,7 @@ const MarkInput = () => {
 
   const { _id, class: _class, exam, subject } = assignment;
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const theoryMarks = ThInputRef.current
       .slice(0, studentList.students.length)
       .map((i) => i.value);
@@ -47,9 +50,29 @@ const MarkInput = () => {
         } !! should be less than 0 and greater than ${subject.practicalMark}`
       );
 
-    // theoryMark
-    // practicalMark
-    //Submit mark to backend
+    const studentMarks = theoryMarks.map((_, i) => {
+      return {
+        student: studentList.students[i]._id,
+        theoryMark: theoryMarks[i],
+        practicalMark: practicalMarks[i],
+      };
+    });
+
+    try {
+      setMarkPending(true);
+      const { data } = await apiWithJwt("/mark/create/", {
+        exam: exam._id,
+        subject: subject._id,
+        class: _class._id,
+        marks: studentMarks,
+      });
+      updateAlert(data.message, SUCCESS);
+      navigate("/rms/assignmemt/");
+      setMarkPending(false);
+    } catch (error) {
+      setMarkPending(false);
+      console.log(error);
+    }
   };
 
   const handleKeyDownOnThInput = ({ target, key }, i) => {
@@ -86,9 +109,9 @@ const MarkInput = () => {
     getStudentList();
   }, []);
   return (
-    <div className="flex flex-col flex-1">
+    <div className="flex flex-col flex-1 relative">
       <TopNav />
-      <div className="flex-1 p-5">
+      <div className="flex-1 p-5 absolute w-full top-20 h-9/10 overflow-y-scroll">
         <table className="bg-white w-full rounded shadow-sm">
           <tbody>
             <tr>
@@ -139,9 +162,18 @@ const MarkInput = () => {
             ))}
           </tbody>
         </table>
-        <div className="py-1 flex flex-col">
-          <Button onClick={handleSubmit}>Submit</Button>
-        </div>
+        {studentList.isPending ? (
+          <Spinner h="h-28" w="w-28" />
+        ) : (
+          <div className="py-1 flex flex-col">
+            <Button
+              onClick={handleSubmit}
+              style={{ pointerEvents: markPending ? "none" : "all" }}
+            >
+              {markPending ? <Spinner /> : "Submit"}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

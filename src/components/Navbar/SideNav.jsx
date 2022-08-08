@@ -24,7 +24,7 @@ const Navbar = () => {
               style={({ isActive }) =>
                 isActive ? { background: "rgba(30,58,138,0.9)" } : undefined
               }
-              to="/rms/dashboard/"
+              to="/rms/assignment/"
               className="flex space-x-1 items-center hover:bg-blue-900 p-2"
             >
               <CgDetailsMore className="text-xl" />
@@ -38,7 +38,7 @@ const Navbar = () => {
               style={({ isActive }) =>
                 isActive ? { background: "rgba(30,58,138,0.9)" } : undefined
               }
-              to="/rms/dashboard/completed-assignments/"
+              to="/rms/assignment/completed-assignments/"
               className="flex space-x-1 items-center hover:bg-blue-900 p-2"
             >
               <MdAssignment className="text-xl" />
@@ -50,7 +50,7 @@ const Navbar = () => {
               style={({ isActive }) =>
                 isActive ? { background: "rgba(30,58,138,0.9)" } : undefined
               }
-              to="/rms/dashboard/my-info/"
+              to="/rms/assignment/my-info/"
               className="flex space-x-1 items-center hover:bg-blue-900 p-2"
             >
               <MdAssignmentTurnedIn className="text-xl" />
