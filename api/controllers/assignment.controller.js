@@ -32,11 +32,7 @@ exports.createAssignment = async (req, res) => {
 
 exports.getAssignmentList = async (req, res) => {
   const loggedInUser = req.user;
-  let { userId } = req.body;
-
-  if (loggedInUser.role === "admin" && !userId)
-    return sendError(res, "userId is needed!");
-  if (loggedInUser.role === "teacher") userId = loggedInUser._id;
+  const userId = loggedInUser._id;
 
   const assignments = await Assignment.find({ userId })
     .populate("exam")
@@ -49,19 +45,13 @@ exports.getAssignmentList = async (req, res) => {
 
 exports.getStudentList = async (req, res) => {
   const loggedInUser = req.user;
-  let { userId, assignmentId } = req.body;
+  let { assignmentId } = req.body;
 
-  const assignment = await Assignment.findById(assignmentId);
+  const assignment = await Assignment.findById(assignmentId).lean();
   if (!assignment) return sendError(res, "assignmentId is invalid!");
 
-  if (loggedInUser.role === "admin" && !userId)
-    return sendError(res, "userId is needed!");
-  if (
-    loggedInUser.role === "teacher" &&
-    assignment.user.toString() !== loggedInUser._id.toString()
-  )
+  if (assignment.user.toString() !== loggedInUser._id.toString())
     return sendError(res, "user not authorized!");
-  else userId = loggedInUser._id;
 
   const students = await Student.find({
     passed: false,

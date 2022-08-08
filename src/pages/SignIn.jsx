@@ -43,7 +43,7 @@ const SignIn = () => {
 
   useEffect(() => {
     if (userInfo.isAuthenticated)
-      navigate("/rms/dashboard/", { replace: true });
+      navigate("/rms/assignment/", { replace: true });
   }, [userInfo.isAuthenticated]);
 
   return (

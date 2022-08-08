@@ -12,7 +12,6 @@ const UserContextProvider = ({ children }) => {
     isPending: false,
     isAuthenticated: false,
   });
-  console.log(userInfo);
 
   useEffect(() => {
     const verifyJwtToken = async () => {

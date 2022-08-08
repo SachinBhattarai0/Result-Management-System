@@ -44,7 +44,7 @@ exports.createStudent = async (req, res) => {
   const { nameList, class: _class, subjects } = req.body;
 
   const studentList = nameList.map((name, i) => {
-    return { name, class: _class, subjects, rollNo: i };
+    return { name, class: _class, subjects, rollNo: i + 1 };
   });
 
   try {

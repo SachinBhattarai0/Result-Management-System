@@ -1,5 +1,6 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import Alert from "./components/alert/Alert";
+import MarkInput from "./components/markInput/MarkInput";
 import Navbar from "./components/Navbar/SideNav";
 import NotFound from "./components/notFound/NotFound";
 import Protected from "./components/protected/Protected";
@@ -8,7 +9,7 @@ import SignIn from "./pages/SignIn";
 
 function App() {
   return (
-    <div className="flex bg-gray-100 text-slate-700">
+    <div className="flex font-roboto bg-gray-100 text-slate-800">
       <Alert />
       <Routes>
         <Route path="/" element={<Navigate to="/sign-in/" />} />
@@ -19,7 +20,8 @@ function App() {
           path="/rms"
           element={<Protected components={<Navbar />} roles={["teacher"]} />}
         >
-          <Route path={"/rms/dashboard"} element={<Dashboard />} />
+          <Route path={"/rms/assignment"} element={<Dashboard />} />
+          <Route path={"/rms/assignment/:id/"} element={<MarkInput />} />
         </Route>
 
         {/* Admin's routes */}

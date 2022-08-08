@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useUserState } from "../context/UserContext";
 import TopNav from "../components/Navbar/TopNav";
 import { apiWithJwt } from "../axios";
+import { Link } from "react-router-dom";
+import Button from "../components/form/Button";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -14,7 +16,6 @@ const Dashboard = () => {
       try {
         const { data } = await apiWithJwt("/assignment/list");
         setAssignments([...data.assignments]);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -26,6 +27,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (!userInfo.isAuthenticated) navigate("/sign-in/", { replace: true });
   }, [userInfo.isAuthenticated]);
+  console.log("createdAt");
 
   return (
     <div className="flex flex-col flex-1">
@@ -59,9 +61,9 @@ const Dashboard = () => {
                     {subject.name}
                   </td>
                   <td className="border-2 py-3 px-1 text-center">
-                    <button className="bg-blue-900 text-white hover:bg-blue-800 px-2 py-1 rounded">
-                      View
-                    </button>
+                    <Link to={`/rms/assignment/${_id}/`} state={assignment}>
+                      <Button sm>view</Button>
+                    </Link>
                   </td>
                 </tr>
               );

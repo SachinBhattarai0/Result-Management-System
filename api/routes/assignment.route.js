@@ -23,14 +23,14 @@ router.post(
 router.post(
   "/list/",
   userValidator,
-  allowedRoles(["admin", "teacher"]),
+  allowedRoles(["teacher"]),
   getAssignmentList
 );
 
 router.post(
   "/student-list/",
   userValidator,
-  allowedRoles(["admin", "teacher"]),
+  allowedRoles(["teacher"]),
   getStudentList
 );
 

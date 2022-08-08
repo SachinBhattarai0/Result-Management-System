@@ -9,7 +9,7 @@ const Protected = ({ components, roles }) => {
   else if (userInfo.role === "admin")
     return <Navigate to={"/rms/admin/dashboard/"} replace={true} />;
   else if (userInfo.role === "teacher")
-    return <Navigate to={"/rms/dashboard/"} replace={true} />;
+    return <Navigate to={"/rms/assignment/"} replace={true} />;
   return <Navigate to={"/sign-in/"} replace={true} />;
 };
 
