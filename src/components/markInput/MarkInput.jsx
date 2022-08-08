@@ -15,7 +15,7 @@ const MarkInput = () => {
     isPending: false,
   });
 
-  const { _id, class: _class, exam, subject, createdAt } = assignment;
+  const { _id, class: _class, exam, subject } = assignment;
 
   const handleSubmit = () => {
     const theoryMarks = ThInputRef.current

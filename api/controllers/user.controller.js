@@ -43,19 +43,32 @@ exports.signIn = async (req, res) => {
 exports.createStudent = async (req, res) => {
   const { nameList, class: _class, subjects } = req.body;
 
-  const studentList = nameList.map((name, i) => {
-    return { name, class: _class, subjects, rollNo: i + 1 };
+  const session = await mongoose.startSession();
+
+  const transactionRes = await session.withTransaction(async () => {
+    const stdCount = await Student.count({ class: _class });
+    for (i = 0; i < nameList.length; i++) {
+      const name = nameList[i];
+      const rollNo = stdCount + i + 1;
+      const newStd = new Student({ name, class: _class, subjects, rollNo });
+
+      try {
+        await newStd.save({ session });
+      } catch (error) {
+        await session.abortTransaction();
+        return sendError(res, error.message);
+      }
+    }
   });
 
-  try {
-    await Student.insertMany(studentList);
-  } catch (error) {
-    return sendError(res, error.message);
-  }
+  if (transactionRes) await session.commitTransaction();
 
-  return res
-    .status(201)
-    .json({ error: false, message: "Students created Successfully!" });
+  await session.endSession();
+
+  if (transactionRes)
+    return res
+      .status(201)
+      .json({ error: false, message: "Students created Successfully!" });
 };
 
 exports.verify = (req, res) => {
