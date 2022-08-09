@@ -2,8 +2,12 @@ const {
   userValidator,
   allowedRoles,
   validate,
+  classAndExamsValidator,
 } = require("../middlewares/validator");
-const { createMarks } = require("../controllers/mark.controller");
+const {
+  createMarks,
+  getSudentsListForExam,
+} = require("../controllers/mark.controller");
 const router = require("express").Router();
 
 router.post(
@@ -12,6 +16,15 @@ router.post(
   allowedRoles(["admin", "teacher"]),
   validate,
   createMarks
+);
+
+router.post(
+  "/student-list-for-exam/",
+  userValidator,
+  allowedRoles(["admin"]),
+  classAndExamsValidator,
+  validate,
+  getSudentsListForExam
 );
 
 module.exports = router;

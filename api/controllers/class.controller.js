@@ -19,3 +19,9 @@ exports.createClass = async (req, res) => {
     class: { id: newClass._id },
   });
 };
+
+exports.getAllClass = async (req, res) => {
+  const _class = await Class.find().select("name").lean();
+
+  return res.json({ error: false, class: _class });
+};

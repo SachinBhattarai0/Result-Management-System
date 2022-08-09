@@ -18,3 +18,9 @@ exports.createExam = async (req, res) => {
     exam: { id: newExam._id },
   });
 };
+
+exports.getAllExam = async (req, res) => {
+  const exams = await Exam.find().select("name").lean();
+
+  return res.json({ error: false, exams });
+};

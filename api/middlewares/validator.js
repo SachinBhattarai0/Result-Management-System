@@ -89,6 +89,13 @@ exports.studentInfoValidator = [
   }),
 ];
 
+exports.classAndExamsValidator = [
+  check("class").trim().not().isEmpty().withMessage("class is requried!!"),
+  check("exams")
+    .isArray({ min: 1 })
+    .withMessage("exams should be non empty array!!"),
+];
+
 exports.userValidator = async (req, res, next) => {
   const jwtToken = req.headers.authorization?.split(" ")[1];
   if (!jwtToken) return sendError(res, "jwtToken is not present!");

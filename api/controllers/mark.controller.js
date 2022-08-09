@@ -1,11 +1,9 @@
 const Mark = require("../models/mark.model");
 const Subject = require("../models/subject.model");
-const sendError = require("../utils/utils");
+const { sendError } = require("../utils/utils");
 const mongoose = require("mongoose");
 
 exports.createMarks = async (req, res) => {
-  // {exam:"",subject:"",class"",marks:[{student:"",theoryMark:"",practicalMark:""}]}
-
   const { exam, class: _class, marks, subject: subjectId } = req.body;
   const subject = await Subject.findById(subjectId).lean().select("name");
 
@@ -14,15 +12,13 @@ exports.createMarks = async (req, res) => {
   const transactionRes = await session.withTransaction(async () => {
     for (i = 0; i < marks.length; i++) {
       let { student, theoryMark, practicalMark } = marks[i];
-      theoryMark = parseInt(theoryMark);
-      practicalMark = parseInt(practicalMark);
 
       const markItem = await Mark.findOne({ class: _class, exam, student });
       const newMark = {
         subject: subject.name,
         theoryMark,
         practicalMark,
-        total: theoryMark + practicalMark,
+        total: +theoryMark + +practicalMark,
       };
 
       try {
@@ -52,4 +48,14 @@ exports.createMarks = async (req, res) => {
     return res
       .status(201)
       .send({ error: false, message: "Mark added successfuly!!" });
+};
+
+exports.getSudentsListForExam = async (req, res) => {
+  const { class: _class, exams } = req.body;
+
+  const studentList = await Mark.find({ exams, class: _class })
+    .select("student")
+    .populate("student")
+    .lean();
+  return res.json({ error: false, studentList });
 };

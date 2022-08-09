@@ -1,4 +1,4 @@
-const { createExam } = require("../controllers/exam.controller");
+const { createExam, getAllExam } = require("../controllers/exam.controller");
 const {
   examValidator,
   validate,
@@ -15,5 +15,7 @@ router.post(
   validate,
   createExam
 );
+
+router.post("/get-all/", userValidator, allowedRoles("admin"), getAllExam);
 
 module.exports = router;
