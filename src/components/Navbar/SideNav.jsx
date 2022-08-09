@@ -1,13 +1,22 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
-import { MdAssignment, MdAssignmentTurnedIn } from "react-icons/md";
-import { CgDetailsMore } from "react-icons/cg";
 import { BiLogOut } from "react-icons/bi";
+import { Outlet } from "react-router-dom";
 import { useNavState } from "../../context/NavContext";
-import { NavLink } from "react-router-dom";
+import { TeachersNavContent } from "../Admin/NavContent/TeachersNavContent";
+import { useUserState } from "../../context/UserContext";
+import { SUCCESS, useAlert } from "../../context/AlertContext";
+import { AdminNavContent } from "../navContent/AdminNavContent";
 
 const Navbar = () => {
   const { navState } = useNavState();
+  const { logOut, userInfo } = useUserState();
+  const { updateAlert } = useAlert();
+
+  const handleLogout = () => {
+    logOut();
+    updateAlert("Logout Successfully!!", SUCCESS);
+  };
+
   return (
     <>
       <nav
@@ -15,63 +24,25 @@ const Navbar = () => {
           navState.open ? "w-60" : "w-0 md:w-14"
         }`}
       >
-        <div>
-          <h2 className={`text-xl ml-3 ${!navState.open && "hidden"}`}>SES</h2>
-        </div>
-        <ul className="mt-4">
-          <li className="text-lg cursor-pointer">
-            <NavLink
-              style={({ isActive }) =>
-                isActive ? { background: "rgba(30,58,138,0.9)" } : undefined
-              }
-              to="/rms/assignment/"
-              className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-            >
-              <CgDetailsMore className="text-xl" />
-              <span className={`${!navState.open && "hidden"}`}>
-                Assignments
-              </span>
-            </NavLink>
-          </li>
-          <li className="text-lg cursor-pointer">
-            <NavLink
-              style={({ isActive }) =>
-                isActive ? { background: "rgba(30,58,138,0.9)" } : undefined
-              }
-              to="/rms/assignment/completed-assignments/"
-              className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-            >
-              <MdAssignment className="text-xl" />
-              <span className={`${!navState.open && "hidden"}`}>Completed</span>
-            </NavLink>
-          </li>
-          <li className="text-lg cursor-pointer">
-            <NavLink
-              style={({ isActive }) =>
-                isActive ? { background: "rgba(30,58,138,0.9)" } : undefined
-              }
-              to="/rms/assignment/my-info/"
-              className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-            >
-              <MdAssignmentTurnedIn className="text-xl" />
-              <span className={`${!navState.open && "hidden"}`}>My Info</span>
-            </NavLink>
-          </li>
-
-          <li className="text-lg cursor-pointer absolute bottom-0 left-0 w-full">
-            <NavLink
-              style={({ isActive }) =>
-                isActive ? { background: "rgba(30,58,138,0.9)" } : undefined
-              }
-              to="/rms/dashboard/"
-              className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-            >
-              <BiLogOut className="text-xl" />
-              <span className={`${!navState.open && "hidden"}`}>Log Out</span>
-            </NavLink>
-          </li>
-        </ul>
+        {userInfo.role === "teacher" ? (
+          <TeachersNavContent />
+        ) : (
+          <AdminNavContent />
+        )}
       </nav>
+
+      <ul className="absolute bottom-0 left-0 text-gray-200 w-60">
+        <li className="text-lg cursor-pointer w-full">
+          <div
+            to="/rms/dashboard/"
+            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
+            onClick={handleLogout}
+          >
+            <BiLogOut className="text-xl" />
+            <span className={`${!navState.open && "hidden"}`}>Log Out</span>
+          </div>
+        </li>
+      </ul>
       <Outlet />
     </>
   );

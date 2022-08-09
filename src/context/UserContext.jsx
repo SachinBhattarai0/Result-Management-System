@@ -3,15 +3,22 @@ import { apiWithJwt } from "../axios";
 
 const userContext = createContext();
 
+const defaultState = {
+  email: "",
+  id: "",
+  name: "",
+  role: "",
+  isPending: false,
+  isAuthenticated: false,
+};
+
 const UserContextProvider = ({ children }) => {
-  const [userInfo, setUserInfo] = useState({
-    email: "",
-    id: "",
-    name: "",
-    role: "",
-    isPending: false,
-    isAuthenticated: false,
-  });
+  const [userInfo, setUserInfo] = useState(defaultState);
+
+  const logOut = () => {
+    localStorage.removeItem("jwtToken");
+    setUserInfo(defaultState);
+  };
 
   useEffect(() => {
     const verifyJwtToken = async () => {
@@ -33,7 +40,7 @@ const UserContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <userContext.Provider value={{ userInfo, setUserInfo }}>
+    <userContext.Provider value={{ userInfo, setUserInfo, logOut }}>
       {children}
     </userContext.Provider>
   );

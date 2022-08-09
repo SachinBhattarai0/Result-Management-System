@@ -1,24 +1,22 @@
 import React from "react";
 
-const button = ({ children, sm, ...rest }) => {
+const button = ({ children, sm, variant, ...rest }) => {
+  const variantColor = {
+    blue: "bg-bluish hover:bg-blue-500",
+    darkBlue: "bg-blue-900 hover:bg-blue-500",
+    gray: "bg-gray-600 hover:bg-gray-500",
+  };
   return (
-    <>
-      {sm ? (
-        <button
-          className="bg-blue-900 text-white hover:bg-blue-800 px-2 py-1 rounded"
-          {...rest}
-        >
-          {children}
-        </button>
-      ) : (
-        <button
-          className="bg-bluish text-white hover:bg-blue-500 rounded py-3 px-8 transition"
-          {...rest}
-        >
-          {children}
-        </button>
-      )}
-    </>
+    <button
+      className={`
+      ${sm ? "px-2 py-1" : "py-3 px-8"}
+      ${variantColor[variant] || variantColor["blue"]} 
+      text-white rounded transition
+       `}
+      {...rest}
+    >
+      {children}
+    </button>
   );
 };
 
