@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongooseLeanVirtuals = require("mongoose-lean-virtuals");
 
 const markSchema = new mongoose.Schema(
   {
@@ -35,5 +36,7 @@ markSchema.virtual("total").get(function () {
     return pv + cv.theoryMark + cv.practicalMark;
   }, 0);
 });
+
+markSchema.plugin(mongooseLeanVirtuals);
 
 module.exports = mongoose.model("Mark", markSchema);
