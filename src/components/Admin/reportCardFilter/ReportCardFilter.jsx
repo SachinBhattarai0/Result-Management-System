@@ -5,15 +5,15 @@ import { useAlert } from "../../../context/AlertContext";
 import { apiWithJwt } from "../../../axios";
 import Spinner from "../../spinner/Spinner";
 
-const ReportCardFilter = ({ studentList, setStudentList }) => {
+const ReportCardFilter = ({
+  studentList,
+  setStudentList,
+  filterInfo,
+  setFilterInfo,
+}) => {
   const { updateAlert } = useAlert();
   const [exam, setExam] = useState([]);
   const [_class, setClass] = useState([]);
-  const [filterInfo, setFilterInfo] = useState({
-    class: "",
-    exams: [""],
-    noOfExam: 1,
-  });
 
   useEffect(() => {
     const fetchExamAndClass = async () => {
@@ -58,7 +58,7 @@ const ReportCardFilter = ({ studentList, setStudentList }) => {
 
   const addExam = () => {
     const prevExams = filterInfo.exams;
-    prevExams.push("");
+    prevExams.push({ exam: "", percentage: 100 });
     setFilterInfo({
       ...filterInfo,
       exams: prevExams,
@@ -82,7 +82,13 @@ const ReportCardFilter = ({ studentList, setStudentList }) => {
 
   const handleExamChange = ({ target }, i) => {
     let prevExamArr = filterInfo.exams;
-    prevExamArr[i] = target.value;
+    prevExamArr[i].exam = target.value;
+    setFilterInfo({ ...filterInfo, exams: prevExamArr });
+  };
+
+  const handleExamPercentChange = ({ target }, i) => {
+    let prevExamArr = filterInfo.exams;
+    prevExamArr[i].percentage = +target.value;
     setFilterInfo({ ...filterInfo, exams: prevExamArr });
   };
 
@@ -115,16 +121,24 @@ const ReportCardFilter = ({ studentList, setStudentList }) => {
               -
             </span>
           </label>
-          {Array(filterInfo.noOfExam)
+          {Array(filterInfo?.noOfExam)
             .fill("")
             .map((_, i) => (
-              <Select key={i} onChange={(e) => handleExamChange(e, i)}>
-                {exam.map(({ _id, name }) => (
-                  <option key={_id} value={_id}>
-                    {name}
-                  </option>
-                ))}
-              </Select>
+              <div className="flex" key={i}>
+                <Select onChange={(e) => handleExamChange(e, i)}>
+                  {exam.map(({ _id, name }) => (
+                    <option key={_id} value={_id}>
+                      {name}
+                    </option>
+                  ))}
+                </Select>
+                <input
+                  type="number"
+                  onChange={(e) => handleExamPercentChange(e, i)}
+                  className="w-10 px-1 outline-none border border-gray-300 focus:border-blue-600"
+                  defaultValue={100}
+                />
+              </div>
             ))}
         </div>
 

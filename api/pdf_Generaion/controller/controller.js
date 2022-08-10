@@ -12,10 +12,12 @@ exports.generateForStudent = async (req, res) => {
   const classEl = await Class.findById(_class).select("name").lean();
   const stdEl = await Student.findById(student).select("name").lean();
 
+  if (!classEl || !stdEl) return sendError(res, "invalid classId or stdId");
+
   let data = { marks: [], student: stdEl.name, class: classEl.name, total: 0 };
 
   for (let i = 0; i < exams.length; i++) {
-    const { percentage, examId: exam } = exams[i];
+    const { percentage, exam } = exams[i];
     const resp = await Mark.findOne({ exam, class: _class, student })
       .populate("exam")
       .lean({ virtuals: true });
