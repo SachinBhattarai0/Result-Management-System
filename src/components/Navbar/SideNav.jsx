@@ -20,7 +20,7 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`relative flex flex-col p-2 font-roboto bg-blue-800 text-gray-100 h-screen transition-all ${
+        className={`relative flex flex-col p-2 font-roboto bg-blue-800 text-gray-100 h-screen transition-all overflow-hidden ${
           navState.open ? "w-60" : "w-0 md:w-14"
         }`}
       >
@@ -31,7 +31,11 @@ const Navbar = () => {
         )}
       </nav>
 
-      <ul className="absolute bottom-0 left-0 text-gray-200 w-60">
+      <ul
+        className={`absolute bottom-0 left-0 text-gray-200 w-60 ${
+          navState.open ? "w-60" : "w-0 md:w-14"
+        }`}
+      >
         <li className="text-lg cursor-pointer w-full">
           <div
             to="/rms/dashboard/"

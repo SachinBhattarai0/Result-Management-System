@@ -42,7 +42,7 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col flex-1">
       <TopNav />
-      <div className="flex-1 p-1 md:p-5">
+      <div className="flex-1 p-1 md:p-5 top-20 relative max-h-9/10 overflow-scroll">
         <table className="bg-white w-full rounded shadow-sm">
           <tbody>
             <tr>

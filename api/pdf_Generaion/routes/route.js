@@ -2,10 +2,10 @@ const {
   generateForStudent,
   generateForClass,
 } = require("../controller/controller");
-const { userValidator, validate } = require("../../middlewares/validator");
 const {
   pdfForStudentsEssentialValidataor,
 } = require("../middlewares/validator");
+const { userValidator, validate } = require("../../middlewares/validator");
 const router = require("express").Router();
 
 router.post(

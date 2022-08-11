@@ -43,44 +43,50 @@ const ReportCard = () => {
   return (
     <div className="flex flex-col flex-1">
       <TopNav />
-      <div className="flex-1 p-1 md:p-5 flex flex-col md:flex-row-reverse">
-        <ReportCardFilter
-          studentList={studentList}
-          setStudentList={setStudentList}
-          filterInfo={filterInfo}
-          setFilterInfo={setFilterInfo}
-        />
+      <div className="md:max-h-9/10 overflow-y-scroll relative flex flex-col top-20">
+        <div className="flex-1 p-1 md:p-5 flex flex-col md:flex-row-reverse">
+          <ReportCardFilter
+            studentList={studentList}
+            setStudentList={setStudentList}
+            filterInfo={filterInfo}
+            setFilterInfo={setFilterInfo}
+          />
 
-        <div className="md:flex-7">
-          <table className="bg-white w-full rounded shadow-sm">
-            <tbody>
-              <tr>
-                <th className="border-2 py-3 ">#</th>
-                <th className="border-2 py-3 ">Student</th>
-                <th className="border-2 py-3 ">Action</th>
-              </tr>
-
-              {studentList.students.map(({ student }) => (
-                <tr key={student._id}>
-                  <td className="border-2 p-1 text-center">{student.rollNo}</td>
-                  <td className="border-2 p-1 text-center">{student.name}</td>
-                  <td className="border-2 p-1 text-center">
-                    <Button
-                      sm
-                      variant={"darkBlue"}
-                      std_id={student._id}
-                      onClick={downloadReportCardForStudent}
-                      style={{
-                        pointerEvents: isDownloadPending ? "none" : "all",
-                      }}
-                    >
-                      view
-                    </Button>
-                  </td>
+          <div className="md:flex-7">
+            <table className="bg-white w-full rounded shadow-sm">
+              <tbody>
+                <tr>
+                  <th className="border-2 py-3 ">#</th>
+                  <th className="border-2 py-3 ">Student</th>
+                  <th className="border-2 py-3 ">Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+
+                {studentList.students.map(({ student }) => (
+                  <tr key={student._id}>
+                    <td className="border-2 p-1 py-3 text-center">
+                      {student.rollNo}
+                    </td>
+                    <td className="border-2 p-1 py-3 text-center">
+                      {student.name}
+                    </td>
+                    <td className="border-2 p-1 py-3 text-center">
+                      <Button
+                        sm
+                        variant={"darkBlue"}
+                        std_id={student._id}
+                        onClick={downloadReportCardForStudent}
+                        style={{
+                          pointerEvents: isDownloadPending ? "none" : "all",
+                        }}
+                      >
+                        view
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
