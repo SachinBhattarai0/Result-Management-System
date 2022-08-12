@@ -53,6 +53,7 @@ const SignIn = () => {
         <Input
           name="email"
           label="Email"
+          placeholder="Email"
           type="email"
           value={loginInfo.email}
           onChange={handleChange}
@@ -60,6 +61,7 @@ const SignIn = () => {
         <Input
           name="password"
           label="Password"
+          placeholder="password"
           type="password"
           value={loginInfo.password}
           onChange={handleChange}

@@ -30,6 +30,6 @@ exports.createSubject = async (req, res) => {
 };
 
 exports.getAllSubjects = async ({ req, res }) => {
-  const subjects = await Subject.find({});
+  const subjects = await Subject.find({}).lean();
   res.json({ error: false, subjects });
 };

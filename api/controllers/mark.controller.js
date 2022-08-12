@@ -1,10 +1,23 @@
 const Mark = require("../models/mark.model");
 const Subject = require("../models/subject.model");
+const Assignment = require("../models/assignment.model");
 const { sendError } = require("../utils/utils");
 const mongoose = require("mongoose");
 
+console.log("validation for mark create");
 exports.createMarks = async (req, res) => {
-  const { exam, class: _class, marks, subject: subjectId } = req.body;
+  const {
+    exam,
+    marks,
+    class: _class,
+    subject: subjectId,
+    assignment: assignmentId,
+  } = req.body;
+
+  const assignment = await Assignment.findById(assignmentId).lean();
+  if (!assignment || assignment.completed)
+    return sendError(res, "Some error occured");
+
   const subject = await Subject.findById(subjectId).lean().select("name");
 
   const session = await mongoose.startSession();

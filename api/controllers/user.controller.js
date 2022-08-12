@@ -24,8 +24,8 @@ exports.createTeacher = async (req, res) => {
 };
 
 exports.getAllTeachers = async ({ req, res }) => {
-  const users = await User.find({ role: TEACHER });
-  res.json({ error: false, users });
+  const teachers = await User.find({ role: TEACHER }).lean();
+  res.json({ error: false, teachers });
 };
 
 exports.signIn = async (req, res) => {

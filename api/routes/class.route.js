@@ -4,8 +4,6 @@ const router = require("express").Router();
 
 router.post("/create", userValidator, allowedRoles("admin"), createClass);
 
-router.post("/get-classes", userValidator, allowedRoles("admin"), getAllClass);
-
 router.post("/get-all/", userValidator, allowedRoles("admin"), getAllClass);
 
 module.exports = router;

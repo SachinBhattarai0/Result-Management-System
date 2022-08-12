@@ -1,6 +1,6 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import Alert from "./components/alert/Alert";
-import MarkInput from "./components/markInput/MarkInput";
+import MarkInput from "./pages/MarkInput";
 import Navbar from "./components/Navbar/SideNav";
 import NotFound from "./components/notFound/NotFound";
 import Protected from "./components/protected/Protected";

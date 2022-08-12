@@ -3,6 +3,10 @@ const User = require("../models/user.model");
 const Student = require("../models/student.model");
 const { sendError, TEACHER } = require("../utils/utils");
 
+console.log(
+  "before updating assignemts check if the assignment is already done or not"
+);
+
 exports.createAssignment = async (req, res) => {
   const { user, exam, subject, class: _class } = req.body;
 
@@ -31,7 +35,11 @@ exports.createAssignment = async (req, res) => {
 };
 
 exports.getAllAssignments = async ({ req, res }) => {
-  const assignments = await Assignment.find({});
+  const assignments = await Assignment.find({})
+    .populate("user")
+    .populate("exam")
+    .populate("subject")
+    .lean();
   res.json({ error: false, assignments });
 };
 
