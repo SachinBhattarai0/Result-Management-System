@@ -1,14 +1,24 @@
 import React from "react";
-import TopNav from "../../components/Navbar/TopNav";
+import ExamCreateCreteOptions from "../../components/Admin/examCreteOptions/ExamCreateOptions";
+import Content from "../../components/content/Content";
 
 const Exam = () => {
   return (
-    <>
-      <div className="flex flex-col flex-1">
-        <TopNav />
-        <div className="flex-1 p-1 md:p-5">Exam Content</div>
-      </div>
-    </>
+    <Content>
+      <ExamCreateCreteOptions />
+      <table className="bg-white w-full rounded shadow-sm">
+        <tbody>
+          <tr>
+            <th className="border-2 py-3 px-1">#</th>
+            <th className="border-2 py-3 px-1">Name</th>
+            <th className="border-2 py-3 px-1">Date</th>
+            <th className="border-2 py-3 px-1">Action</th>
+          </tr>
+
+          <tr></tr>
+        </tbody>
+      </table>
+    </Content>
   );
 };
 

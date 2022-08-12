@@ -101,8 +101,7 @@ const ReportCardFilter = ({
         className="mt-1 max-h-9/10 overflow-y-scroll"
       >
         <div className="flex flex-col">
-          <label htmlFor="class">Class:</label>
-          <Select onChange={handleNameChange}>
+          <Select onChange={handleNameChange} label="Class:">
             {_class.map(({ _id, name }) => (
               <option key={_id} value={_id}>
                 {name}

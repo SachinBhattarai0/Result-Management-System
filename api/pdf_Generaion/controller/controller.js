@@ -34,6 +34,7 @@ exports.generateForStudent = async (req, res) => {
     data.total = newTotal;
   }
 
+  console.log(data);
   const compiledHTML = compile("default", data);
 
   const browser = await puppeteer.launch();

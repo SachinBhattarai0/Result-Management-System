@@ -1,15 +1,24 @@
 import React from "react";
-import TopNav from "../../components/Navbar/TopNav";
+import Content from "../../components/content/Content";
+import ClassCreateOptions from "../../components/Admin/classCreateOptions/ClassCreateOptions";
 
-const Class = () => {
+const Assignment = () => {
   return (
-    <>
-      <div className="flex flex-col flex-1">
-        <TopNav />
-        <div className="flex-1 p-1 md:p-5">Class Content</div>
-      </div>
-    </>
+    <Content>
+      <ClassCreateOptions />
+      <table className="bg-white w-full rounded shadow-sm">
+        <tbody>
+          <tr>
+            <th className="border-2 py-3 px-1">#</th>
+            <th className="border-2 py-3 px-1">Name</th>
+            <th className="border-2 py-3 px-1">Action</th>
+          </tr>
+
+          <tr></tr>
+        </tbody>
+      </table>
+    </Content>
   );
 };
 
-export default Class;
+export default Assignment;
