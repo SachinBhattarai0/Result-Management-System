@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import TopNav from "../../components/Navbar/TopNav";
 import Button from "../../components/form/Button";
 import ReportCardFilter from "../../components/Admin/reportCardFilter/ReportCardFilter";
 import { useAlert } from "../../context/AlertContext";
@@ -74,9 +73,7 @@ const ReportCard = () => {
                       variant={"darkBlue"}
                       std_id={student._id}
                       onClick={downloadReportCardForStudent}
-                      style={{
-                        pointerEvents: isDownloadPending ? "none" : "all",
-                      }}
+                      isPending={isDownloadPending}
                     >
                       view
                     </Button>

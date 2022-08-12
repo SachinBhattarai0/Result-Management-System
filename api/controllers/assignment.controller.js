@@ -1,11 +1,10 @@
 const Assignment = require("../models/assignment.model");
 const User = require("../models/user.model");
+const Exam = require("../models/exam.model");
+const Subject = require("../models/subject.model");
+const Class = require("../models/class.model");
 const Student = require("../models/student.model");
 const { sendError, TEACHER } = require("../utils/utils");
-
-console.log(
-  "before updating assignemts check if the assignment is already done or not"
-);
 
 exports.createAssignment = async (req, res) => {
   const { user, exam, subject, class: _class } = req.body;
@@ -13,6 +12,15 @@ exports.createAssignment = async (req, res) => {
   const userItem = await User.findById(user).lean().select("role");
   if (userItem.role !== TEACHER)
     return sendError(res, "Asignments can only be given to teachers");
+
+  const examItem = await Exam.findById(exam).lean();
+  if (!examItem) return sendError(res, "Invalid examId");
+
+  const subjectItem = await Subject.findById(subject).lean();
+  if (!subjectItem) return sendError(res, "Invalid subjectId");
+
+  const classItem = await Class.findById(_class).lean();
+  if (!classItem) return sendError(res, "Invalid classId");
 
   const newAssignment = new Assignment({
     user,
@@ -30,7 +38,13 @@ exports.createAssignment = async (req, res) => {
   return res.status(201).json({
     error: false,
     message: "Assignment created successfully!",
-    assignment: { id: newAssignment._id },
+    assignment: {
+      id: newAssignment._id,
+      user: userItem,
+      exam: examItem,
+      subject: subjectItem,
+      class: classItem,
+    },
   });
 };
 

@@ -142,21 +142,13 @@ const ReportCardFilter = ({
         </div>
 
         <div className="flex flex-col mt-2">
-          <Button
-            sm
-            variant="gray"
-            style={{ pointerEvents: studentList.isPending ? "none" : "all" }}
-          >
+          <Button sm variant="gray" isPending={studentList.isPending}>
             {studentList.isPending ? <Spinner /> : "Search"}
           </Button>
         </div>
       </form>
       <div className="flex flex-col mt-[1px] mr-2">
-        <Button
-          sm
-          variant="darkBlue"
-          style={{ pointerEvents: studentList.isPending ? "none" : "all" }}
-        >
+        <Button sm variant="darkBlue" isPending={studentList.isPending}>
           Download Full
         </Button>
       </div>

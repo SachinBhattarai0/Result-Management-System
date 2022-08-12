@@ -68,10 +68,7 @@ const SignIn = () => {
         />
 
         <div className="flex flex-col">
-          <Button
-            type="submit"
-            style={{ pointerEvents: userInfo.isPending ? "none" : "all" }}
-          >
+          <Button type="submit" isPending={userInfo.isPending}>
             {userInfo.isPending ? <Spinner /> : "Sign In"}
           </Button>
         </div>

@@ -24,3 +24,9 @@ app.use("/api/mark", markRoutes);
 app.use("/api/pdf/", pdfRoutes);
 
 app.listen(8000, () => console.log("Listening at port 8000!"));
+
+// Things to be done later
+console.log("validation for mark create");
+console.log(
+  "before updating assignemts check if the assignment is already done or not"
+);

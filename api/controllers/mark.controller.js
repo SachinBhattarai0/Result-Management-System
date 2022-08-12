@@ -4,7 +4,6 @@ const Assignment = require("../models/assignment.model");
 const { sendError } = require("../utils/utils");
 const mongoose = require("mongoose");
 
-console.log("validation for mark create");
 exports.createMarks = async (req, res) => {
   const {
     exam,

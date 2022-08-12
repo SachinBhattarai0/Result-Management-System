@@ -7,7 +7,7 @@ import Button from "../../form/Button";
 import FilterContainer from "../filterContainer/FilterContainer";
 import { apiWithJwt } from "../../../axios/index";
 
-const AssignmentCreateOptions = () => {
+const AssignmentCreateOptions = ({ assignments, setAssignments }) => {
   const examRef = useRef();
   const classRef = useRef();
   const subjectRef = useRef();
@@ -32,7 +32,6 @@ const AssignmentCreateOptions = () => {
     const subject = subjectRef.current.value;
     const teacher = teacherRef.current.value;
 
-    console.log(exam, _class, subject, teacher);
     try {
       setCreatingAssignment(true);
       const { data } = await apiWithJwt("/assignment/create/", {
@@ -43,10 +42,15 @@ const AssignmentCreateOptions = () => {
       });
       setCreatingAssignment(false);
 
+      const prevAssignments = assignments.assignmentList;
+      prevAssignments.push(data.assignment);
+      setAssignments({ ...assignments, assignmentList: prevAssignments });
+
       updateAlert("Assignment created Sucessfully", SUCCESS);
       if (!data.error) return navigate("/rms/admin/assignment/");
     } catch (error) {
       setCreatingAssignment(false);
+      console.log(error);
       updateAlert(error.response.data.message);
     }
   };
@@ -118,10 +122,7 @@ const AssignmentCreateOptions = () => {
           </Select>
         </div>
         <div className="flex flex-col mt-1">
-          <Button
-            variant={"green"}
-            style={{ pointerEvents: creatingAssignment ? "none" : "all" }}
-          >
+          <Button variant={"green"} isPending={creatingAssignment}>
             {creatingAssignment ? <Spinner /> : "Create"}
           </Button>
         </div>

@@ -16,7 +16,7 @@ exports.createClass = async (req, res) => {
   return res.status(201).json({
     error: false,
     message: "Class created successfully",
-    class: { id: newClass._id },
+    class: { id: newClass._id, name: newClass.name },
   });
 };
 

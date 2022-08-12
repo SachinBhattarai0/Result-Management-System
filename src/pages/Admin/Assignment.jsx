@@ -29,10 +29,14 @@ const Assignment = () => {
     };
     fetchAssignmentList();
   }, []);
+  console.log(assignments);
 
   return (
     <Content>
-      <AssignmentCreateOptions />
+      <AssignmentCreateOptions
+        assignments={assignments}
+        setAssignments={setAssignments}
+      />
       <table className="bg-white w-full rounded shadow-sm">
         <tbody>
           <tr>

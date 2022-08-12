@@ -56,6 +56,7 @@ exports.subjectValidator = [
 ];
 
 exports.examValidator = [
+  check("name").trim().not().isEmpty().withMessage("name is empty!"),
   check("year").trim().not().isEmpty().withMessage("year is empty!"),
   check("month").trim().not().isEmpty().withMessage("month is empty!"),
   check("date").trim().not().isEmpty().withMessage("date is empty!"),

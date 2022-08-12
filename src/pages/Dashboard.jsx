@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserState } from "../context/UserContext";
-import TopNav from "../components/Navbar/TopNav";
 import { apiWithJwt } from "../axios";
 import { Link } from "react-router-dom";
 import Button from "../components/form/Button";

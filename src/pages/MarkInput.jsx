@@ -163,10 +163,7 @@ const MarkInput = () => {
         <Spinner h="h-28" w="w-28" />
       ) : (
         <div className="py-1 flex flex-col">
-          <Button
-            onClick={handleSubmit}
-            style={{ pointerEvents: markPending ? "none" : "all" }}
-          >
+          <Button onClick={handleSubmit} isPending={markPending}>
             {markPending ? <Spinner /> : "Submit"}
           </Button>
         </div>
