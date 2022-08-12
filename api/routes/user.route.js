@@ -4,6 +4,7 @@ const {
   createStudent,
   signIn,
   verify,
+  getAllTeachers,
 } = require("../controllers/user.controller");
 const {
   userInfoValidator,
@@ -20,6 +21,13 @@ router.post(
   userInfoValidator,
   validate,
   createTeacher
+);
+
+router.post(
+  "/get-teachers",
+  userValidator,
+  allowedRoles("admin"),
+  getAllTeachers
 );
 
 router.post(

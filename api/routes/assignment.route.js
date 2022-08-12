@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const {
   createAssignment,
-  getAssignmentList,
+  getAssignmentListForUser,
   getStudentList,
+  getAllAssignments,
 } = require("../controllers/assignment.controller");
 const {
   assignmentValidator,
@@ -21,10 +22,17 @@ router.post(
 );
 
 router.post(
+  "/get-all",
+  userValidator,
+  allowedRoles("admin"),
+  getAllAssignments
+);
+
+router.post(
   "/list/",
   userValidator,
   allowedRoles(["teacher"]),
-  getAssignmentList
+  getAssignmentListForUser
 );
 
 router.post(

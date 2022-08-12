@@ -20,6 +20,11 @@ exports.createClass = async (req, res) => {
   });
 };
 
+exports.getAllClass = async ({ req, res }) => {
+  const classes = await Class.find({});
+  res.json({ error: false, classes });
+};
+
 exports.getAllClass = async (req, res) => {
   const _class = await Class.find().select("name").lean();
 

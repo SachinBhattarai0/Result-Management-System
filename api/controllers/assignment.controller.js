@@ -30,7 +30,12 @@ exports.createAssignment = async (req, res) => {
   });
 };
 
-exports.getAssignmentList = async (req, res) => {
+exports.getAllAssignments = async ({ req, res }) => {
+  const assignments = await Assignment.find({});
+  res.json({ error: false, assignments });
+};
+
+exports.getAssignmentListForUser = async (req, res) => {
   const loggedInUser = req.user;
   const userId = loggedInUser._id;
 

@@ -28,3 +28,8 @@ exports.createSubject = async (req, res) => {
     subject: { id: newSubject._id },
   });
 };
+
+exports.getAllSubjects = async ({ req, res }) => {
+  const subjects = await Subject.find({});
+  res.json({ error: false, subjects });
+};
