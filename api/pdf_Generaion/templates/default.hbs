@@ -3,19 +3,221 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>RESULT</title>
     <style>
-      div{ display: inline-flex; } .c1,.c2{ height: 200px; width: 200px; } .c1{
-      background-color: red; } .c2{ background-color: orange; }
+      * { margin: 0; padding: 0; font-family: sans-serif; }body{ max-height:
+      100vh; overflow: hidden; } .container { display: flex; flex-direction:
+      column; max-height: 100vh; } .head { display: flex; } .headings { display:
+      flex; flex-direction: column; align-items: center; } h3, h4 { color:
+      #4a6d9f; font-size: x-large; } .logo img { height: 150px; } .table {
+      margin-top: 2rem; } .student-info { display: flex; justify-content:
+      space-between; } .table table { padding: 0; width: 100%; } table, th, td {
+      border: 1px solid #212529; } th, td { padding: 5px 10px; text-align:
+      center; } .extras { display: flex; margin-top: 1rem; } .extras .overview {
+      border: 1px solid black; flex: 1; display: flex; justify-content: center;
+      align-items: center; flex-direction: column; font-size: larger;
+      margin-left: 10px; } .extras td, .extras th { padding: 2px 20px; }
+      .signatures { margin-top: 4rem; display: flex; justify-content:
+      space-between; } .signatures p { border-top: 1px solid #212529; width:
+      200px; text-align: center; padding-top: 4px; }
     </style>
   </head>
   <body>
-    student:{{student}}<br />
-    class:{{class}}<br />
-
-    <div class="div">
-      <div class="c1"></div>
-      <div class="c2"></div>
+    <div class="container">
+      <div class="head">
+        <div class="logo">
+          <img
+            src="https://res.cloudinary.com/dgu3im9az/image/upload/v1660305004/logo_gsa6s4.png"
+          />
+        </div>
+        <div class="headings">
+          <h3>"LEAD ME FROM DARKNESS TO LIGHT"</h3>
+          <h3>SURYODAYA ENGLISH SCHOOL</h3>
+          <h4>MONTHLY REPORT DISTRIBUTION</h4>
+          <p>DAMAK-06, JHAPA(NEPAL)</p>
+          <p>Tel: 023582792</p>
+        </div>
+      </div>
+      <div class="table">
+        <div class="student-info">
+          <p>Name: {{student}}</p>
+          <p>Class: 11(SCIENCE)</p>
+          <p>RollNo: 10</p>
+        </div>
+        <table>
+          <tr>
+            <th rowspan="2">S.N</th>
+            <th rowspan="2">SUBJECT</th>
+            <th colspan="2">FULLMARKS</th>
+            <th colspan="2">OBTAINED MARKS</th>
+            <th rowspan="2">GRADE</th>
+            <th rowspan="2">HIGHEST</th>
+          </tr>
+          <tr>
+            <th>TH</th>
+            <th>PR</th>
+            <th>TH</th>
+            <th>PR</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Physics</td>
+            <td>75</td>
+            <td>25</td>
+            <td>23</td>
+            <td>26</td>
+            <td>A</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Physics</td>
+            <td>75</td>
+            <td>25</td>
+            <td>23</td>
+            <td>26</td>
+            <td>A</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Physics</td>
+            <td>75</td>
+            <td>25</td>
+            <td>23</td>
+            <td>26</td>
+            <td>A</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Physics</td>
+            <td>75</td>
+            <td>25</td>
+            <td>23</td>
+            <td>26</td>
+            <td>A</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Physics</td>
+            <td>75</td>
+            <td>25</td>
+            <td>23</td>
+            <td>26</td>
+            <td>A</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Physics</td>
+            <td>75</td>
+            <td>25</td>
+            <td>23</td>
+            <td>26</td>
+            <td>A</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Physics</td>
+            <td>75</td>
+            <td>25</td>
+            <td>23</td>
+            <td>26</td>
+            <td>A</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Physics</td>
+            <td>75</td>
+            <td>25</td>
+            <td>23</td>
+            <td>26</td>
+            <td>A</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Physics</td>
+            <td>75</td>
+            <td>25</td>
+            <td>23</td>
+            <td>26</td>
+            <td>A</td>
+            <td>100</td>
+          </tr>
+        </table>
+      </div>
+      <div class="extras">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Percentage</th>
+              <th scope="col">Grade</th>
+              <th scope="col">GPA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">90 to 100</th>
+              <td>A+</td>
+              <td>3.6 to 4.0</td>
+            </tr>
+            <tr>
+              <th scope="row">80 to below 90</th>
+              <td>A</td>
+              <td>3.2 to 3.6</td>
+            </tr>
+            <tr>
+              <th scope="row">70 to below 80</th>
+              <td>B+</td>
+              <td>2.8 to 3.2</td>
+            </tr>
+            <tr>
+              <th scope="row">70 to below 80</th>
+              <td>B</td>
+              <td>2.4 to 2.8</td>
+            </tr>
+            <tr>
+              <th scope="row">70 to below 80</th>
+              <td>C+</td>
+              <td>2 to 2.4</td>
+            </tr>
+            <tr>
+              <th scope="row">70 to below 80</th>
+              <td>C</td>
+              <td>1.6 to 2</td>
+            </tr>
+            <tr>
+              <th scope="row">70 to below 80</th>
+              <td>D+</td>
+              <td>1.2 to 1.6</td>
+            </tr>
+            <tr>
+              <th scope="row">70 to below 80</th>
+              <td>D</td>
+              <td>0.8 to 1.2</td>
+            </tr>
+            <tr>
+              <th scope="row">70 to below 80</th>
+              <td>E</td>
+              <td>0 to 0.8</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="overview">
+          <p>TotalMarks: <span class="TotalMarks"></span></p>
+          <p>GPA: <span class="Gpa"></span></p>
+          <p>FinalGrade: <span class="FinalGrade"></span></p>
+        </div>
+      </div>
+      <div class="signatures">
+        <p>Principal</p>
+        <p>Teacher</p>
+      </div>
     </div>
   </body>
 </html>

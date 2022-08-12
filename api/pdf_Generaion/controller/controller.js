@@ -3,7 +3,7 @@ const Class = require("../../models/class.model");
 const Student = require("../../models/student.model");
 const fs = require("fs");
 const hbs = require("handlebars");
-const pdf = require("html-pdf");
+const puppeteer = require("puppeteer");
 
 exports.generateForStudent = async (req, res) => {
   // req.body = {exams:[{examId:"",percentage:""}],class:"",student:""}
@@ -14,7 +14,12 @@ exports.generateForStudent = async (req, res) => {
 
   if (!classEl || !stdEl) return sendError(res, "invalid classId or stdId");
 
-  let data = { marks: [], student: stdEl.name, class: classEl.name, total: 0 };
+  let data = {
+    marks: [],
+    student: stdEl.name,
+    class: classEl.name,
+    total: 0,
+  };
 
   for (let i = 0; i < exams.length; i++) {
     const { percentage, exam } = exams[i];
@@ -31,11 +36,23 @@ exports.generateForStudent = async (req, res) => {
 
   const compiledHTML = compile("default", data);
 
-  console.log(data);
-  pdf.create(compiledHTML).toStream((err, stream) => {
-    if (err) return sendError(res, "Error while generating pdf!!");
-    stream.pipe(res);
+  const browser = await puppeteer.launch();
+
+  const page = await browser.newPage();
+
+  await page.setContent(compiledHTML, { waitUntil: "networkidle0" });
+
+  await page.emulateMediaType("screen");
+
+  const pdf = await page.pdf({
+    margin: { top: "100px", right: "50px", bottom: "100px", left: "50px" },
+    printBackground: true,
+    format: "A4",
   });
+
+  await browser.close();
+
+  res.send(pdf);
 };
 
 exports.generateForClass = (req, res) => {};
