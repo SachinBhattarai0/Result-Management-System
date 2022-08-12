@@ -1,27 +1,22 @@
 const Mark = require("../models/mark.model");
-const Subject = require("../models/subject.model");
 const Assignment = require("../models/assignment.model");
 const { sendError } = require("../utils/utils");
 const mongoose = require("mongoose");
 
 exports.createMarks = async (req, res) => {
-  const {
-    exam,
-    marks,
-    class: _class,
-    subject: subjectId,
-    assignment: assignmentId,
-  } = req.body;
+  const { marks, assignment: assignmentId } = req.body;
 
-  const assignment = await Assignment.findById(assignmentId).lean();
+  const assignment = await Assignment.findById(assignmentId).populate(
+    "subject"
+  );
   if (!assignment || assignment.completed)
     return sendError(res, "Some error occured");
 
-  const subject = await Subject.findById(subjectId).lean().select("name");
+  const { exam, class: _class, subject } = assignment;
 
   const session = await mongoose.startSession();
 
-  const transactionRes = await session.withTransaction(async () => {
+  await session.withTransaction(async () => {
     for (i = 0; i < marks.length; i++) {
       let { student, theoryMark, practicalMark } = marks[i];
 
@@ -50,16 +45,17 @@ exports.createMarks = async (req, res) => {
         return sendError(res, error.message);
       }
     }
+    assignment.completed = true;
+    await assignment.save();
   });
 
-  if (transactionRes) await session.commitTransaction();
+  await session.commitTransaction();
 
   await session.endSession();
 
-  if (transactionRes)
-    return res
-      .status(201)
-      .send({ error: false, message: "Mark added successfuly!!" });
+  return res
+    .status(201)
+    .send({ error: false, message: "Mark added successfuly!!" });
 };
 
 exports.getSudentsListForExam = async (req, res) => {

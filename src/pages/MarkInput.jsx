@@ -61,14 +61,11 @@ const MarkInput = () => {
     try {
       setMarkPending(true);
       const { data } = await apiWithJwt("/mark/create/", {
-        exam: exam._id,
-        subject: subject._id,
-        class: _class._id,
         marks: studentMarks,
         assignment: _id,
       });
       updateAlert(data.message, SUCCESS);
-      navigate("/rms/assignmemt/");
+      navigate("/rms/assignment/", { replace: true });
       setMarkPending(false);
     } catch (error) {
       setMarkPending(false);

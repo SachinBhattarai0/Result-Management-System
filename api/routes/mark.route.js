@@ -3,6 +3,7 @@ const {
   allowedRoles,
   validate,
   classAndExamsValidator,
+  markValidator,
 } = require("../middlewares/validator");
 const {
   createMarks,
@@ -14,6 +15,7 @@ router.post(
   "/create/",
   userValidator,
   allowedRoles(["admin", "teacher"]),
+  markValidator,
   validate,
   createMarks
 );

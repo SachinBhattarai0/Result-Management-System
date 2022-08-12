@@ -3,6 +3,9 @@ const { isValidObjectId } = require("mongoose");
 const { userRoles, sendError } = require("../utils/utils");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
+const Exam = require("../models/exam.model");
+const Subject = require("../models/subject.model");
+const Class = require("../models/class.model");
 require("dotenv").config();
 
 exports.validate = (req, res, next) => {
@@ -86,6 +89,13 @@ exports.studentInfoValidator = [
     list.forEach((name, i) => {
       if (!name) throw new Error("Empty student name!");
     });
+    return true;
+  }),
+];
+exports.markValidator = [
+  check("marks").isArray({ min: 1 }).withMessage("marks must be array"),
+  check("assignment").custom((id) => {
+    if (!isValidObjectId(id)) throw new Error("Invalid assignmentId");
     return true;
   }),
 ];

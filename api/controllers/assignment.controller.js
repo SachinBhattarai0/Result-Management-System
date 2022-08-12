@@ -61,7 +61,7 @@ exports.getAssignmentListForUser = async (req, res) => {
   const loggedInUser = req.user;
   const userId = loggedInUser._id;
 
-  const assignments = await Assignment.find({ userId })
+  const assignments = await Assignment.find({ userId, completed: false })
     .populate("exam")
     .populate("subject")
     .populate("class")
@@ -82,7 +82,7 @@ exports.getStudentList = async (req, res) => {
 
   const students = await Student.find({
     passed: false,
-    subject: assignment.subject,
+    subjects: assignment.subject,
     class: assignment.class,
   })
     .select("name rollNo")
