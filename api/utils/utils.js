@@ -33,5 +33,8 @@ exports.getFormatedData = (data) => {
     });
   });
 
-  return rows;
+  const { student, class: _class, total } = data;
+  const exams = data.marks.map((i) => i.exam);
+
+  return { rows, student, exams, class: _class, total };
 };

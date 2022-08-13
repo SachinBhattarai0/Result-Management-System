@@ -35,6 +35,8 @@ const ReportCard = () => {
 
       setIsDownloadPending(false);
     } catch (error) {
+      console.log(error);
+
       updateAlert(error.message);
       setIsDownloadPending(false);
     }

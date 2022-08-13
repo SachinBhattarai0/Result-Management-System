@@ -1,5 +1,7 @@
 const { check } = require("express-validator");
 const { isValidObjectId } = require("mongoose");
+const Class = require("../../models/class.model");
+const Student = require("../../models/student.model");
 
 exports.pdfForStudentsEssentialValidataor = [
   check("class").not().trim().isEmpty().withMessage("Class must be present!!"),
@@ -11,12 +13,22 @@ exports.pdfForStudentsEssentialValidataor = [
   check("exams")
     .isArray({ min: 1 })
     .withMessage("exams should be non empty array!!"),
-  check("class").custom((classId) => {
+  check("class").custom(async (classId, { req }) => {
     if (!isValidObjectId(classId)) throw new Error("Classid is invalid");
+
+    const classItem = await Class.findById(classId).select("name").lean();
+    if (!classItem) throw new Error("Classid is invalid");
+
+    req.classItem = classItem;
     return true;
   }),
-  check("student").custom((studentId) => {
+  check("student").custom(async (studentId, { req }) => {
     if (!isValidObjectId(studentId)) throw new Error("Studentid is invalid");
+
+    const studentItem = await Student.findById(studentId).select("name").lean();
+    if (!studentItem) throw new Error("Studentid is invalid");
+
+    req.studentItem = studentItem;
     return true;
   }),
   check("exams").custom((value) => {

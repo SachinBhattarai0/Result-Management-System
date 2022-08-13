@@ -1,55 +1,44 @@
 const Mark = require("../../models/mark.model");
-const Class = require("../../models/class.model");
-const Student = require("../../models/student.model");
 const { getFormatedData } = require("../../utils/utils");
+const puppeteer = require("puppeteer");
 const fs = require("fs");
 const hbs = require("handlebars");
-const puppeteer = require("puppeteer");
 
 exports.generateForStudent = async (req, res) => {
-  // req.body = {exams:[{examId:"",percentage:""}],class:"",student:""}
-  const { exams, class: _class, student } = req.body;
+  const { exams } = req.body;
+  const { studentItem: stdI, classItem: classI } = req;
 
-  const classEl = await Class.findById(_class).select("name").lean();
-  const stdEl = await Student.findById(student).select("name").lean();
-
-  if (!classEl || !stdEl) return sendError(res, "invalid classId or stdId");
-
-  let data = {
-    marks: [],
-    student: stdEl.name,
-    class: classEl.name,
-    total: 0,
-  };
+  let data = { marks: [], student: stdI.name, class: classI.name, total: 0 };
 
   for (let i = 0; i < exams.length; i++) {
     const { percentage, exam } = exams[i];
-    const resp = await Mark.findOne({ exam, class: _class, student })
+
+    const markItem = await Mark.findOne({
+      exam,
+      class: classI._id,
+      student: stdI._id,
+    })
       .populate("exam")
       .lean({ virtuals: true });
 
     const currentTotal = data.total;
+    const newTotal = currentTotal + (percentage / 100) * markItem.total;
 
-    const newTotal = currentTotal + (percentage / 100) * resp.total;
-
-    data.marks.push({ mark: resp.marks, exam: resp.exam.name });
+    data.marks.push({ mark: markItem.marks, exam: markItem.exam.name });
     data.total = newTotal;
   }
 
   const formatedData = getFormatedData(data);
-  console.log(formatedData);
   const compiledHTML = compile("default", formatedData);
+  console.log(formatedData);
 
   const browser = await puppeteer.launch();
-
   const page = await browser.newPage();
-
   await page.setContent(compiledHTML, { waitUntil: "networkidle0" });
-
   await page.emulateMediaType("screen");
 
   const pdf = await page.pdf({
-    margin: { top: "100px", right: "50px", bottom: "100px", left: "50px" },
+    margin: { top: "40px", right: "50px", left: "50px" },
     printBackground: true,
     format: "A4",
   });
