@@ -11,8 +11,8 @@ exports.createMarks = async (req, res) => {
   const session = await mongoose.startSession();
 
   await session.withTransaction(async () => {
-    marks.forEach(async (mark) => {
-      let { student, theoryMark, practicalMark } = mark;
+    for (let i = 0; i < marks.length; i++) {
+      let { student, theoryMark, practicalMark } = marks[i];
 
       const newMark = {
         subject: subject.name,
@@ -39,13 +39,11 @@ exports.createMarks = async (req, res) => {
 
         return sendError(res, error.message);
       }
-    });
+    }
     assignment.completed = true;
     await assignment.save();
   });
-
   await session.commitTransaction();
-  await session.endSession();
 
   return res
     .status(201)

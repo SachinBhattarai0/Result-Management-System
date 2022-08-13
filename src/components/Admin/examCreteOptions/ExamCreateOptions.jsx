@@ -21,13 +21,12 @@ const ExamCreateCreteOptions = ({ examState, setExamState }) => {
   const handleChange = (e) => {
     setformState({ ...formState, [e.target.name]: e.target.value });
   };
-  console.log(formState);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      setCreatingExam(false);
+      setCreatingExam(true);
       const { data } = await apiWithJwt("/exam/create/", { ...formState });
 
       if (!data.error) updateAlert("exam created successfuly!!", SUCCESS);
@@ -38,9 +37,9 @@ const ExamCreateCreteOptions = ({ examState, setExamState }) => {
 
       setExamState({ ...examState, examList: newExamList });
     } catch (error) {
-      setCreatingExam(false);
       updateAlert(error.response.data.message);
     }
+    setCreatingExam(false);
   };
 
   return (

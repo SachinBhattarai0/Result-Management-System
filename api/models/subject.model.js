@@ -6,7 +6,6 @@ const subjectSchema = mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-      unique: true,
     },
     theoryMark: {
       type: Number,
@@ -34,6 +33,6 @@ const subjectSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-subjectSchema.index({ class: 1, subject: 1 }, { unique: true });
+subjectSchema.index({ class: 1, name: 1 }, { unique: true });
 
 module.exports = mongoose.model("Subject", subjectSchema);

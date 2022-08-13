@@ -2,7 +2,8 @@ const Subject = require("../models/subject.model");
 const { sendError } = require("../utils/utils");
 
 exports.createSubject = async (req, res) => {
-  let { name, theoryMark, practicalMark, passMark, class: _class } = req.body;
+  let { name, theoryMark, practicalMark, passMark, classes } = req.body;
+  const { classItems } = req;
 
   if (!theoryMark) theoryMark = 75;
   if (!practicalMark) practicalMark = 25;
@@ -13,7 +14,7 @@ exports.createSubject = async (req, res) => {
     theoryMark,
     practicalMark,
     passMark,
-    class: _class,
+    class: classes,
   });
 
   try {
@@ -25,11 +26,11 @@ exports.createSubject = async (req, res) => {
   return res.status(201).json({
     error: false,
     message: "Subject Created Successfully",
-    subject: { id: newSubject._id },
+    subject: { name, theoryMark, practicalMark, passMark, class: classItems },
   });
 };
 
-exports.getAllSubjects = async ({ req, res }) => {
-  const subjects = await Subject.find({}).lean();
+exports.getAllSubjects = async (req, res) => {
+  const subjects = await Subject.find({}).populate("class").lean();
   res.json({ error: false, subjects });
 };

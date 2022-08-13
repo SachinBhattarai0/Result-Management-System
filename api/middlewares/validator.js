@@ -74,12 +74,20 @@ exports.assignmentValidator = [
 
 exports.subjectValidator = [
   check("name").trim().not().isEmpty().withMessage("Name is missing!"),
-  check("class").isArray().withMessage("Class must be a array!"),
-  check("class").custom((classArr) => {
-    if (classArr.length === 0) throw new Error("Array cannot be empty!");
+  check("classes")
+    .isArray({ min: 1 })
+    .withMessage("Class must be a non empty array!"),
+  check("classes").custom(async (classArr, { req }) => {
+    const classItems = [];
 
-    const invalidIndex = classArr.findIndex((id) => isValidObjectId(id));
-    if (invalidIndex < 0) throw new Error("Invalid classId!");
+    classArr.forEach(async (id) => {
+      if (!isValidObjectId(id)) throw new Error("invalid classIds");
+
+      const classItem = await Class.findById(id).lean();
+      if (!classItem) throw new Error("invalid classIds");
+      classItems.push(classItem);
+    });
+    req.classItems = classItems;
     return true;
   }),
 ];
