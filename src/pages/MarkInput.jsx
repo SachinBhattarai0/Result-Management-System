@@ -7,18 +7,18 @@ import Spinner from "../components/spinner/Spinner";
 import Content from "../components/content/Content";
 
 const MarkInput = () => {
-  const { state: assignment } = useLocation();
-  const { updateAlert } = useAlert();
+  const navigate = useNavigate();
   const ThInputRef = useRef([]);
   const PrInputRef = useRef([]);
-  const navigate = useNavigate();
+  const { updateAlert } = useAlert();
+  const { state: assignment } = useLocation();
   const [markPending, setMarkPending] = useState(false);
   const [studentList, setStudentList] = useState({
     students: [],
     isPending: false,
   });
 
-  const { _id, class: _class, exam, subject } = assignment;
+  const { _id, class: _class, subject } = assignment;
 
   const handleSubmit = async () => {
     const theoryMarks = ThInputRef.current
@@ -27,28 +27,6 @@ const MarkInput = () => {
     const practicalMarks = PrInputRef.current
       .slice(0, studentList.students.length)
       .map((i) => i.value);
-
-    const invalidThMarkIndex = theoryMarks.findIndex(
-      (mark) => mark === "" || mark < 0 || mark > subject.theoryMark
-    );
-
-    if (invalidThMarkIndex !== -1)
-      return updateAlert(
-        `Invalid theory mark at index ${
-          invalidThMarkIndex + 1
-        } !! should be less than 0 and greater than ${subject.theoryMark}`
-      );
-
-    const invalidPrMarkIndex = practicalMarks.findIndex(
-      (mark) => mark === "" || mark < 0 || mark > subject.practicalMark
-    );
-
-    if (invalidPrMarkIndex !== -1)
-      return updateAlert(
-        `Invalid practical mark at index ${
-          invalidPrMarkIndex + 1
-        } !! should be less than 0 and greater than ${subject.practicalMark}`
-      );
 
     const studentMarks = theoryMarks.map((_, i) => {
       return {
@@ -65,11 +43,11 @@ const MarkInput = () => {
         assignment: _id,
       });
       updateAlert(data.message, SUCCESS);
+
       navigate("/rms/assignment/", { replace: true });
-      setMarkPending(false);
     } catch (error) {
       setMarkPending(false);
-      console.log(error);
+      updateAlert(error.response.data.message);
     }
   };
 

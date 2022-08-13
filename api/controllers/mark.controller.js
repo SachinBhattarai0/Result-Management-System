@@ -4,23 +4,16 @@ const { sendError } = require("../utils/utils");
 const mongoose = require("mongoose");
 
 exports.createMarks = async (req, res) => {
-  const { marks, assignment: assignmentId } = req.body;
-
-  const assignment = await Assignment.findById(assignmentId).populate(
-    "subject"
-  );
-  if (!assignment || assignment.completed)
-    return sendError(res, "Some error occured");
-
+  const { marks } = req.body;
+  const { assignment } = req;
   const { exam, class: _class, subject } = assignment;
 
   const session = await mongoose.startSession();
 
   await session.withTransaction(async () => {
-    for (i = 0; i < marks.length; i++) {
-      let { student, theoryMark, practicalMark } = marks[i];
+    marks.forEach(async (mark) => {
+      let { student, theoryMark, practicalMark } = mark;
 
-      const markItem = await Mark.findOne({ class: _class, exam, student });
       const newMark = {
         subject: subject.name,
         theoryMark,
@@ -28,29 +21,30 @@ exports.createMarks = async (req, res) => {
         total: +theoryMark + +practicalMark,
       };
 
+      const markItem = await Mark.findOne({ class: _class, exam, student });
+
       try {
         if (markItem) {
           markItem.marks.push(newMark);
           await markItem.save({ session });
         } else {
-          const newMarkItem = new Mark({
-            exam,
-            class: _class,
-            student,
-            marks: [newMark],
-          });
-          await newMarkItem.save();
+          await Mark.create(
+            [{ exam, class: _class, student, marks: [newMark] }],
+            { session }
+          );
         }
       } catch (error) {
+        await session.abortTransaction();
+        await session.endSession();
+
         return sendError(res, error.message);
       }
-    }
+    });
     assignment.completed = true;
     await assignment.save();
   });
 
   await session.commitTransaction();
-
   await session.endSession();
 
   return res

@@ -29,7 +29,6 @@ const Assignment = () => {
     };
     fetchAssignmentList();
   }, []);
-  console.log(assignments);
 
   return (
     <Content>
@@ -49,7 +48,7 @@ const Assignment = () => {
           </tr>
 
           {assignments.assignmentList.map((assignment, i) => (
-            <tr key={assignment._id}>
+            <tr key={i}>
               <td className="border-2 p-1 py-3 text-center">{i + 1}</td>
               <td className="border-2 p-1 py-3 text-center">
                 {assignment.user.name}
