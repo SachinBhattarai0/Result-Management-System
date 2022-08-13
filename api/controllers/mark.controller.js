@@ -57,5 +57,14 @@ exports.getSudentsListForExam = async (req, res) => {
     .select("student")
     .populate("student")
     .lean();
-  return res.json({ error: false, studentList });
+  const uniqueStudentList = [];
+
+  for (let i = 0; i < studentList.length; i++) {
+    const student = studentList[i].student;
+    const index = uniqueStudentList.findIndex((i) => i._id === student._id);
+
+    if (index === -1) uniqueStudentList.push(student);
+  }
+
+  return res.json({ error: false, studentList: uniqueStudentList });
 };

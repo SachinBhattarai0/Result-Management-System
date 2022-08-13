@@ -66,6 +66,5 @@ exports.getStudentList = async (req, res) => {
   })
     .select("name rollNo")
     .lean();
-
   return res.json({ error: false, students });
 };

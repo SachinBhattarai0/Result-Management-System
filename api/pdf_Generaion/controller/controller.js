@@ -1,6 +1,7 @@
 const Mark = require("../../models/mark.model");
 const Class = require("../../models/class.model");
 const Student = require("../../models/student.model");
+const { getFormatedData } = require("../../utils/utils");
 const fs = require("fs");
 const hbs = require("handlebars");
 const puppeteer = require("puppeteer");
@@ -28,14 +29,16 @@ exports.generateForStudent = async (req, res) => {
       .lean({ virtuals: true });
 
     const currentTotal = data.total;
+
     const newTotal = currentTotal + (percentage / 100) * resp.total;
 
     data.marks.push({ mark: resp.marks, exam: resp.exam.name });
     data.total = newTotal;
   }
 
-  console.log(data);
-  const compiledHTML = compile("default", data);
+  const formatedData = getFormatedData(data);
+  console.log(formatedData);
+  const compiledHTML = compile("default", formatedData);
 
   const browser = await puppeteer.launch();
 

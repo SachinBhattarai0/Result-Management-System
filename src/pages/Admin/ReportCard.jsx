@@ -59,7 +59,7 @@ const ReportCard = () => {
                 <th className="border-2 py-3 ">Action</th>
               </tr>
 
-              {studentList.students.map(({ student }) => (
+              {studentList.students.map((student) => (
                 <tr key={student._id}>
                   <td className="border-2 p-1 py-3 text-center">
                     {student.rollNo}

@@ -44,6 +44,7 @@ const ReportCardFilter = ({
         class: _class,
         exams,
       });
+      console.log(data);
 
       setStudentList({
         ...studentList,

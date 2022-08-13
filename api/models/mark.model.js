@@ -33,7 +33,7 @@ markSchema.index({ exam: 1, class: 1, student: 1 }, { unique: true });
 
 markSchema.virtual("total").get(function () {
   return this.marks.reduce((pv, cv) => {
-    return pv + cv.theoryMark + cv.practicalMark;
+    return +pv + +cv.theoryMark + +cv.practicalMark;
   }, 0);
 });
 
