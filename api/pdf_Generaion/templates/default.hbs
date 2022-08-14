@@ -49,26 +49,34 @@
             <th rowspan="2">S.N</th>
             <th rowspan="2">SUBJECT</th>
             <th colspan="2">FULLMARKS</th>
-            <th colspan="2">OBTAINED MARKS</th>
+            {{#each exams}}
+              <th colspan="2">{{this}}</th>
+            {{/each}}
             <th rowspan="2">GRADE</th>
             <th rowspan="2">HIGHEST</th>
           </tr>
           <tr>
             <th>TH</th>
             <th>PR</th>
-            <th>TH</th>
-            <th>PR</th>
+            {{#each exams}}
+              <th>TH</th>
+              <th>PR</th>
+            {{/each}}
           </tr>
-          <tr>
-            <td>1</td>
-            <td>Physics</td>
-            <td>75</td>
-            <td>25</td>
-            <td>23</td>
-            <td>26</td>
-            <td>A</td>
-            <td>100</td>
-          </tr>
+          {{#each rows}}
+            <tr>
+              <td>{{inc @index}}</td>
+              <td>{{this.0.subject}}</td>
+              <td>75</td>
+              <td>25</td>
+              {{#each this}}
+                <td>{{theoryMark}}</td>
+                <td>{{practicalMark}}</td>
+              {{/each}}
+              <td>nl</td>
+              <td>nl</td>
+            </tr>
+          {{/each}}
 
         </table>
       </div>
@@ -130,7 +138,7 @@
           </tbody>
         </table>
         <div class="overview">
-          <p>TotalMarks:</p>
+          <p>TotalMarks: {{total}}</p>
           <p>GPA: </p>
           <p>FinalGrade: </p>
         </div>

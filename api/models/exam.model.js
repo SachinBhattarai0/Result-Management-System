@@ -7,6 +7,6 @@ const examSchema = mongoose.Schema({
   date: { type: Number, required: true },
 });
 
-examSchema.index({ name: 1 }, { unique: true });
+// examSchema.index({ name: 1 }, { unique: true });
 
 module.exports = mongoose.model("Exam", examSchema);

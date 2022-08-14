@@ -46,10 +46,10 @@ exports.pdfForStudentsEssentialValidataor = [
     });
     return true;
   }),
-  check("exams").custom((exams) => {
-    const totalPercentage = exams.reduce((pv, cv) => pv + cv.percentage, 0);
-    if (totalPercentage > 100)
-      throw new Error("total percentage must be less than 100!!");
-    return true;
-  }),
+  // check("exams").custom((exams) => {
+  //   const totalPercentage = exams.reduce((pv, cv) => pv + cv.percentage, 0);
+  //   if (totalPercentage > 100)
+  //     throw new Error("total percentage must be less than 100!!");
+  //   return true;
+  // }),
 ];

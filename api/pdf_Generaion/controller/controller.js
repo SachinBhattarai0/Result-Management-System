@@ -1,8 +1,9 @@
 const Mark = require("../../models/mark.model");
 const { getFormatedData } = require("../../utils/utils");
-const puppeteer = require("puppeteer");
-const fs = require("fs");
-const hbs = require("handlebars");
+const {
+  handleBarsCompileToHTML,
+  convertHtmlToPdf,
+} = require("../helper/helper");
 
 exports.generateForStudent = async (req, res) => {
   const { exams } = req.body;
@@ -29,30 +30,13 @@ exports.generateForStudent = async (req, res) => {
   }
 
   const formatedData = getFormatedData(data);
-  const compiledHTML = compile("default", formatedData);
-  console.log(formatedData);
+  const compiledHTML = handleBarsCompileToHTML("default", formatedData);
+  // console.log(formatedData);
+  // console.log(formatedData.rows);
 
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.setContent(compiledHTML, { waitUntil: "networkidle0" });
-  await page.emulateMediaType("screen");
+  const pdfBuffer = await convertHtmlToPdf(compiledHTML);
 
-  const pdf = await page.pdf({
-    margin: { top: "40px", right: "50px", left: "50px" },
-    printBackground: true,
-    format: "A4",
-  });
-
-  await browser.close();
-
-  res.send(pdf);
+  res.send(pdfBuffer);
 };
 
 exports.generateForClass = (req, res) => {};
-
-const compile = (templateName, data) => {
-  const path = `${__dirname}/../templates/${templateName}.hbs`;
-  const html = fs.readFileSync(path, "utf-8");
-
-  return hbs.compile(html)(data);
-};
