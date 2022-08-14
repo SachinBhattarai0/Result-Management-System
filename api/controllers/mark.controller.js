@@ -19,6 +19,8 @@ exports.createMarks = async (req, res) => {
         theoryMark,
         practicalMark,
         total: +theoryMark + +practicalMark,
+        fullTheoryMark: +subject.theoryMark,
+        fullPracticalMark: +subject.practicalMark,
       };
 
       const markItem = await Mark.findOne({ class: _class, exam, student });

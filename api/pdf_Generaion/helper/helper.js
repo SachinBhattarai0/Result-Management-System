@@ -6,6 +6,27 @@ const hbs = require("handlebars");
 Handlebars.registerHelper("inc", function (value, options) {
   return parseInt(value) + 1;
 });
+Handlebars.registerHelper("at_index", function (context, ndx) {
+  return context[ndx];
+});
+
+Handlebars.registerHelper(
+  "get_gpa",
+  function (theoryMark, practicalMark, obtainedMark) {
+    const percentage = (obtainedMark / (theoryMark + practicalMark)) * 100;
+    let GPA = percentage / 25;
+    GPA = GPA.toFixed(2);
+    if (GPA > 3.6) return "A+";
+    if (GPA > 3.2) return "A";
+    if (GPA > 2.8) return "B+";
+    if (GPA > 2.4) return "B";
+    if (GPA > 2.0) return "C+";
+    if (GPA > 1.6) return "C";
+    if (GPA > 1.2) return "D+";
+    if (GPA > 0.8) return "D";
+    return "NG";
+  }
+);
 
 exports.handleBarsCompileToHTML = (templateName, data) => {
   const path = `${__dirname}/../templates/${templateName}.hbs`;

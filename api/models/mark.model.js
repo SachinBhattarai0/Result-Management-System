@@ -23,6 +23,8 @@ const markSchema = new mongoose.Schema(
         theoryMark: Number,
         practicalMark: Number,
         total: Number,
+        fullTheoryMark: Number,
+        fullPracticalMark: Number,
       },
     ],
   },

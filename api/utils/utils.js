@@ -24,17 +24,39 @@ exports.getFormatedData = (data) => {
     if (!uniqueSubName.includes(i)) uniqueSubName.push(i);
   });
 
+  const rowTotals = [];
+  const fullTheoryMark = [];
+  const fullPracticalMark = [];
+
   // formats the data row wise as they are to be shown in pdf
   const rows = uniqueSubName.map((subname) => {
-    return data.marks.map(({ mark }) => {
-      for (let i = 0; i < mark.length; i++) {
-        if (mark[i].subject === subname) return mark[i];
+    let rowTotal = 0;
+    const row = data.marks.map(({ mark }, rowIndex) => {
+      for (let markIndex = 0; markIndex < mark.length; markIndex++) {
+        if (mark[markIndex].subject === subname) {
+          rowTotal += mark[markIndex].total;
+          fullTheoryMark[rowIndex] = mark[markIndex].fullTheoryMark;
+          fullPracticalMark[rowIndex] = mark[markIndex].fullPracticalMark;
+          return mark[markIndex];
+        }
       }
     });
+    rowTotals.push(rowTotal);
+    return row;
   });
 
   const { student, class: _class, total } = data;
   const exams = data.marks.map((i) => i.exam);
 
-  return { rows, student, exams, class: _class, total };
+  return {
+    rows,
+    student,
+    exams,
+    class: _class,
+    rowTotals,
+    total,
+    subjects: uniqueSubName,
+    fullPracticalMark,
+    fullTheoryMark,
+  };
 };

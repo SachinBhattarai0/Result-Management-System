@@ -48,10 +48,11 @@
           <tr>
             <th rowspan="2">S.N</th>
             <th rowspan="2">SUBJECT</th>
-            <th colspan="2">FULLMARKS</th>
+            <th colspan="2">FULL</th>
             {{#each exams}}
               <th colspan="2">{{this}}</th>
             {{/each}}
+            <th rowspan="2">TOTAL</th>
             <th rowspan="2">GRADE</th>
             <th rowspan="2">HIGHEST</th>
           </tr>
@@ -66,14 +67,15 @@
           {{#each rows}}
             <tr>
               <td>{{inc @index}}</td>
-              <td>{{this.0.subject}}</td>
-              <td>75</td>
-              <td>25</td>
+              <td>{{at_index ../subjects @index}}</td>
+              <td>{{at_index ../fullTheoryMark @index}}</td>
+              <td>{{at_index ../fullPracticalMark @index}}</td>
               {{#each this}}
                 <td>{{theoryMark}}</td>
                 <td>{{practicalMark}}</td>
               {{/each}}
-              <td>nl</td>
+              <td>{{at_index ../rowTotals @index}}</td>
+              <td>{{get_gpa (at_index ../fullTheoryMark @index) (at_index ../fullPracticalMark @index) (at_index ../rowTotals @index) }}</td>
               <td>nl</td>
             </tr>
           {{/each}}
