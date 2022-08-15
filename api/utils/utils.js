@@ -12,7 +12,7 @@ exports.sendError = (res, msg, code = 400) => {
   res.status(code).json({ error: true, message: msg });
 };
 
-exports.getFormatedData = (data) => {
+exports.FormatDataForPdfRendering = (data) => {
   let subjectNames = [];
   // gets list of all subect names
   const raw = data.marks.map((mi) => mi.mark.map((i) => i.subject));
@@ -24,39 +24,47 @@ exports.getFormatedData = (data) => {
     if (!uniqueSubName.includes(i)) uniqueSubName.push(i);
   });
 
+  //rowTotals will include array of total marks in each row
   const rowTotals = [];
-  const fullTheoryMark = [];
-  const fullPracticalMark = [];
+  //fullTheoryMarks will include array of theory marks for each subject row wise
+  const fullTheoryMarks = [];
+  //fullPracticalMark will include array of practical marks for each subject row wise
+  const fullPracticalMarks = [];
 
-  // formats the data row wise as they are to be shown in pdf
+  // the rows contain rowWise datas that are to be presened in pdf
   const rows = uniqueSubName.map((subname) => {
+    //rowTotal will count total marks in each row
     let rowTotal = 0;
     const row = data.marks.map(({ mark }, rowIndex) => {
+      // check for each mark and if the mark belong to the subject for the row
+      //then returns the subject
       for (let markIndex = 0; markIndex < mark.length; markIndex++) {
         if (mark[markIndex].subject === subname) {
           rowTotal += mark[markIndex].total;
-          fullTheoryMark[rowIndex] = mark[markIndex].fullTheoryMark;
-          fullPracticalMark[rowIndex] = mark[markIndex].fullPracticalMark;
+          fullTheoryMarks[rowIndex] = mark[markIndex].fullTheoryMark;
+          fullPracticalMarks[rowIndex] = mark[markIndex].fullPracticalMark;
           return mark[markIndex];
         }
       }
     });
+    //pushing the row total in array of rowTotals
     rowTotals.push(rowTotal);
+    // returing the row
     return row;
   });
 
-  const { student, class: _class, total } = data;
+  const { student, class: _class, totalObtainedMark } = data;
   const exams = data.marks.map((i) => i.exam);
 
   return {
     rows,
     student,
-    exams,
     class: _class,
+    exams,
     rowTotals,
-    total,
+    totalObtainedMark,
     subjects: uniqueSubName,
-    fullPracticalMark,
-    fullTheoryMark,
+    fullPracticalMarks,
+    fullTheoryMarks,
   };
 };

@@ -68,14 +68,14 @@
             <tr>
               <td>{{inc @index}}</td>
               <td>{{at_index ../subjects @index}}</td>
-              <td>{{at_index ../fullTheoryMark @index}}</td>
-              <td>{{at_index ../fullPracticalMark @index}}</td>
+              <td>{{at_index ../fullTheoryMarks @index}}</td>
+              <td>{{at_index ../fullPracticalMarks @index}}</td>
               {{#each this}}
                 <td>{{theoryMark}}</td>
                 <td>{{practicalMark}}</td>
               {{/each}}
               <td>{{at_index ../rowTotals @index}}</td>
-              <td>{{get_gpa (at_index ../fullTheoryMark @index) (at_index ../fullPracticalMark @index) (at_index ../rowTotals @index) }}</td>
+              <td>{{get_gpa (at_index ../fullTheoryMarks @index) (at_index ../fullPracticalMarks @index) (at_index ../rowTotals @index) }}</td>
               <td>nl</td>
             </tr>
           {{/each}}
@@ -140,7 +140,7 @@
           </tbody>
         </table>
         <div class="overview">
-          <p>TotalMarks: {{total}}</p>
+          <p>TotalMarks: {{totalObtainedMark}}</p>
           <p>GPA: </p>
           <p>FinalGrade: </p>
         </div>

@@ -1,5 +1,5 @@
 const Mark = require("../../models/mark.model");
-const { getFormatedData, sendError } = require("../../utils/utils");
+const { FormatDataForPdfRendering, sendError } = require("../../utils/utils");
 const {
   handleBarsCompileToHTML,
   convertHtmlToPdf,
@@ -32,15 +32,21 @@ exports.generateForStudent = async (req, res) => {
     if (percentage !== 100) examInfo = `${markItem.exam.name} (${percentage}%)`;
     else examInfo = `${markItem.exam.name}`;
 
-    markItem.marks = markItem.marks.map((i) => {
-      return { ...i, total: Math.round((percentage / 100) * i.total) };
+    markItem.marks = markItem.marks.map((subjectMark) => {
+      return {
+        ...subjectMark,
+        total: Math.round((percentage / 100) * subjectMark.total),
+      };
     });
 
     data.marks.push({ mark: markItem.marks, exam: examInfo });
-    data.total = newTotal;
+    data.totalObtainedMark = newTotal;
   }
 
-  const formatedData = getFormatedData(data);
+  console.log("data", data);
+  console.log("marks", data.marks);
+
+  const formatedData = FormatDataForPdfRendering(data);
   const compiledHTML = handleBarsCompileToHTML("default", formatedData);
 
   const pdfBuffer = await convertHtmlToPdf(compiledHTML);
