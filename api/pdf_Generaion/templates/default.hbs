@@ -49,8 +49,8 @@
             <th rowspan="2">S.N</th>
             <th rowspan="2">SUBJECT</th>
             <th colspan="2">FULL</th>
-            {{#each exams}}
-              <th colspan="2">{{this}}</th>
+            {{#each marks}}
+              <th colspan="2">{{this.exam}}</th>
             {{/each}}
             <th rowspan="2">TOTAL</th>
             <th rowspan="2">GRADE</th>
@@ -59,23 +59,16 @@
           <tr>
             <th>TH</th>
             <th>PR</th>
-            {{#each exams}}
+            {{#each marks}}
               <th>TH</th>
               <th>PR</th>
             {{/each}}
           </tr>
-          {{#each rows}}
+          {{#each subjects }}
             <tr>
               <td>{{inc @index}}</td>
-              <td>{{at_index ../subjects @index}}</td>
-              <td>{{at_index ../fullTheoryMarks @index}}</td>
-              <td>{{at_index ../fullPracticalMarks @index}}</td>
-              {{#each this}}
-                <td>{{theoryMark}}</td>
-                <td>{{practicalMark}}</td>
-              {{/each}}
-              <td>{{at_index ../rowTotals @index}}</td>
-              <td>{{get_gpa (at_index ../fullTheoryMarks @index) (at_index ../fullPracticalMarks @index) (at_index ../rowTotals @index) }}</td>
+              <td>{{subject}}</td>
+              {{{returnTd ../marks subject fullTheoryMark fullPracticalMark}}}
               <td>nl</td>
             </tr>
           {{/each}}

@@ -23,6 +23,7 @@ const ReportCard = () => {
     const student = e.target.getAttribute("std_id");
     const { class: _class, exams } = filterInfo;
     setIsDownloadPending(true);
+
     try {
       const res = await fetchWithJwt("/pdf/marksheet/student/", {
         class: _class,
@@ -35,6 +36,7 @@ const ReportCard = () => {
 
       setIsDownloadPending(false);
     } catch (error) {
+      console.log(error);
       updateAlert(error.message);
       setIsDownloadPending(false);
     }

@@ -1,9 +1,11 @@
 const Mark = require("../../models/mark.model");
-const { FormatDataForPdfRendering, sendError } = require("../../utils/utils");
+const { sendError } = require("../../utils/utils");
 const {
   handleBarsCompileToHTML,
   convertHtmlToPdf,
+  getUniqueSubjectList,
 } = require("../helper/helper");
+require("../handebars/config");
 
 exports.generateForStudent = async (req, res) => {
   const { exams } = req.body;
@@ -14,7 +16,7 @@ exports.generateForStudent = async (req, res) => {
   for (let i = 0; i < exams.length; i++) {
     const { percentage, exam } = exams[i];
 
-    const markItem = await Mark.findOne({
+    const mark = await Mark.findOne({
       exam,
       class: classI._id,
       student: stdI._id,
@@ -22,33 +24,26 @@ exports.generateForStudent = async (req, res) => {
       .populate("exam")
       .lean({ virtuals: true });
 
-    if (!markItem)
-      return sendError(res, "Some of the required informations are missing!!");
+    if (!mark)
+      return sendError(res, "Student doesnot have mark for all exam!!");
 
     const currentTotal = data.total;
-    const newTotal = currentTotal + (percentage / 100) * markItem.total;
+    const newTotal = currentTotal + (percentage / 100) * mark.total;
 
-    let examInfo;
-    if (percentage !== 100) examInfo = `${markItem.exam.name} (${percentage}%)`;
-    else examInfo = `${markItem.exam.name}`;
+    if (percentage !== 100)
+      mark.exam.name = `${mark.exam.name} (${percentage}%)`;
 
-    markItem.marks = markItem.marks.map((subjectMark) => {
-      return {
-        ...subjectMark,
-        total: Math.round((percentage / 100) * subjectMark.total),
-      };
+    mark.marks = mark.marks.map((subjectMark) => {
+      const adjustedMark = Math.round((percentage / 100) * subjectMark.total);
+      return { ...subjectMark, total: adjustedMark };
     });
 
-    data.marks.push({ mark: markItem.marks, exam: examInfo });
+    data.marks.push({ mark: mark.marks, exam: mark.exam.name });
     data.totalObtainedMark = newTotal;
   }
+  data.subjects = getUniqueSubjectList(data);
 
-  console.log("data", data);
-  console.log("marks", data.marks);
-
-  const formatedData = FormatDataForPdfRendering(data);
-  const compiledHTML = handleBarsCompileToHTML("default", formatedData);
-
+  const compiledHTML = handleBarsCompileToHTML("default", data);
   const pdfBuffer = await convertHtmlToPdf(compiledHTML);
 
   res.send(pdfBuffer);
