@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "16.1.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
@@ -19,7 +18,9 @@
     "handlebars": "^4.7.7",
     "html-pdf": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
+    "jw-paginate": "^1.0.4",
     "mongoose": "^6.5.1",
-    "mongoose-lean-virtuals": "^0.9.1"
+    "mongoose-lean-virtuals": "^0.9.1",
+    "puppeteer": "16.1.0"
   }
 }

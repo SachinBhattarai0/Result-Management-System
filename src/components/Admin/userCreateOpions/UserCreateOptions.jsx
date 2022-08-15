@@ -4,7 +4,7 @@ import Button from "../../form/Button";
 import Spinner from "../../spinner/Spinner";
 import { SUCCESS, useAlert } from "../../../context/AlertContext";
 import { apiWithJwt } from "../../../axios/index";
-import FilterContainer from "../filterContainer/FilterContainer";
+import FormContainer from "../formContainer/FormContainer";
 
 const defaultState = {
   name: "",
@@ -39,7 +39,7 @@ const UserCreateCreteOptions = () => {
   };
 
   return (
-    <FilterContainer title="Create Teacher:">
+    <FormContainer title="Create Teacher:">
       <form onSubmit={handleSubmit} className="flex flex-col space-y-1 mt-3">
         <Input
           label="name"
@@ -67,7 +67,7 @@ const UserCreateCreteOptions = () => {
           {creatingUser ? <Spinner /> : "Create"}
         </Button>
       </form>
-    </FilterContainer>
+    </FormContainer>
   );
 };
 

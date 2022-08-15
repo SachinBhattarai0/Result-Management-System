@@ -3,6 +3,7 @@ import Content from "../../components/content/Content";
 import { apiWithJwt } from "../../axios/index";
 import Spinner from "../../components/spinner/Spinner";
 import SubjectCreateOptions from "../../components/Admin/subjectCreateOptions/SubjectCreateOptions";
+import Popover from "../../components/popovers/Popover";
 import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
 
@@ -65,9 +66,11 @@ const Subject = () => {
                   {subject.passMark}
                 </td>
                 <td className="border-2 py-3 px-1 text-xs text-center flex flex-col">
-                  {subject.class.map((c, i) => (
-                    <span key={i}>{c.name},</span>
-                  ))}
+                  <Popover>
+                    {subject.class.map((c, i) => (
+                      <span key={i}>{c.name},</span>
+                    ))}
+                  </Popover>
                 </td>
                 <td className="border-2 py-3 px-1 text-center">
                   {" "}

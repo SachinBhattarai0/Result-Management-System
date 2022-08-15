@@ -3,7 +3,7 @@ import { SUCCESS, useAlert } from "../../../context/AlertContext";
 import Input from "../../form/Input";
 import Spinner from "../../spinner/Spinner";
 import Button from "../../form/Button";
-import FilterContainer from "../filterContainer/FilterContainer";
+import FormContainer from "../formContainer/FormContainer";
 import { apiWithJwt } from "../../../axios";
 
 const ClassCreateOptions = ({ setClassState, classState }) => {
@@ -32,7 +32,7 @@ const ClassCreateOptions = ({ setClassState, classState }) => {
   };
 
   return (
-    <FilterContainer title="Create Class:">
+    <FormContainer title="Create Class:">
       <form onSubmit={handleSubmit}>
         <div className="mt-3">
           <Input
@@ -47,7 +47,7 @@ const ClassCreateOptions = ({ setClassState, classState }) => {
           </Button>
         </div>
       </form>
-    </FilterContainer>
+    </FormContainer>
   );
 };
 

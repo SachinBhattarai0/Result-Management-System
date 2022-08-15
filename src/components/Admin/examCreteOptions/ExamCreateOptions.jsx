@@ -3,7 +3,7 @@ import { SUCCESS, useAlert } from "../../../context/AlertContext";
 import Input from "../../form/Input";
 import Spinner from "../../spinner/Spinner";
 import Button from "../../form/Button";
-import FilterContainer from "../filterContainer/FilterContainer";
+import FormContainer from "../formContainer/FormContainer";
 import { apiWithJwt } from "../../../axios";
 
 const defaultFormState = {
@@ -43,7 +43,7 @@ const ExamCreateCreteOptions = ({ examState, setExamState }) => {
   };
 
   return (
-    <FilterContainer title="Create Exam:">
+    <FormContainer title="Create Exam:">
       <form onSubmit={handleSubmit} className="mt-3 flex flex-col space-y-1">
         <Input
           placeholder="Enter Year"
@@ -78,7 +78,7 @@ const ExamCreateCreteOptions = ({ examState, setExamState }) => {
           </Button>
         </div>
       </form>
-    </FilterContainer>
+    </FormContainer>
   );
 };
 

@@ -4,7 +4,7 @@ import Select from "../../form/Select";
 import Spinner from "../../spinner/Spinner";
 import { SUCCESS, useAlert } from "../../../context/AlertContext";
 import { apiWithJwt } from "../../../axios/index";
-import FilterContainer from "../filterContainer/FilterContainer";
+import FormContainer from "../formContainer/FormContainer";
 
 const defaultState = { studentNames: "", class: "", subjects: [] };
 
@@ -16,7 +16,7 @@ const StudentCreateOptions = () => {
     classOptions: [],
     subjectOptions: [],
   });
-  console.log(formState);
+  // console.log(formState);
 
   const handleChange = ({ target }) => {
     setFormState({ ...formState, [target.name]: target.value });
@@ -78,7 +78,7 @@ const StudentCreateOptions = () => {
   }, []);
 
   return (
-    <FilterContainer title="Create Students:">
+    <FormContainer title="Create Students:">
       <form onSubmit={handleSubmit} className="flex flex-col mt-3">
         <div className="flex flex-col mb-1">
           <textarea
@@ -138,7 +138,7 @@ const StudentCreateOptions = () => {
           {creatingStudents ? <Spinner /> : "Create"}
         </Button>
       </form>
-    </FilterContainer>
+    </FormContainer>
   );
 };
 

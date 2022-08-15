@@ -4,7 +4,7 @@ import { SUCCESS, useAlert } from "../../../context/AlertContext";
 import Select from "../../form/Select";
 import Spinner from "../../spinner/Spinner";
 import Button from "../../form/Button";
-import FilterContainer from "../filterContainer/FilterContainer";
+import FormContainer from "../formContainer/FormContainer";
 import { apiWithJwt } from "../../../axios/index";
 
 const AssignmentCreateOptions = ({ assignments, setAssignments }) => {
@@ -79,7 +79,7 @@ const AssignmentCreateOptions = ({ assignments, setAssignments }) => {
   }, []);
 
   return (
-    <FilterContainer title="Create Assignments:">
+    <FormContainer title="Create Assignments:">
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col">
           <label>Exam:</label>
@@ -127,7 +127,7 @@ const AssignmentCreateOptions = ({ assignments, setAssignments }) => {
           </Button>
         </div>
       </form>
-    </FilterContainer>
+    </FormContainer>
   );
 };
 

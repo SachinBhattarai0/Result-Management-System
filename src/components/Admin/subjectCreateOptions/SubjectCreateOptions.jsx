@@ -4,7 +4,7 @@ import Button from "../../form/Button";
 import Spinner from "../../spinner/Spinner";
 import { SUCCESS, useAlert } from "../../../context/AlertContext";
 import { apiWithJwt } from "../../../axios";
-import FilterContainer from "../filterContainer/FilterContainer";
+import FormConainer from "../formContainer/FormContainer";
 
 const defaultFormState = {
   name: "",
@@ -70,7 +70,7 @@ const SubjectCreateOptions = ({ subjectState, setSubjectState }) => {
     fetchclassList();
   }, []);
   return (
-    <FilterContainer title="Create Subject:">
+    <FormConainer title="Create Subject:">
       <form onSubmit={handleSubmit} className="mt-3 flex flex-col space-y-1">
         <Input
           placeholder="Enter Name"
@@ -119,7 +119,7 @@ const SubjectCreateOptions = ({ subjectState, setSubjectState }) => {
           </Button>
         </div>
       </form>
-    </FilterContainer>
+    </FormConainer>
   );
 };
 

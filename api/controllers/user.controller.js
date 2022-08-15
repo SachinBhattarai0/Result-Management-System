@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 const Student = require("../models/student.model");
 const jwt = require("jsonwebtoken");
+const paginate = require("jw-paginate");
 const { sendError, TEACHER } = require("../utils/utils");
 const mongoose = require("mongoose");
 require("dotenv").config();
@@ -82,12 +83,27 @@ exports.createStudent = async (req, res) => {
       .status(201)
       .json({ error: false, message: "Students created Successfully!" });
 };
-exports.getAllStudents = async ({ req, res }) => {
+exports.getAllStudents = async (req, res) => {
   const students = await Student.find()
     .populate("class")
     .populate("subjects")
+    .sort({ rollNo: 1 })
     .lean();
-  res.json({ error: false, students });
+
+  // get page from query params or default to first page
+  const page = parseInt(req.query.page) || 1;
+
+  // get pager object for specified page
+  const pageSize = 50;
+  const pager = paginate(students.length, page, pageSize);
+
+  // get page of items from items array
+  const paginatedStudentList = students.slice(
+    pager.startIndex,
+    pager.endIndex + 1
+  );
+
+  return res.json({ error: false, pager, students: paginatedStudentList });
 };
 
 exports.verify = (req, res) => {
