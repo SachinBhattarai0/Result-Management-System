@@ -14,6 +14,7 @@ import Subject from "./pages/Admin/Subject";
 import User from "./pages/Admin/User";
 import SignIn from "./pages/SignIn";
 import ReportCard from "./pages/Admin/ReportCard";
+import Student from "./pages/Admin/Student";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path={"/rms/admin/exam/"} element={<Exam />} />
           <Route path={"/rms/admin/subject/"} element={<Subject />} />
           <Route path={"/rms/admin/user/"} element={<User />} />
+          <Route path={"/rms/admin/student/"} element={<Student />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

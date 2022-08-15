@@ -51,14 +51,12 @@ const ExamCreateCreteOptions = ({ examState, setExamState }) => {
           value={formState.year}
           type="number"
           onChange={handleChange}
-          style={{ width: "100%" }}
         />
         <Input
           placeholder="Enter Month"
           type="number"
           name="month"
           value={formState.month}
-          style={{ width: "100%" }}
           onChange={handleChange}
         />
         <Input
@@ -66,14 +64,12 @@ const ExamCreateCreteOptions = ({ examState, setExamState }) => {
           type="number"
           name="date"
           value={formState.date}
-          style={{ width: "100%" }}
           onChange={handleChange}
         />
         <Input
           placeholder="Enter Name"
           name="name"
           value={formState.name}
-          style={{ width: "100%" }}
           onChange={handleChange}
         />
         <div className="flex flex-col mt-1">

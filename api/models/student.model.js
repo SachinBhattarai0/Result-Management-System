@@ -25,6 +25,6 @@ const studentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-studentSchema.index({ class: 1, rollNo: 1 }, { unique: true });
+// studentSchema.index({ class: 1, rollNo: 1 }, { unique: true });
 
 module.exports = mongoose.model("Student", studentSchema);

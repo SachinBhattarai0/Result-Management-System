@@ -17,6 +17,7 @@ exports.createTeacher = async (req, res) => {
     return res.status(201).json({
       message: "User Created Successfully!",
       error: false,
+      teacher: { name: newUser.name, email: newUser.email },
     });
   } catch (error) {
     return sendError(res, error.message);
@@ -46,14 +47,15 @@ exports.signIn = async (req, res) => {
 };
 
 exports.createStudent = async (req, res) => {
-  const { nameList, class: _class, subjects } = req.body;
+  const { studentNames, class: _class, subjects } = req.body;
 
   const session = await mongoose.startSession();
 
   const transactionRes = await session.withTransaction(async () => {
     const stdCount = await Student.count({ class: _class });
-    for (i = 0; i < nameList.length; i++) {
-      const name = nameList[i];
+
+    for (i = 0; i < studentNames.length; i++) {
+      const name = studentNames[i];
       const rollNo = stdCount + i + 1;
       const newStd = new Student({ name, class: _class, subjects, rollNo });
 
@@ -67,13 +69,25 @@ exports.createStudent = async (req, res) => {
   });
 
   if (transactionRes) await session.commitTransaction();
-
   await session.endSession();
+
+  const stdList = await Student.find({ class: _class }).sort({ name: 1 });
+  //sorting rollNo alphabetically
+  stdList.forEach(async (s, i) => {
+    await s.updateOne({ rollNo: i + 1 });
+  });
 
   if (transactionRes)
     return res
       .status(201)
       .json({ error: false, message: "Students created Successfully!" });
+};
+exports.getAllStudents = async ({ req, res }) => {
+  const students = await Student.find()
+    .populate("class")
+    .populate("subjects")
+    .lean();
+  res.json({ error: false, students });
 };
 
 exports.verify = (req, res) => {

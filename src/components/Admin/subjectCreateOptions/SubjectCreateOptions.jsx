@@ -77,7 +77,6 @@ const SubjectCreateOptions = ({ subjectState, setSubjectState }) => {
           value={name}
           name="name"
           onChange={handleChange}
-          style={{ width: "100%" }}
         />
         <Input
           placeholder="Enter Theory Mark"
@@ -85,7 +84,6 @@ const SubjectCreateOptions = ({ subjectState, setSubjectState }) => {
           name="theoryMark"
           type="number"
           onChange={handleChange}
-          style={{ width: "100%" }}
         />
         <Input
           placeholder="Enter Practical Mark"
@@ -93,7 +91,6 @@ const SubjectCreateOptions = ({ subjectState, setSubjectState }) => {
           name="practicalMark"
           type="number"
           onChange={handleChange}
-          style={{ width: "100%" }}
         />
         <Input
           placeholder="Enter Pass Mark"
@@ -101,7 +98,6 @@ const SubjectCreateOptions = ({ subjectState, setSubjectState }) => {
           name="passMark"
           type="number"
           onChange={handleChange}
-          style={{ width: "100%" }}
         />
 
         <div className="flex flex-wrap mt-1 space-x-2">

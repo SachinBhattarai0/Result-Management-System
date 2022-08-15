@@ -4,6 +4,7 @@ import { MdChecklist, MdOutlineAssignment } from "react-icons/md";
 import { BiBookAlt, BiUser } from "react-icons/bi";
 import { SiGoogleclassroom } from "react-icons/si";
 import { AiOutlineDashboard } from "react-icons/ai";
+import { FaUserGraduate } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useNavState } from "../../context/NavContext";
 
@@ -90,6 +91,16 @@ export const AdminNavContent = () => {
           >
             <BiUser className="text-xl" />
             <span className={`${!navState.open && "hidden"}`}>User</span>
+          </NavLink>
+        </li>
+
+        <li className="text-lg cursor-pointer">
+          <NavLink
+            to="/rms/admin/student/"
+            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
+          >
+            <FaUserGraduate className="text-xl" />
+            <span className={`${!navState.open && "hidden"}`}>Student</span>
           </NavLink>
         </li>
       </ul>

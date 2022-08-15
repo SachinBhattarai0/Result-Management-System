@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import ExamCreateCreteOptions from "../../components/Admin/examCreteOptions/ExamCreateOptions";
 import { apiWithJwt } from "../../axios";
 import { AiFillEdit } from "react-icons/ai";
-import Spinner from "../../components/spinner/Spinner";
 import { BiTrash } from "react-icons/bi";
+import Spinner from "../../components/spinner/Spinner";
 import Content from "../../components/content/Content";
 
 const Exam = () => {

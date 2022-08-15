@@ -15,6 +15,6 @@ router.post(
   createSubject
 );
 
-router.post("/get-all", userValidator, allowedRoles("admin"), getAllSubjects);
+router.post("/get-all/", userValidator, allowedRoles("admin"), getAllSubjects);
 
 module.exports = router;

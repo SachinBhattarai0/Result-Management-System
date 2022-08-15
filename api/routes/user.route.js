@@ -5,6 +5,7 @@ const {
   signIn,
   verify,
   getAllTeachers,
+  getAllStudents,
 } = require("../controllers/user.controller");
 const {
   userInfoValidator,
@@ -37,6 +38,13 @@ router.post(
   studentInfoValidator,
   validate,
   createStudent
+);
+
+router.post(
+  "/get-students",
+  userValidator,
+  allowedRoles("admin"),
+  getAllStudents
 );
 
 router.post("/verify", userValidator, validate, verify);

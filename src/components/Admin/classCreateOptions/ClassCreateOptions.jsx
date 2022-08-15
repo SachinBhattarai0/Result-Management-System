@@ -38,7 +38,6 @@ const ClassCreateOptions = ({ setClassState, classState }) => {
           <Input
             placeholder="Enter Name Of Class"
             value={className}
-            style={{ width: "100%" }}
             onChange={(e) => setClassName(e.target.value)}
           />
         </div>

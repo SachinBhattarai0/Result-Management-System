@@ -7,7 +7,7 @@ const input = ({ name, label, placeholder, type = "text", ...rest }) => {
         type={type}
         name={name}
         placeholder={placeholder}
-        className="peer w-64 border outline-none p-3 border-gray-200 rounded-lg focus:border-bluish"
+        className="peer w-full min-w-64 border outline-none p-3 border-gray-200 rounded-lg focus:border-bluish"
         {...rest}
       />
       <label

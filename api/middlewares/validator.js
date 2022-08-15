@@ -116,12 +116,12 @@ exports.studentInfoValidator = [
     if (invalidIndex < 0) throw new Error("Invalid classId!");
     return true;
   }),
-  check("nameList")
+  check("studentNames")
     .isArray({ min: 1 })
-    .withMessage("nameList must be a array!"),
-  check("nameList").custom((list) => {
+    .withMessage("studentNames must be a array!"),
+  check("studentNames").custom((list) => {
     list.forEach((name, i) => {
-      if (!name) throw new Error("Empty student name!");
+      if (!name) throw new Error("Empty student name at index " + i);
     });
     return true;
   }),
