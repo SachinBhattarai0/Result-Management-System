@@ -4,11 +4,14 @@ import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
 import UserCreateCreteOptions from "../../components/Admin/userCreateOpions/UserCreateOptions";
 import { apiWithJwt } from "../../axios";
+import Pagination from "../../components/pagination/Pagination";
 import Spinner from "../../components/spinner/Spinner";
 
 const User = () => {
+  const [pageNo, setPageNo] = useState(1);
   const [userState, setUserState] = useState({
     isPending: false,
+    pager: {},
     userList: [],
   });
 
@@ -16,9 +19,10 @@ const User = () => {
     const fetchUserList = async () => {
       try {
         setUserState({ ...userState, isPending: true });
-        const { data } = await apiWithJwt("/user/get-teachers");
+        const { data } = await apiWithJwt("/user/get-teachers?page=" + pageNo);
         setUserState({
           ...userState,
+          pager: data.pager,
           userList: data.teachers,
           isPending: false,
         });
@@ -28,7 +32,7 @@ const User = () => {
       }
     };
     fetchUserList();
-  }, []);
+  }, [pageNo]);
   return (
     <Content>
       <UserCreateCreteOptions />
@@ -59,6 +63,7 @@ const User = () => {
         </tbody>
       </table>
       {userState.isPending && <Spinner />}
+      <Pagination pager={userState.pager} setPageNo={setPageNo} />
     </Content>
   );
 };

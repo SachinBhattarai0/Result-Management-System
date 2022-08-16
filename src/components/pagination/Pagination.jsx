@@ -3,7 +3,7 @@ import React from "react";
 const Pagination = ({ pager, setPageNo }) => {
   if (pager.pages && pager.pages.length && pager.totalPages > 1) {
     return (
-      <div className="flex flex-wrap mx-auto my-3">
+      <div className="flex flex-wrap mx-auto my-8">
         <button
           className="py-3 px-5 bg-white border border-gray-300"
           onClick={() => setPageNo(1)}

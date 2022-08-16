@@ -5,11 +5,14 @@ import { AiFillEdit } from "react-icons/ai";
 import { ImCheckmark, ImCross } from "react-icons/im";
 import { BiTrash } from "react-icons/bi";
 import Spinner from "../../components/spinner/Spinner";
+import Pagination from "../../components/pagination/Pagination";
 import AssignmentCreateOptions from "../../components/Admin/assignmentCreateOptions/AssignmentCreateOptions";
 
 const Assignment = () => {
+  const [pageNo, setPageNo] = useState(1);
   const [assignments, setAssignments] = useState({
     isPending: false,
+    pager: {},
     assignmentList: [],
   });
 
@@ -17,9 +20,10 @@ const Assignment = () => {
     const fetchAssignmentList = async () => {
       try {
         setAssignments({ ...assignments, isPending: true });
-        const { data } = await apiWithJwt("/assignment/get-all/");
+        const { data } = await apiWithJwt("/assignment/get-all?page=" + pageNo);
         setAssignments({
           ...assignments,
+          pager: data.pager,
           assignmentList: data.assignments,
           isPending: false,
         });
@@ -28,14 +32,11 @@ const Assignment = () => {
       }
     };
     fetchAssignmentList();
-  }, []);
+  }, [pageNo]);
 
   return (
     <Content>
-      <AssignmentCreateOptions
-        assignments={assignments}
-        setAssignments={setAssignments}
-      />
+      <AssignmentCreateOptions />
       <table className="bg-white w-full rounded shadow-sm">
         <tbody>
           <tr>
@@ -80,6 +81,7 @@ const Assignment = () => {
       </table>
 
       {assignments.isPending && <Spinner />}
+      <Pagination pager={assignments.pager} setPageNo={setPageNo} />
     </Content>
   );
 };

@@ -8,6 +8,7 @@ import Spinner from "../../spinner/Spinner";
 const ReportCardFilter = ({
   studentList,
   setStudentList,
+  pageNo,
   filterInfo,
   setFilterInfo,
 }) => {
@@ -40,7 +41,7 @@ const ReportCardFilter = ({
     try {
       setStudentList({ ...studentList, isPending: true });
 
-      const { data } = await apiWithJwt("/mark/student-list-for-exam/", {
+      const { data } = await apiWithJwt("/mark/student-list-for-exam", {
         class: _class,
         exams,
       });
@@ -49,6 +50,7 @@ const ReportCardFilter = ({
       setStudentList({
         ...studentList,
         isPending: false,
+        pager: data.pager,
         students: data.studentList,
       });
     } catch (error) {

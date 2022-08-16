@@ -1,7 +1,7 @@
 const User = require("../models/user.model");
 const Student = require("../models/student.model");
 const jwt = require("jsonwebtoken");
-const paginate = require("jw-paginate");
+const { paginator } = require("../utils/utils");
 const { sendError, TEACHER } = require("../utils/utils");
 const mongoose = require("mongoose");
 require("dotenv").config();
@@ -25,9 +25,18 @@ exports.createTeacher = async (req, res) => {
   }
 };
 
-exports.getAllTeachers = async ({ req, res }) => {
+exports.getAllTeachers = async (req, res) => {
   const teachers = await User.find({ role: TEACHER }).lean();
-  res.json({ error: false, teachers });
+
+  const currentPage = parseInt(req.query.page) || 1;
+  const NoOfItemsPerPage = 30;
+  const { paginatedList, pager } = paginator(
+    teachers,
+    NoOfItemsPerPage,
+    currentPage
+  );
+
+  res.json({ error: false, pager, teachers: paginatedList });
 };
 
 exports.signIn = async (req, res) => {
@@ -90,20 +99,15 @@ exports.getAllStudents = async (req, res) => {
     .sort({ rollNo: 1 })
     .lean();
 
-  // get page from query params or default to first page
-  const page = parseInt(req.query.page) || 1;
-
-  // get pager object for specified page
-  const pageSize = 50;
-  const pager = paginate(students.length, page, pageSize);
-
-  // get page of items from items array
-  const paginatedStudentList = students.slice(
-    pager.startIndex,
-    pager.endIndex + 1
+  const currentPage = parseInt(req.query.page) || 1;
+  const NoOfItemsPerPage = 50;
+  const { paginatedList, pager } = paginator(
+    students,
+    NoOfItemsPerPage,
+    currentPage
   );
 
-  return res.json({ error: false, pager, students: paginatedStudentList });
+  return res.json({ error: false, pager, students: paginatedList });
 };
 
 exports.verify = (req, res) => {

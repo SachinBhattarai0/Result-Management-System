@@ -7,7 +7,7 @@ import Button from "../../form/Button";
 import FormContainer from "../formContainer/FormContainer";
 import { apiWithJwt } from "../../../axios/index";
 
-const AssignmentCreateOptions = ({ assignments, setAssignments }) => {
+const AssignmentCreateOptions = () => {
   const examRef = useRef();
   const classRef = useRef();
   const subjectRef = useRef();
@@ -41,10 +41,6 @@ const AssignmentCreateOptions = ({ assignments, setAssignments }) => {
         class: _class,
       });
       setCreatingAssignment(false);
-
-      const prevAssignments = assignments.assignmentList;
-      prevAssignments.push(data.assignment);
-      setAssignments({ ...assignments, assignmentList: prevAssignments });
 
       updateAlert("Assignment created Sucessfully", SUCCESS);
       if (!data.error) return navigate("/rms/admin/assignment/");

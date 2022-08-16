@@ -1,6 +1,6 @@
 const Assignment = require("../models/assignment.model");
 const Student = require("../models/student.model");
-const { sendError } = require("../utils/utils");
+const { sendError, paginator } = require("../utils/utils");
 
 exports.createAssignment = async (req, res) => {
   const { user, exam, subject, class: _class } = req;
@@ -23,17 +23,25 @@ exports.createAssignment = async (req, res) => {
   return res.status(201).json({
     error: false,
     message: "Assignment created successfully!",
-    assignment: { user, exam, subject, class: _class },
   });
 };
 
-exports.getAllAssignments = async ({ req, res }) => {
+exports.getAllAssignments = async (req, res) => {
   const assignments = await Assignment.find({})
     .populate("user")
     .populate("exam")
     .populate("subject")
     .lean();
-  res.json({ error: false, assignments });
+
+  const currentPage = parseInt(req.query.page) || 1;
+  const NoOfItemsPerPage = 30;
+  const { paginatedList, pager } = paginator(
+    assignments,
+    NoOfItemsPerPage,
+    currentPage
+  );
+
+  res.json({ error: false, pager, assignments: paginatedList });
 };
 
 exports.getAssignmentListForUser = async (req, res) => {
@@ -65,6 +73,7 @@ exports.getStudentList = async (req, res) => {
     class: assignment.class,
   })
     .select("name rollNo")
+    .sort({ rollNo: 1 })
     .lean();
   return res.json({ error: false, students });
 };

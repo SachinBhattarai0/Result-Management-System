@@ -1,5 +1,5 @@
 const Exam = require("../models/exam.model");
-const { sendError } = require("../utils/utils");
+const { sendError, paginator } = require("../utils/utils");
 
 exports.createExam = async (req, res) => {
   const { name, year, month, date } = req.body;
@@ -15,12 +15,19 @@ exports.createExam = async (req, res) => {
   return res.status(201).json({
     error: false,
     message: "Exam created successfully",
-    exam: { id: newExam._id, name, year, month, date },
   });
 };
 
 exports.getAllExam = async (req, res) => {
   const exams = await Exam.find().select("name year month date").lean();
 
-  return res.json({ error: false, exams });
+  const currentPage = parseInt(req.query.page) || 1;
+  const NoOfItemsPerPage = 30;
+  const { paginatedList, pager } = paginator(
+    exams,
+    NoOfItemsPerPage,
+    currentPage
+  );
+
+  return res.json({ error: false, pager, exams: paginatedList });
 };

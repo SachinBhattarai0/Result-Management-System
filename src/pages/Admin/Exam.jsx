@@ -3,12 +3,15 @@ import ExamCreateCreteOptions from "../../components/Admin/examCreteOptions/Exam
 import { apiWithJwt } from "../../axios";
 import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
+import Pagination from "../../components/pagination/Pagination";
 import Spinner from "../../components/spinner/Spinner";
 import Content from "../../components/content/Content";
 
 const Exam = () => {
+  const [pageNo, setPageNo] = useState(1);
   const [examState, setExamState] = useState({
     isPending: false,
+    pager: {},
     examList: [],
   });
 
@@ -16,10 +19,11 @@ const Exam = () => {
     const fetchexamList = async () => {
       try {
         setExamState({ ...examState, isPending: true });
-        const { data } = await apiWithJwt("/exam/get-all");
+        const { data } = await apiWithJwt("/exam/get-all?page=" + pageNo);
         setExamState({
           ...examState,
           isPending: false,
+          pager: data.pager,
           examList: data.exams,
         });
       } catch (error) {
@@ -28,13 +32,10 @@ const Exam = () => {
       }
     };
     fetchexamList();
-  }, []);
+  }, [pageNo]);
   return (
     <Content>
-      <ExamCreateCreteOptions
-        examState={examState}
-        setExamState={setExamState}
-      />
+      <ExamCreateCreteOptions />
       <table className="bg-white w-full rounded shadow-sm">
         <tbody>
           <tr>
@@ -64,6 +65,8 @@ const Exam = () => {
         </tbody>
       </table>
       {examState.isPending && <Spinner />}
+
+      <Pagination pager={examState.pager} setPageNo={setPageNo} />
     </Content>
   );
 };

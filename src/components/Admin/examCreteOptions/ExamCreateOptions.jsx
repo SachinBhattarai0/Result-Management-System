@@ -13,7 +13,7 @@ const defaultFormState = {
   date: "",
 };
 
-const ExamCreateCreteOptions = ({ examState, setExamState }) => {
+const ExamCreateCreteOptions = () => {
   const [formState, setformState] = useState(defaultFormState);
   const [creatingExam, setCreatingExam] = useState(false);
   const { updateAlert } = useAlert();
@@ -29,13 +29,8 @@ const ExamCreateCreteOptions = ({ examState, setExamState }) => {
       setCreatingExam(true);
       const { data } = await apiWithJwt("/exam/create/", { ...formState });
 
-      if (!data.error) updateAlert("exam created successfuly!!", SUCCESS);
+      if (!data.error) updateAlert(data.message, SUCCESS);
       setformState(defaultFormState);
-
-      const newExamList = examState.examList;
-      newExamList.push(data.exam);
-
-      setExamState({ ...examState, examList: newExamList });
     } catch (error) {
       updateAlert(error.response.data.message);
     }

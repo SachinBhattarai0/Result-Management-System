@@ -25,7 +25,7 @@ const ReportCard = () => {
     setIsDownloadPending(true);
 
     try {
-      const res = await fetchWithJwt("/pdf/marksheet/student/", {
+      const res = await fetchWithJwt("/pdf/marksheet/student", {
         class: _class,
         exams,
         student,
@@ -58,16 +58,18 @@ const ReportCard = () => {
               <tr>
                 <th className="border-2 py-3 ">#</th>
                 <th className="border-2 py-3 ">Student</th>
+                <th className="border-2 py-3 ">RollNo</th>
                 <th className="border-2 py-3 ">Action</th>
               </tr>
 
-              {studentList.students.map((student) => (
+              {studentList.students.map((student, i) => (
                 <tr key={student._id}>
-                  <td className="border-2 p-1 py-3 text-center">
-                    {student.rollNo}
-                  </td>
+                  <td className="border-2 p-1 py-3 text-center">{i + 1}</td>
                   <td className="border-2 p-1 py-3 text-center">
                     {student.name}
+                  </td>
+                  <td className="border-2 p-1 py-3 text-center">
+                    {student.rollNo}
                   </td>
                   <td className="border-2 p-1 py-3 text-center">
                     <Button
