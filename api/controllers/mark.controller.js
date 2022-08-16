@@ -1,7 +1,6 @@
-const Mark = require("../models/mark.model");
-const Assignment = require("../models/assignment.model");
-const { sendError } = require("../utils/utils");
 const mongoose = require("mongoose");
+const Mark = require("../models/mark.model");
+const { sendError } = require("../utils/utils");
 
 exports.createMarks = async (req, res) => {
   const { marks } = req.body;

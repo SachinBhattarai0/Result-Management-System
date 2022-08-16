@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import Content from "../../components/content/Content";
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
-import UserCreateCreteOptions from "../../components/Admin/userCreateOpions/UserCreateOptions";
 import { apiWithJwt } from "../../axios";
-import Pagination from "../../components/pagination/Pagination";
 import Spinner from "../../components/spinner/Spinner";
+import Content from "../../components/content/Content";
+import Pagination from "../../components/pagination/Pagination";
+import UserCreateCreteOptions from "../../components/Admin/userCreateOpions/UserCreateOptions";
 
 const User = () => {
   const [pageNo, setPageNo] = useState(1);

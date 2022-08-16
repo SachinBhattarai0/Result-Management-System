@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import ExamCreateCreteOptions from "../../components/Admin/examCreteOptions/ExamCreateOptions";
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { apiWithJwt } from "../../axios";
 import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
-import Pagination from "../../components/pagination/Pagination";
 import Spinner from "../../components/spinner/Spinner";
 import Content from "../../components/content/Content";
+import Pagination from "../../components/pagination/Pagination";
+import ExamCreateCreteOptions from "../../components/Admin/examCreteOptions/ExamCreateOptions";
 
 const Exam = () => {
   const [pageNo, setPageNo] = useState(1);

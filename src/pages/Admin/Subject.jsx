@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import Content from "../../components/content/Content";
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { apiWithJwt } from "../../axios/index";
-import Spinner from "../../components/spinner/Spinner";
-import SubjectCreateOptions from "../../components/Admin/subjectCreateOptions/SubjectCreateOptions";
-import Popover from "../../components/popovers/Popover";
 import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
+import Spinner from "../../components/spinner/Spinner";
+import Popover from "../../components/popovers/Popover";
+import Content from "../../components/content/Content";
+import SubjectCreateOptions from "../../components/Admin/subjectCreateOptions/SubjectCreateOptions";
 
 const Subject = () => {
   const [subjectState, setSubjectState] = useState({

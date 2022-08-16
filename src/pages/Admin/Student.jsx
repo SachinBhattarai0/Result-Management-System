@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import Content from "../../components/content/Content";
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
 import { apiWithJwt } from "../../axios";
+import Content from "../../components/content/Content";
 import Spinner from "../../components/spinner/Spinner";
 import Popover from "../../components/popovers/Popover";
 import Pagination from "../../components/pagination/Pagination";

@@ -1,10 +1,8 @@
 const { createExam, getAllExam } = require("../controllers/exam.controller");
-const {
-  examValidator,
-  validate,
-  userValidator,
-  allowedRoles,
-} = require("../middlewares/validator");
+const { examValidator } = require("../middlewares/validator");
+const { validate } = require("../middlewares/validator");
+const { userValidator } = require("../middlewares/validator");
+const { allowedRoles } = require("../middlewares/validator");
 const router = require("express").Router();
 
 router.post(

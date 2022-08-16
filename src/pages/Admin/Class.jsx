@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import Content from "../../components/content/Content";
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { apiWithJwt } from "../../axios";
 import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
+import Content from "../../components/content/Content";
 import Spinner from "../../components/spinner/Spinner";
 import ClassCreateOptions from "../../components/Admin/classCreateOptions/ClassCreateOptions";
 

@@ -1,16 +1,14 @@
-const router = require("express").Router();
+const { getAllAssignments } = require("../controllers/assignment.controller");
+const { getStudentList } = require("../controllers/assignment.controller");
+const { createAssignment } = require("../controllers/assignment.controller");
+const { assignmentValidator } = require("../middlewares/validator");
+const { validate } = require("../middlewares/validator");
+const { userValidator } = require("../middlewares/validator");
+const { allowedRoles } = require("../middlewares/validator");
 const {
-  createAssignment,
   getAssignmentListForUser,
-  getStudentList,
-  getAllAssignments,
 } = require("../controllers/assignment.controller");
-const {
-  assignmentValidator,
-  validate,
-  userValidator,
-  allowedRoles,
-} = require("../middlewares/validator");
+const router = require("express").Router();
 
 router.post(
   "/create",

@@ -1,5 +1,6 @@
 const Exam = require("../models/exam.model");
-const { sendError, paginator } = require("../utils/utils");
+const { paginator } = require("../utils/utils");
+const { sendError } = require("../utils/utils");
 
 exports.createExam = async (req, res) => {
   const { name, year, month, date } = req.body;

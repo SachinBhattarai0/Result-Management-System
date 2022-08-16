@@ -1,6 +1,7 @@
 const Assignment = require("../models/assignment.model");
 const Student = require("../models/student.model");
-const { sendError, paginator } = require("../utils/utils");
+const { paginator } = require("../utils/utils");
+const { sendError } = require("../utils/utils");
 
 exports.createAssignment = async (req, res) => {
   const { user, exam, subject, class: _class } = req;

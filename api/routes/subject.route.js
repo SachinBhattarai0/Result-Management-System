@@ -1,7 +1,5 @@
-const {
-  createSubject,
-  getAllSubjects,
-} = require("../controllers/subject.controller");
+const { createSubject } = require("../controllers/subject.controller");
+const { getAllSubjects } = require("../controllers/subject.controller");
 const { userValidator, allowedRoles } = require("../middlewares/validator");
 const { subjectValidator, validate } = require("../middlewares/validator");
 const router = require("express").Router();

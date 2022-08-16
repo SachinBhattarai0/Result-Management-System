@@ -1,14 +1,11 @@
-const {
-  userValidator,
-  allowedRoles,
-  validate,
-  classAndExamsValidator,
-  markValidator,
-} = require("../middlewares/validator");
-const {
-  createMarks,
-  getSudentsListForExam,
-} = require("../controllers/mark.controller");
+const { getSudentsListForExam } = require("../controllers/mark.controller");
+const { createMarks } = require("../controllers/mark.controller");
+const { allowedRoles } = require("../middlewares/validator");
+const { userValidator } = require("../middlewares/validator");
+const { validate } = require("../middlewares/validator");
+const { classAndExamsValidator } = require("../middlewares/validator");
+const { markValidator } = require("../middlewares/validator");
+
 const router = require("express").Router();
 
 router.post(

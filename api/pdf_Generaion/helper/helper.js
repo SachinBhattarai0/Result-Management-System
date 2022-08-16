@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const fs = require("fs");
 const hbs = require("handlebars");
 
-exports.getUniqueSubjectList = (data) => {
+exports.getSubjectList = (data) => {
   const returnedSubjects = [];
 
   const raw = data.marks.map(({ mark }) =>

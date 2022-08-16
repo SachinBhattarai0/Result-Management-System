@@ -1,10 +1,8 @@
-const Mark = require("../../models/mark.model");
 const { sendError } = require("../../utils/utils");
-const {
-  handleBarsCompileToHTML,
-  convertHtmlToPdf,
-  getUniqueSubjectList,
-} = require("../helper/helper");
+const { handleBarsCompileToHTML } = require("../helper/helper");
+const { convertHtmlToPdf } = require("../helper/helper");
+const { getSubjectList } = require("../helper/helper");
+const Mark = require("../../models/mark.model");
 require("../handebars/config");
 
 exports.generateForStudent = async (req, res) => {
@@ -41,7 +39,7 @@ exports.generateForStudent = async (req, res) => {
     data.marks.push({ mark: mark.marks, exam: mark.exam.name });
     data.totalObtainedMark = newTotal;
   }
-  data.subjects = getUniqueSubjectList(data);
+  data.subjects = getSubjectList(data);
 
   const compiledHTML = handleBarsCompileToHTML("default", data);
   const pdfBuffer = await convertHtmlToPdf(compiledHTML);

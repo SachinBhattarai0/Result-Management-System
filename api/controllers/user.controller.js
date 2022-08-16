@@ -1,9 +1,9 @@
+const mongoose = require("mongoose");
 const User = require("../models/user.model");
 const Student = require("../models/student.model");
 const jwt = require("jsonwebtoken");
 const { paginator } = require("../utils/utils");
 const { sendError, TEACHER } = require("../utils/utils");
-const mongoose = require("mongoose");
 require("dotenv").config();
 
 console.log("create admin");
