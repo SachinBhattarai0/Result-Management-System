@@ -48,14 +48,28 @@ exports.getAllAssignments = async (req, res) => {
 exports.getAssignmentListForUser = async (req, res) => {
   const loggedInUser = req.user;
   const userId = loggedInUser._id;
+  let { completed } = req.body;
 
-  const assignments = await Assignment.find({ userId, completed: false })
+  if (completed !== true) completed = false;
+
+  const assignments = await Assignment.find({
+    userId,
+    completed: completed,
+  })
     .populate("exam")
     .populate("subject")
     .populate("class")
     .lean();
 
-  return res.json({ error: false, assignments });
+  const currentPage = parseInt(req.query.page) || 1;
+  const NoOfItemsPerPage = 15;
+  const { paginatedList, pager } = paginator(
+    assignments,
+    NoOfItemsPerPage,
+    currentPage
+  );
+
+  return res.json({ error: false, pager, assignments: paginatedList });
 };
 
 exports.getStudentList = async (req, res) => {

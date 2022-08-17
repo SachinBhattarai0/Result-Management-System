@@ -15,6 +15,8 @@ import User from "./pages/Admin/User";
 import SignIn from "./pages/SignIn";
 import ReportCard from "./pages/Admin/ReportCard";
 import Student from "./pages/Admin/Student";
+import CompletedAssignments from "./pages/CompletedAssignments";
+import UserInfo from "./pages/UserInfo";
 
 function App() {
   return (
@@ -31,6 +33,11 @@ function App() {
         >
           <Route path={"/rms/assignment"} element={<Dashboard />} />
           <Route path={"/rms/assignment/:id/"} element={<MarkInput />} />
+          <Route
+            path={"/rms/assignment/completed/"}
+            element={<CompletedAssignments />}
+          />
+          <Route path={"/rms/user/"} element={<UserInfo />} />
         </Route>
 
         {/* Admin's routes */}

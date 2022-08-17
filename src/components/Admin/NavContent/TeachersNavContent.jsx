@@ -27,7 +27,7 @@ export const TeachersNavContent = () => {
         </li>
         <li className="text-lg cursor-pointer">
           <NavLink
-            to="/rms/assignment/completed-assignments/"
+            to="/rms/assignment/completed/"
             className="flex space-x-1 items-center hover:bg-blue-900 p-2"
           >
             <MdAssignment className="text-xl" />
@@ -36,7 +36,7 @@ export const TeachersNavContent = () => {
         </li>
         <li className="text-lg cursor-pointer">
           <NavLink
-            to="/rms/assignment/my-info/"
+            to="/rms/user/"
             className="flex space-x-1 items-center hover:bg-blue-900 p-2"
           >
             <MdAssignmentTurnedIn className="text-xl" />

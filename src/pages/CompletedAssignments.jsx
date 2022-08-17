@@ -1,45 +1,40 @@
 import React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useUserState } from "../context/UserContext";
+import { useEffect } from "react";
 import { apiWithJwt } from "../axios";
 import { Link } from "react-router-dom";
-import Button from "../components/form/Button";
 import Spinner from "../components/spinner/Spinner";
+import Button from "../components/form/Button";
 import Content from "../components/content/Content";
+import Pagination from "../components/pagination/Pagination";
 
-const Dashboard = () => {
-  const navigate = useNavigate();
-  const { userInfo } = useUserState();
+const CompletedAssignments = () => {
+  const [pageNo, setPageNo] = useState(1);
   const [assignmentState, setAssignmentState] = useState({
     assignmentList: [],
+    pager: {},
     isPending: false,
   });
 
   useEffect(() => {
-    const getUserAssignments = async () => {
+    setAssignmentState({ ...assignmentState, isPending: true });
+    const fetchAssignmentList = async () => {
       try {
-        setAssignmentState({ ...assignmentState, isPending: true });
-
-        const { data } = await apiWithJwt("/assignment/list");
+        const { data } = await apiWithJwt("/assignment/list?page=" + pageNo, {
+          completed: true,
+        });
         setAssignmentState({
-          assignments: [...data.assignments],
+          ...assignmentState,
           isPending: false,
+          pager: data.pager,
+          assignmentList: data.assignments,
         });
       } catch (error) {
-        setAssignmentState({ ...assignmentState, isPending: false });
         console.log(error);
       }
     };
-
-    getUserAssignments();
-  }, []);
-
-  useEffect(() => {
-    if (!userInfo.isAuthenticated) navigate("/sign-in/", { replace: true });
-  }, [userInfo.isAuthenticated]);
-  console.log("createdAt");
+    fetchAssignmentList();
+  }, [pageNo]);
 
   return (
     <Content>
@@ -50,11 +45,12 @@ const Dashboard = () => {
             <th className="border-2 py-3 px-1">Exam</th>
             <th className="border-2 py-3 px-1">Class</th>
             <th className="border-2 py-3 px-1">Subject</th>
-            <th className="border-2 py-3 px-1">Action</th>
+            {/* <th className="border-2 py-3 px-1">Action</th> */}
           </tr>
 
           {assignmentState.assignmentList.map((assignment, index) => {
             const { _id, exam, class: _class, subject } = assignment;
+            console.log(assignment);
 
             return (
               <tr key={_id}>
@@ -68,19 +64,20 @@ const Dashboard = () => {
                 <td className="border-2 py-3 px-1 text-center">
                   {subject.name}
                 </td>
-                <td className="border-2 py-3 px-1 text-center">
-                  <Link to={`/rms/assignment/${_id}/`} state={assignment}>
+                {/* <td className="border-2 py-3 px-1 text-center">
+                  <Link to={`/rms/`} state={assignment}>
                     <Button sm>view</Button>
                   </Link>
-                </td>
+                </td> */}
               </tr>
             );
           })}
         </tbody>
       </table>
-      {assignmentState.isPending && <Spinner h="h-28" w="w-28" />}
+      {assignmentState.isPending && <Spinner />}
+      <Pagination setPageNo={setPageNo} pager={assignmentState.pager} />
     </Content>
   );
 };
 
-export default Dashboard;
+export default CompletedAssignments;
