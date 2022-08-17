@@ -171,6 +171,36 @@ exports.classAndExamsValidator = [
     .withMessage("exams should be non empty array!!"),
 ];
 
+exports.passwordValidator = [
+  check("currentPassword")
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage("currentPassword is missing!!"),
+  check("newPassword")
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage("newPassword is missing!!"),
+  check("confirmNewPassword")
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage("confirmNewPassword is missing!!"),
+  check("newPassword")
+    .isLength({ min: 8, max: 20 })
+    .withMessage("Password must be at least 8 and max 20 character long!"),
+  (req, res, next) => {
+    const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+    if (currentPassword === newPassword)
+      return sendError(res, "New password cannot be old password!!");
+    if (confirmNewPassword !== newPassword)
+      return sendError(res, "password donot match!!");
+    next();
+  },
+];
+
 exports.userValidator = async (req, res, next) => {
   const jwtToken = req.headers.authorization?.split(" ")[1];
   if (!jwtToken) return sendError(res, "jwtToken is not present!");

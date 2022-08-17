@@ -16,7 +16,7 @@ import SignIn from "./pages/SignIn";
 import ReportCard from "./pages/Admin/ReportCard";
 import Student from "./pages/Admin/Student";
 import CompletedAssignments from "./pages/CompletedAssignments";
-import UserInfo from "./pages/UserInfo";
+import UserInfo from "./pages/Shared/UserInfo";
 
 function App() {
   return (
@@ -45,6 +45,7 @@ function App() {
           path="/rms/admin/"
           element={<Protected components={<Navbar />} roles={["admin"]} />}
         >
+          <Route path={"/rms/admin/my-info/"} element={<UserInfo />} />
           <Route path={"/rms/admin/dashboard/"} element={<AdminDashboard />} />
           <Route path={"/rms/admin/mark/"} element={<Mark />} />
           <Route path={"/rms/admin/assignment/"} element={<Assignment />} />

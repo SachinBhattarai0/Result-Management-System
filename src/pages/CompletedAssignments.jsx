@@ -31,6 +31,7 @@ const CompletedAssignments = () => {
         });
       } catch (error) {
         console.log(error);
+        setAssignmentState({ isPending: false });
       }
     };
     fetchAssignmentList();
@@ -50,7 +51,6 @@ const CompletedAssignments = () => {
 
           {assignmentState.assignmentList.map((assignment, index) => {
             const { _id, exam, class: _class, subject } = assignment;
-            console.log(assignment);
 
             return (
               <tr key={_id}>

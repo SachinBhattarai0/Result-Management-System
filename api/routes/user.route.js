@@ -1,9 +1,11 @@
 const { userValidator } = require("../middlewares/validator");
 const { allowedRoles } = require("../middlewares/validator");
 const { userInfoValidator } = require("../middlewares/validator");
+const { passwordValidator } = require("../middlewares/validator");
 const { studentInfoValidator } = require("../middlewares/validator");
 const { signInValidator } = require("../middlewares/validator");
 const { createTeacher } = require("../controllers/user.controller");
+const { updatePassword } = require("../controllers/user.controller");
 const { createStudent } = require("../controllers/user.controller");
 const { getAllTeachers } = require("../controllers/user.controller");
 const { getAllStudents } = require("../controllers/user.controller");
@@ -20,6 +22,15 @@ router.post(
   userInfoValidator,
   validate,
   createTeacher
+);
+
+router.post(
+  "/update-password/",
+  userValidator,
+  allowedRoles(["admin", "teacher"]),
+  passwordValidator,
+  validate,
+  updatePassword
 );
 
 router.post(

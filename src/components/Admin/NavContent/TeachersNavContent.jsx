@@ -1,11 +1,10 @@
 import React from "react";
-import {
-  MdAssignment,
-  MdAssignmentTurnedIn,
-  MdOutlineAssignment,
-} from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import { MdOutlineAssignment } from "react-icons/md";
+import { MdAssignmentTurnedIn } from "react-icons/md";
 import { useNavState } from "../../../context/NavContext";
+import { AiOutlineSetting } from "react-icons/ai";
+import NavListItem from "../../Navbar/NavlistItem";
 
 export const TeachersNavContent = () => {
   const { navState } = useNavState();
@@ -16,33 +15,20 @@ export const TeachersNavContent = () => {
         <h2 className={`text-xl ml-3 ${!navState.open && "hidden"}`}>SES</h2>
       </div>
       <ul className="mt-4">
-        <li className="text-lg cursor-pointer">
-          <NavLink
-            to="/rms/assignment/"
-            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-          >
-            <MdOutlineAssignment className="text-xl" />
-            <span className={`${!navState.open && "hidden"}`}>Assignments</span>
-          </NavLink>
-        </li>
-        <li className="text-lg cursor-pointer">
-          <NavLink
-            to="/rms/assignment/completed/"
-            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-          >
-            <MdAssignment className="text-xl" />
-            <span className={`${!navState.open && "hidden"}`}>Completed</span>
-          </NavLink>
-        </li>
-        <li className="text-lg cursor-pointer">
-          <NavLink
-            to="/rms/user/"
-            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-          >
-            <MdAssignmentTurnedIn className="text-xl" />
-            <span className={`${!navState.open && "hidden"}`}>My Info</span>
-          </NavLink>
-        </li>
+        <NavListItem to="/rms/assignment/" icon={<MdOutlineAssignment />}>
+          Assignments
+        </NavListItem>
+
+        <NavListItem
+          to="/rms/assignment/completed/"
+          icon={<MdAssignmentTurnedIn />}
+        >
+          Completed
+        </NavListItem>
+
+        <NavListItem to="/rms/user/" icon={<AiOutlineSetting />}>
+          Settings
+        </NavListItem>
       </ul>
     </>
   );

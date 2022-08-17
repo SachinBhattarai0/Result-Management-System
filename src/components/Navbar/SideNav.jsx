@@ -1,11 +1,12 @@
 import React from "react";
 import { BiLogOut } from "react-icons/bi";
 import { Outlet } from "react-router-dom";
+import { useAlert } from "../../context/AlertContext";
+import { SUCCESS } from "../../context/AlertContext";
 import { useNavState } from "../../context/NavContext";
-import { TeachersNavContent } from "../Admin/NavContent/TeachersNavContent";
 import { useUserState } from "../../context/UserContext";
-import { SUCCESS, useAlert } from "../../context/AlertContext";
 import { AdminNavContent } from "../navContent/AdminNavContent";
+import { TeachersNavContent } from "../Admin/navContent/TeachersNavContent";
 
 const Navbar = () => {
   const { navState } = useNavState();

@@ -24,7 +24,7 @@ const Dashboard = () => {
 
         const { data } = await apiWithJwt("/assignment/list");
         setAssignmentState({
-          assignments: [...data.assignments],
+          assignmentList: [...data.assignments],
           isPending: false,
         });
       } catch (error) {

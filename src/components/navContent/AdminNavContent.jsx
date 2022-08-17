@@ -1,11 +1,15 @@
 import React from "react";
-import { TbReportSearch, TbSchool } from "react-icons/tb";
-import { MdChecklist, MdOutlineAssignment } from "react-icons/md";
-import { BiBookAlt, BiUser } from "react-icons/bi";
+import { BiUser } from "react-icons/bi";
+import { TbSchool } from "react-icons/tb";
+import { BiBookAlt } from "react-icons/bi";
+import { MdChecklist } from "react-icons/md";
+import { TbReportSearch } from "react-icons/tb";
+import { MdOutlineAssignment } from "react-icons/md";
 import { SiGoogleclassroom } from "react-icons/si";
+import { AiOutlineSetting } from "react-icons/ai";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { FaUserGraduate } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import NavListItem from "../Navbar/NavlistItem";
 import { useNavState } from "../../context/NavContext";
 
 export const AdminNavContent = () => {
@@ -20,89 +24,66 @@ export const AdminNavContent = () => {
       </div>
 
       <ul className="mt-4">
-        <li className="text-lg cursor-pointer">
-          <NavLink
-            to="/rms/admin/dashboard/"
-            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-          >
-            <AiOutlineDashboard className="text-xl" />
-            <span className={`${!navState.open && "hidden"}`}>Dashboard</span>
-          </NavLink>
-        </li>
-        <li className="text-lg cursor-pointer">
-          <NavLink
-            to="/rms/admin/assignment/"
-            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-          >
-            <MdOutlineAssignment className="text-xl" />
-            <span className={`${!navState.open && "hidden"}`}>Assignments</span>
-          </NavLink>
-        </li>
-        <li className="text-lg cursor-pointer">
-          <NavLink
-            to="/rms/admin/report-card/"
-            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-          >
-            <TbReportSearch className="text-xl" />
-            <span className={`${!navState.open && "hidden"}`}>ReportCard</span>
-          </NavLink>
-        </li>
-        <li className="text-lg cursor-pointer">
-          <NavLink
-            to="/rms/admin/class/"
-            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-          >
-            <SiGoogleclassroom className="text-xl" />
-            <span className={`${!navState.open && "hidden"}`}>Class</span>
-          </NavLink>
-        </li>
-        <li className="text-lg cursor-pointer">
-          <NavLink
-            to="/rms/admin/exam/"
-            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-          >
-            <TbSchool className="text-xl" />
-            <span className={`${!navState.open && "hidden"}`}>Exam</span>
-          </NavLink>
-        </li>
-        <li className="text-lg cursor-pointer">
-          <NavLink
-            to="/rms/admin/mark/"
-            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-          >
-            <MdChecklist className="text-xl" />
-            <span className={`${!navState.open && "hidden"}`}>Mark</span>
-          </NavLink>
-        </li>
-        <li className="text-lg cursor-pointer">
-          <NavLink
-            to="/rms/admin/subject/"
-            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-          >
-            <BiBookAlt className="text-xl" />
-            <span className={`${!navState.open && "hidden"}`}>Subject</span>
-          </NavLink>
-        </li>
-
-        <li className="text-lg cursor-pointer">
-          <NavLink
-            to="/rms/admin/user/"
-            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-          >
-            <BiUser className="text-xl" />
-            <span className={`${!navState.open && "hidden"}`}>User</span>
-          </NavLink>
-        </li>
-
-        <li className="text-lg cursor-pointer">
-          <NavLink
-            to="/rms/admin/student/"
-            className="flex space-x-1 items-center hover:bg-blue-900 p-2"
-          >
-            <FaUserGraduate className="text-xl" />
-            <span className={`${!navState.open && "hidden"}`}>Student</span>
-          </NavLink>
-        </li>
+        <NavListItem
+          to="/rms/admin/dashboard/"
+          icon={<AiOutlineDashboard className="text-xl" />}
+        >
+          Dashboard
+        </NavListItem>
+        <NavListItem
+          to="/rms/admin/assignment/"
+          icon={<MdOutlineAssignment className="text-xl" />}
+        >
+          Assignments
+        </NavListItem>
+        <NavListItem
+          to="/rms/admin/report-card/"
+          icon={<TbReportSearch className="text-xl" />}
+        >
+          ReportCard
+        </NavListItem>
+        <NavListItem
+          to="/rms/admin/class/"
+          icon={<SiGoogleclassroom className="text-xl" />}
+        >
+          Class
+        </NavListItem>
+        <NavListItem
+          to="/rms/admin/exam/"
+          icon={<TbSchool className="text-xl" />}
+        >
+          Exam
+        </NavListItem>
+        <NavListItem
+          to="/rms/admin/mark/"
+          icon={<MdChecklist className="text-xl" />}
+        >
+          Mark
+        </NavListItem>
+        <NavListItem
+          to="/rms/admin/subject/"
+          icon={<BiBookAlt className="text-xl" />}
+        >
+          Subject
+        </NavListItem>
+        <NavListItem
+          to="/rms/admin/user/"
+          icon={<BiUser className="text-xl" />}
+        >
+          User
+        </NavListItem>
+        <NavListItem
+          to="/rms/admin/student/"
+          icon={<FaUserGraduate className="text-xl" />}
+        >
+          Student
+        </NavListItem>
+        <NavListItem
+          to="/rms/admin/my-info/"
+          icon={<AiOutlineSetting className="text-xl" />}
+        >
+          Settings
+        </NavListItem>
       </ul>
     </>
   );

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const User = require("../models/user.model");
 const Student = require("../models/student.model");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const { paginator } = require("../utils/utils");
 const { sendError, TEACHER } = require("../utils/utils");
 require("dotenv").config();
@@ -54,6 +55,25 @@ exports.signIn = async (req, res) => {
     jwtToken: token,
     user: { id: user._id, name: user.name, email: user.email, role: user.role },
   });
+};
+
+exports.updatePassword = async (req, res) => {
+  const { userId, currentPassword, newPassword } = req.body;
+
+  const user = await User.findById(userId);
+  if (!user) return sendError(res, "Invalid userId!");
+
+  const matched = await user.comparePassword(currentPassword);
+  if (!matched) return sendError(res, "Invalid pasword!!");
+
+  try {
+    user.password = newPassword;
+    user.save();
+  } catch (error) {
+    return sendError(res, "Some Error Occured");
+  }
+
+  return res.json({ error: false, message: "Password update successful!!" });
 };
 
 exports.createStudent = async (req, res) => {
