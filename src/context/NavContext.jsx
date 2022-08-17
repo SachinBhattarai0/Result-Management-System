@@ -10,8 +10,11 @@ const NavContextProvider = ({ children }) => {
   const toggleNavState = () => {
     setNavState({ ...navState, open: !navState.open });
   };
+  const closeNavState = () => {
+    setNavState({ ...navState, open: false });
+  };
   return (
-    <NavContext.Provider value={{ navState, toggleNavState }}>
+    <NavContext.Provider value={{ navState, toggleNavState, closeNavState }}>
       {children}
     </NavContext.Provider>
   );
