@@ -29,5 +29,7 @@ app.listen(8000, () => console.log("Listening at port 8000!"));
 console.log(
   "before updating assignemts check if the assignment is already done or not"
 );
-console.log('Promote student')
+console.log("Promote student");
+console.log("Add Advanced filter for student");
 console.log("Add filter in student marks and assignment page");
+console.log("Add filter in for marks in marks page");

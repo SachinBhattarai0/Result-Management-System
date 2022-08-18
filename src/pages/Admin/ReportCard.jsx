@@ -58,10 +58,10 @@ const ReportCard = () => {
           <table className="bg-white w-full rounded shadow-sm">
             <tbody>
               <tr>
-                <th className="border-2 py-3 ">#</th>
-                <th className="border-2 py-3 ">Student</th>
-                <th className="border-2 py-3 ">RollNo</th>
-                <th className="border-2 py-3 ">Action</th>
+                <th className="border-2 py-3">#</th>
+                <th className="border-2 py-3">Student</th>
+                <th className="border-2 py-3">RollNo</th>
+                <th className="border-2 py-3">Action</th>
               </tr>
 
               {studentList.students.map((student, i) => (

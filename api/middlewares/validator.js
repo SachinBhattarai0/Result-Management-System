@@ -106,6 +106,14 @@ exports.signInValidator = [
 
 exports.studentInfoValidator = [
   check("class").not().isEmpty().withMessage("class is missing!"),
+  check("class")
+    .trim()
+    .not()
+    .isEmpty()
+    .custom((value) => {
+      if (!isValidObjectId(value)) throw new Error("class is invalid");
+      return true;
+    }),
   check("subjects")
     .isArray({ min: 1 })
     .withMessage("subjects must be a array!"),
@@ -123,6 +131,41 @@ exports.studentInfoValidator = [
     list.forEach((name, i) => {
       if (!name) throw new Error("Empty student name at index " + i);
     });
+    return true;
+  }),
+];
+
+exports.studentUpdateInfoValidator = [
+  check("name").trim().not().isEmpty().withMessage("name is missing!!"),
+  check("class").trim().not().isEmpty().withMessage("class is missing!"),
+  check("id").trim().not().isEmpty().withMessage("id is missing!"),
+  check("passed")
+    .isBoolean()
+    .withMessage("passed must be either true or false!!"),
+  check("id")
+    .trim()
+    .not()
+    .isEmpty()
+    .custom((value) => {
+      if (!isValidObjectId(value)) throw new Error("id is invalid");
+      return true;
+    }),
+  check("class")
+    .trim()
+    .not()
+    .isEmpty()
+    .custom((value) => {
+      if (!isValidObjectId(value)) throw new Error("class is invalid");
+      return true;
+    }),
+  check("subjects")
+    .isArray({ min: 1 })
+    .withMessage("subjects must be a array!"),
+  check("subjects").custom((subjectArr) => {
+    if (subjectArr.length === 0) throw new Error("Array cannot be empty!");
+
+    const invalidIndex = subjectArr.findIndex((id) => isValidObjectId(id));
+    if (invalidIndex < 0) throw new Error("Invalid classId!");
     return true;
   }),
 ];

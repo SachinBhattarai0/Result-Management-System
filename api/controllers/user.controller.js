@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const User = require("../models/user.model");
 const Student = require("../models/student.model");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 const { paginator } = require("../utils/utils");
 const { sendError, TEACHER } = require("../utils/utils");
 require("dotenv").config();
@@ -101,7 +100,9 @@ exports.createStudent = async (req, res) => {
   if (transactionRes) await session.commitTransaction();
   await session.endSession();
 
-  const stdList = await Student.find({ class: _class }).sort({ name: 1 });
+  const stdList = await Student.find({ class: _class, passed: false }).sort({
+    name: 1,
+  });
   //sorting rollNo alphabetically
   stdList.forEach(async (s, i) => {
     await s.updateOne({ rollNo: i + 1 });
@@ -112,6 +113,36 @@ exports.createStudent = async (req, res) => {
       .status(201)
       .json({ error: false, message: "Students created Successfully!" });
 };
+
+exports.updateStudent = async (req, res) => {
+  const { name, class: _class, subjects, passed, id } = req.body;
+
+  try {
+    const student = await Student.findOneAndUpdate(
+      { _id: id },
+      { name, class: _class, subjects, passed }
+    );
+    if (!student) return sendError(res, "Could not update!!");
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+
+  res.json({ error: false, message: "Student updated successfully!!" });
+};
+exports.deleteStudent = async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const student = await Student.findById(id);
+    if (!student) return sendError(res, "Student id is invalid!!");
+    await student.delete();
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+
+  return res.json({ error: false, message: "Student deleted successfully!!" });
+};
+
 exports.getAllStudents = async (req, res) => {
   const students = await Student.find()
     .populate("class")
