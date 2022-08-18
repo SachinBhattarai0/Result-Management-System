@@ -6,6 +6,7 @@ const button = ({ children, sm, variant, isPending = false, ...rest }) => {
     green: "bg-green-700 hover:bg-green-600",
     darkBlue: "bg-blue-900 hover:bg-blue-500",
     gray: "bg-gray-600 hover:bg-gray-500",
+    red: "bg-red-600 hover:bg-red-500",
   };
   return (
     <button

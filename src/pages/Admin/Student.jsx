@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
 import { apiWithJwt } from "../../axios";
@@ -11,12 +12,17 @@ import Pagination from "../../components/pagination/Pagination";
 import StudentCreateOptions from "../../components/Admin/studentCreateOptions/StudentCreateOptions";
 
 const Student = () => {
+  const navigate = useNavigate();
   const [pageNo, setPageNo] = useState(1);
   const [studentState, setStudentState] = useState({
     isPending: false,
     pager: {},
     studentList: [],
   });
+
+  const handleUpdateButtonClick = (student) => {
+    navigate("/rms/admin/student/update", { state: student });
+  };
 
   useEffect(() => {
     const fetchstudentList = async () => {
@@ -71,7 +77,10 @@ const Student = () => {
                 </td>
                 <td className="border-2 p-1 py-3 text-center">
                   <button className="text-xl ml-2">
-                    <AiFillEdit className="text-green-700" />
+                    <AiFillEdit
+                      className="text-green-700"
+                      onClick={() => handleUpdateButtonClick(student)}
+                    />
                   </button>
                   <button className="text-xl ml-2">
                     <BiTrash className="text-red-700" />

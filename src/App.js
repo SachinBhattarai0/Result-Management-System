@@ -17,11 +17,13 @@ import ReportCard from "./pages/Admin/ReportCard";
 import Student from "./pages/Admin/Student";
 import CompletedAssignments from "./pages/CompletedAssignments";
 import UserInfo from "./pages/Shared/UserInfo";
+import UpdateStudent from "./pages/UpdateStudent";
 
 function App() {
   return (
     <div className="flex font-roboto bg-gray-100 text-slate-800 max-h-screen">
       <Alert />
+
       <Routes>
         <Route path="/" element={<Navigate to="/sign-in/" />} />
         <Route path={"/sign-in"} element={<SignIn />} />
@@ -55,6 +57,10 @@ function App() {
           <Route path={"/rms/admin/subject/"} element={<Subject />} />
           <Route path={"/rms/admin/user/"} element={<User />} />
           <Route path={"/rms/admin/student/"} element={<Student />} />
+          <Route
+            path={"/rms/admin/student/update/"}
+            element={<UpdateStudent />}
+          />
         </Route>
 
         <Route path="*" element={<NotFound />} />
