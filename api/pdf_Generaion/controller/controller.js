@@ -7,20 +7,22 @@ require("../handebars/config");
 
 exports.generateForStudent = async (req, res) => {
   const { exams } = req.body;
-  const { studentItem: stdI, classItem: classI } = req;
+  const { studentItem, classItem } = req;
 
-  let data = { marks: [], student: stdI.name, class: classI.name, total: 0 };
+  let data = { marks: [], studentName: "", rollNo: "", class: "", total: 0 };
 
-  for (let i = 0; i < exams.length; i++) {
-    const { percentage, exam } = exams[i];
+  for (const examI of exams) {
+    const { percentage, exam } = examI;
 
     const mark = await Mark.findOne({
-      exam,
-      class: classI._id,
-      student: stdI._id,
-    })
-      .populate("exam")
-      .lean({ virtuals: true });
+      "exam.id": exam,
+      "class.id": classItem._id.toString(),
+      "student.id": studentItem._id.toString(),
+    }).lean({ virtuals: true });
+
+    data.studentName = mark.student.name;
+    data.rollNo = mark.student.rollNo;
+    data.class = mark.class.name;
 
     if (!mark)
       return sendError(res, "Student doesnot have mark for all exam!!");

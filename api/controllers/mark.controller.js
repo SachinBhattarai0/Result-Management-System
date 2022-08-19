@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Mark = require("../models/mark.model");
+const Student = require("../models/student.model");
 const { sendError } = require("../utils/utils");
 
 exports.createMarks = async (req, res) => {
@@ -10,8 +11,11 @@ exports.createMarks = async (req, res) => {
   const session = await mongoose.startSession();
 
   await session.withTransaction(async () => {
-    for (let i = 0; i < marks.length; i++) {
-      let { student, theoryMark, practicalMark } = marks[i];
+    for (const mark of marks) {
+      let { student, theoryMark, practicalMark } = mark;
+
+      student = await Student.findById(student).lean();
+      if (!student) return sendError(res, "Invalid student ids!!");
 
       const newMark = {
         subject: subject.name,
@@ -22,17 +26,37 @@ exports.createMarks = async (req, res) => {
         fullPracticalMark: +subject.practicalMark,
       };
 
-      const markItem = await Mark.findOne({ class: _class, exam, student });
+      const markItem = await Mark.findOne({
+        "class.id": _class._id.toString(),
+        "exam.id": exam._id.toString(),
+        "student.id": student._id.toString(),
+      });
 
       try {
         if (markItem) {
           markItem.marks.push(newMark);
           await markItem.save({ session });
         } else {
-          await Mark.create(
-            [{ exam, class: _class, student, marks: [newMark] }],
-            { session }
-          );
+          const newMarkItem = new Mark({
+            exam: {
+              id: exam._id.toString(),
+              name: exam.name,
+              year: exam.year,
+              month: exam.month,
+              date: exam.date,
+            },
+            class: {
+              id: _class._id.toString(),
+              name: _class.name,
+            },
+            student: {
+              id: student._id.toString(),
+              name: student.name,
+              rollNo: student.rollNo,
+            },
+            marks: [newMark],
+          });
+          newMarkItem.save({ session });
         }
       } catch (error) {
         await session.abortTransaction();
@@ -54,18 +78,20 @@ exports.createMarks = async (req, res) => {
 exports.getSudentsListForExam = async (req, res) => {
   const { class: _class, exams } = req.body;
 
-  const studentList = await Mark.find({ exams, class: _class })
-    .select("student")
-    .populate("student")
-    .lean();
-  const uniqueStudentList = [];
+  /*
+  Search for all marks persent in the given exam and class and return
+  list of studentNames from the markList
+  */
+  const MarkList = await Mark.find({
+    "exam.id": exams[0].exam,
+    "class.id": _class,
+  }).lean();
+  /*
+  If in a situation occurs where new student is created in between two exams then 
+  such student may not be shown in the list but that should not be bug problem
+  */
 
-  for (let i = 0; i < studentList.length; i++) {
-    const student = studentList[i].student;
-    const index = uniqueStudentList.findIndex((i) => i._id === student._id);
+  const studentList = MarkList.map((i) => i.student);
 
-    if (index === -1) uniqueStudentList.push(student);
-  }
-
-  return res.json({ error: false, studentList: uniqueStudentList });
+  return res.json({ error: false, studentList });
 };

@@ -5,7 +5,7 @@ Handlebars.registerHelper("inc", function (value) {
   return parseInt(value) + 1;
 });
 
-Handlebars.registerHelper("returnTd", (marks, subName, thMark, prMark) => {
+Handlebars.registerHelper("getRowInfo", (marks, subName, thMark, prMark) => {
   let html = `<td>${thMark}</td><td>${prMark}</td>`;
   let rowTotal = 0;
 

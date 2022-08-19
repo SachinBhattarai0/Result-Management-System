@@ -40,9 +40,9 @@
       </div>
       <div class="table">
         <div class="student-info">
-          <p>Name: {{student}}</p>
-          <p>Class: 11(SCIENCE)</p>
-          <p>RollNo: 10</p>
+          <p>Name: {{studentName}}</p>
+          <p>Class: {{class}}</p>
+          <p>RollNo: {{rollNo}}</p>
         </div>
         <table>
           <tr>
@@ -68,7 +68,7 @@
             <tr>
               <td>{{inc @index}}</td>
               <td>{{subject}}</td>
-              {{{returnTd ../marks subject fullTheoryMark fullPracticalMark}}}
+              {{{getRowInfo ../marks subject fullTheoryMark fullPracticalMark}}}
               <td>nl</td>
             </tr>
           {{/each}}

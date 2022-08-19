@@ -26,9 +26,11 @@ const studentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-//after student is deleted, change roll No of remainig student
-//alphabetically and also delete the students marks
 studentSchema.post("remove", async function () {
+  /*
+   after student is deleted, change roll No of remainig student
+   alphabetically and also delete the students marks
+  */
   const stdList = await Student.find({
     class: this.class,
     passed: false,
@@ -38,7 +40,7 @@ studentSchema.post("remove", async function () {
     await s.updateOne({ rollNo: i + 1 });
   });
 
-  await Mark.deleteMany({ student: this._id });
+  await Mark.deleteMany({ "student.id": this._id });
 });
 
 // studentSchema.index({ class: 1, rollNo: 1 }, { unique: true });

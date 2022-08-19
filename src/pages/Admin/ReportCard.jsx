@@ -24,8 +24,8 @@ const ReportCard = () => {
   const downloadReportCardForStudent = async (e) => {
     const student = e.target.getAttribute("std_id");
     const { class: _class, exams } = filterInfo;
-    setIsDownloadPending(true);
 
+    setIsDownloadPending(true);
     try {
       const res = await fetchWithJwt("/pdf/marksheet/student", {
         class: _class,
@@ -38,7 +38,7 @@ const ReportCard = () => {
 
       setIsDownloadPending(false);
     } catch (error) {
-      console.log(error);
+      error = await error.json();
       updateAlert(error.message);
       setIsDownloadPending(false);
     }
@@ -65,7 +65,7 @@ const ReportCard = () => {
               </tr>
 
               {studentList.students.map((student, i) => (
-                <tr key={student._id}>
+                <tr key={student.id}>
                   <td className="border-2 p-1 py-3 text-center">{i + 1}</td>
                   <td className="border-2 p-1 py-3 text-center">
                     {student.name}
@@ -77,7 +77,7 @@ const ReportCard = () => {
                     <Button
                       sm
                       variant={"darkBlue"}
-                      std_id={student._id}
+                      std_id={student.id}
                       onClick={downloadReportCardForStudent}
                       isPending={isDownloadPending}
                     >

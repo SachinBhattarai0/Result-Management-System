@@ -1,20 +1,35 @@
 const mongoose = require("mongoose");
 const mongooseLeanVirtuals = require("mongoose-lean-virtuals");
 
+/*
+ Here in markSchema no any refrences are used because,the data should not be changing overtime
+ for example if a mark is created for student whose name is John and after some time the name
+ is changed to Jack then the name should be John for all the marks of exams which he has given
+ in past the name should not change in the report card while printing
+
+ because the name has been changed recently and the name was John back 
+ when the mark was first created
+*/
 const markSchema = new mongoose.Schema(
   {
     exam: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Exam",
+      type: Object,
+      id: String,
+      name: String,
+      year: Number,
+      month: Number,
+      date: Number,
     },
     class: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Class",
+      type: Object,
+      id: String,
+      name: String,
     },
     student: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Student",
-      required: true,
+      type: Object,
+      id: String,
+      name: String,
+      rollNo: Number,
     },
     marks: [
       {
@@ -31,7 +46,10 @@ const markSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-markSchema.index({ exam: 1, class: 1, student: 1 }, { unique: true });
+markSchema.index(
+  { "exam.id": 1, "class.id": 1, "student.id": 1 },
+  { unique: true }
+);
 
 markSchema.virtual("total").get(function () {
   return this.marks.reduce((pv, cv) => {

@@ -174,7 +174,10 @@ exports.markValidator = [
   check("marks").isArray({ min: 1 }).withMessage("marks must be array"),
   check("assignment").custom(async (id, { req }) => {
     if (!isValidObjectId(id)) throw new Error("Invalid assignmentId");
-    const assignment = await Assignment.findById(id).populate("subject");
+    const assignment = await Assignment.findById(id)
+      .populate("subject")
+      .populate("exam")
+      .populate("class");
 
     if (!assignment || assignment.completed)
       throw new Error("Some error occured");

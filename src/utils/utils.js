@@ -6,9 +6,9 @@ exports.downloadFromBlob = (blob, name = "marksheet") => {
 };
 
 // fetching using javascript fetch api and not axios
-exports.fetchWithJwt = (url, data) => {
+exports.fetchWithJwt = async (url, data) => {
   const jwtToken = localStorage.getItem("jwtToken");
-  return fetch("http://localhost:8000/api" + url, {
+  const response = await fetch("http://localhost:8000/api" + url, {
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + jwtToken,
@@ -16,4 +16,7 @@ exports.fetchWithJwt = (url, data) => {
     body: JSON.stringify(data),
     method: "POST",
   });
+
+  if (response.status !== 200)return Promise.reject(response);
+  return Promise.resolve(response);
 };
