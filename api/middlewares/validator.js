@@ -247,6 +247,15 @@ exports.passwordValidator = [
   },
 ];
 
+exports.teacherUpdateInfoValidator = [
+  check("name").trim().not().isEmpty().withMessage("name cannot be empty!!"),
+  check("email").trim().isEmail().withMessage("Invalid email type"),
+  check("id").custom((id) => {
+    if (!isValidObjectId(id)) throw new Error("invalid id!!");
+    return true;
+  }),
+];
+
 exports.userValidator = async (req, res, next) => {
   const jwtToken = req.headers.authorization?.split(" ")[1];
   if (!jwtToken) return sendError(res, "jwtToken is not present!");

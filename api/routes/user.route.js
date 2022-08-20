@@ -1,6 +1,7 @@
 const {
   userValidator,
   studentUpdateInfoValidator,
+  teacherUpdateInfoValidator,
 } = require("../middlewares/validator");
 const { allowedRoles } = require("../middlewares/validator");
 const { userInfoValidator } = require("../middlewares/validator");
@@ -11,6 +12,8 @@ const {
   createTeacher,
   updateStudent,
   deleteStudent,
+  updateTeacher,
+  deleteTeacher,
 } = require("../controllers/user.controller");
 const { updatePassword } = require("../controllers/user.controller");
 const { createStudent } = require("../controllers/user.controller");
@@ -29,6 +32,22 @@ router.post(
   userInfoValidator,
   validate,
   createTeacher
+);
+
+router.post(
+  "/update-teacher",
+  userValidator,
+  allowedRoles("admin"),
+  teacherUpdateInfoValidator,
+  validate,
+  updateTeacher
+);
+
+router.post(
+  "/delete-teacher",
+  userValidator,
+  allowedRoles("admin"),
+  deleteTeacher
 );
 
 router.post(

@@ -27,10 +27,6 @@ const studentSchema = new mongoose.Schema(
 );
 
 studentSchema.post("remove", async function () {
-  /*
-   after student is deleted, change roll No of remainig student
-   alphabetically and also delete the students marks
-  */
   const stdList = await Student.find({
     class: this.class,
     passed: false,

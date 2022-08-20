@@ -1,15 +1,15 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { apiWithJwt } from "../axios";
+import { apiWithJwt } from "../../axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { SUCCESS, useAlert } from "../context/AlertContext";
-import Input from "../components/form/Input";
-import Button from "../components/form/Button";
-import Select from "../components/form/Select";
-import Content from "../components/content/Content";
-import FormContainer from "../components/Admin/formContainer/FormContainer";
+import { SUCCESS, useAlert } from "../../context/AlertContext";
+import Input from "../../components/form/Input";
+import Button from "../../components/form/Button";
+import Select from "../../components/form/Select";
+import Content from "../../components/content/Content";
+import FormContainer from "../../components/Admin/formContainer/FormContainer";
 
 const UpdateStudent = () => {
   const navigate = useNavigate();

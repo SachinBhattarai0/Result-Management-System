@@ -25,6 +25,39 @@ exports.createTeacher = async (req, res) => {
   }
 };
 
+exports.updateTeacher = async (req, res) => {
+  const { name, email, password, id } = req.body;
+
+  try {
+    await User.findOneAndUpdate({ _id: id }, { name, email });
+
+    if (password) {
+      const teacher = await User.findById(id);
+      teacher.password = password;
+      await teacher.save();
+    }
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+
+  return res.json({ error: false, message: "User updated successfully!!" });
+};
+
+exports.deleteTeacher = async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const teacher = await User.findById(id);
+    if (!teacher) return sendError(res, "teacher id is invalid!!");
+
+    await teacher.delete();
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+
+  return res.json({ error: false, message: "Teacher deleted successfully!!" });
+};
+
 exports.getAllTeachers = async (req, res) => {
   const teachers = await User.find({ role: TEACHER }).lean();
 
@@ -129,6 +162,7 @@ exports.updateStudent = async (req, res) => {
 
   res.json({ error: false, message: "Student updated successfully!!" });
 };
+
 exports.deleteStudent = async (req, res) => {
   const { id } = req.body;
 

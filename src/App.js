@@ -17,12 +17,14 @@ import ReportCard from "./pages/Admin/ReportCard";
 import Student from "./pages/Admin/Student";
 import CompletedAssignments from "./pages/CompletedAssignments";
 import UserInfo from "./pages/Shared/UserInfo";
-import UpdateStudent from "./pages/UpdateStudent";
+import UpdateStudent from "./pages/Admin/UpdateStudent";
+import Modal from "./components/modal/Modal";
 
 function App() {
   return (
     <div className="flex font-roboto bg-gray-100 text-slate-800 max-h-screen">
       <Alert />
+      <Modal />
 
       <Routes>
         <Route path="/" element={<Navigate to="/sign-in/" />} />

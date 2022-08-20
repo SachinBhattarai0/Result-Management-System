@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
 import { apiWithJwt } from "../../axios";
+import { SUCCESS, useAlert } from "../../context/AlertContext";
+import { useModalState } from "../../context/ModalContext";
 import Content from "../../components/content/Content";
 import Spinner from "../../components/spinner/Spinner";
 import Popover from "../../components/popovers/Popover";
@@ -13,6 +15,8 @@ import StudentCreateOptions from "../../components/Admin/studentCreateOptions/St
 
 const Student = () => {
   const navigate = useNavigate();
+  const { updateAlert } = useAlert();
+  const { showModal, closeModal } = useModalState();
   const [pageNo, setPageNo] = useState(1);
   const [studentState, setStudentState] = useState({
     isPending: false,
@@ -20,8 +24,27 @@ const Student = () => {
     studentList: [],
   });
 
+  const deleteStudent = async (id, target) => {
+    try {
+      const { data } = await apiWithJwt("/user/delete-student/", { id });
+      updateAlert(data.message, SUCCESS);
+      closeModal();
+      target.parentElement.parentElement.parentElement.remove();
+    } catch (error) {
+      updateAlert(error.message);
+    }
+  };
+
   const handleUpdateButtonClick = (student) => {
     navigate("/rms/admin/student/update", { state: student });
+  };
+
+  const handleDeleteButtonClick = (student, target) => {
+    showModal(
+      "Are you sure?",
+      "Deleting student will delete all its associated marks",
+      () => deleteStudent(student._id, target)
+    );
   };
 
   useEffect(() => {
@@ -83,7 +106,12 @@ const Student = () => {
                     />
                   </button>
                   <button className="text-xl ml-2">
-                    <BiTrash className="text-red-700" />
+                    <BiTrash
+                      onClick={(e) =>
+                        handleDeleteButtonClick(student, e.target)
+                      }
+                      className="text-red-700"
+                    />
                   </button>
                 </td>
               </tr>

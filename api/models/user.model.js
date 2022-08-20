@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const Assignment = require("../models/assignment.model");
 const { emailValidatorRegEx, userRoles } = require("../utils/utils");
 
 const userSchema = new mongoose.Schema(
@@ -35,7 +36,13 @@ const userSchema = new mongoose.Schema(
 userSchema.index({ email: 1 }, { unique: true });
 
 userSchema.pre("save", async function () {
+  if (!this.password) return;
   this.password = await bcrypt.hash(this.password, 8);
+});
+
+userSchema.post("remove", async function () {
+  if (this.role !== "teacher") return;
+  await Assignment.deleteMany({ user: this._id });
 });
 
 userSchema.methods.comparePassword = async function (value) {
