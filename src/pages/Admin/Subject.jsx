@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { apiWithJwt } from "../../axios/index";
 import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
+import { useAlert } from "../../context/AlertContext";
+import { SUCCESS } from "../../context/AlertContext";
+import { useModalState } from "../../context/ModalContext";
 import Spinner from "../../components/spinner/Spinner";
 import Popover from "../../components/popovers/Popover";
 import Content from "../../components/content/Content";
@@ -12,15 +15,40 @@ import SubjectCreateOptions from "../../components/Admin/subjectCreateOptions/Su
 
 const Subject = () => {
   const navigate = useNavigate();
+  const { updateAlert } = useAlert();
+  const { showModal, closeModal } = useModalState();
+  const [subjectDeleted, setSubjectDeleted] = useState("");
   const [subjectState, setSubjectState] = useState({
     isPending: false,
     subjectList: [],
   });
 
+  const deleteSubject = async (id) => {
+    try {
+      setSubjectState({ ...subjectState, isPending: true });
+      const { data } = await apiWithJwt("/subject/delete/", { id });
+      updateAlert(data.message, SUCCESS);
+      closeModal();
+      //This state change will trigger useEffect to fetch new student list
+      setSubjectDeleted(Math.random());
+    } catch (error) {
+      console.log(error);
+      updateAlert(error.message);
+    }
+  };
+
   const handleUpdateButtonClick = (subject) => {
     navigate("/rms/admin/subject/update/", {
       state: subject,
     });
+  };
+
+  const handleDeleteButtonClick = (subject) => {
+    showModal(
+      "Are you sure?",
+      "You are about to delete the subject " + subject.name,
+      () => deleteSubject(subject._id)
+    );
   };
 
   useEffect(() => {
@@ -39,7 +67,7 @@ const Subject = () => {
       }
     };
     fetchSubjects();
-  }, []);
+  }, [subjectDeleted]);
 
   return (
     <Content>
@@ -91,7 +119,10 @@ const Subject = () => {
                     />
                   </button>
                   <button className="text-xl ml-2">
-                    <BiTrash className="text-red-700" />
+                    <BiTrash
+                      className="text-red-700"
+                      onClick={() => handleDeleteButtonClick(subject)}
+                    />
                   </button>
                 </td>
               </tr>

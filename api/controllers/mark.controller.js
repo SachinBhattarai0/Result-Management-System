@@ -18,12 +18,32 @@ exports.createMarks = async (req, res) => {
       if (!student) return sendError(res, "Invalid student ids!!");
 
       const newMark = {
-        subject: subject.name,
-        theoryMark,
-        practicalMark,
-        total: +theoryMark + +practicalMark,
-        fullTheoryMark: +subject.theoryMark,
-        fullPracticalMark: +subject.practicalMark,
+        exam: {
+          id: exam._id.toString(),
+          name: exam.name,
+          year: exam.year,
+          month: exam.month,
+          date: exam.date,
+        },
+        class: {
+          id: _class._id.toString(),
+          name: _class.name,
+        },
+        student: {
+          id: student._id.toString(),
+          name: student.name,
+          rollNo: student.rollNo,
+        },
+        marks: [
+          {
+            subject: subject.name,
+            theoryMark,
+            practicalMark,
+            total: +theoryMark + +practicalMark,
+            fullTheoryMark: +subject.theoryMark,
+            fullPracticalMark: +subject.practicalMark,
+          },
+        ],
       };
 
       const markItem = await Mark.findOne({
@@ -34,28 +54,10 @@ exports.createMarks = async (req, res) => {
 
       try {
         if (markItem) {
-          markItem.marks.push(newMark);
+          markItem.marks.push(newMark.marks[0]);
           await markItem.save({ session });
         } else {
-          const newMarkItem = new Mark({
-            exam: {
-              id: exam._id.toString(),
-              name: exam.name,
-              year: exam.year,
-              month: exam.month,
-              date: exam.date,
-            },
-            class: {
-              id: _class._id.toString(),
-              name: _class.name,
-            },
-            student: {
-              id: student._id.toString(),
-              name: student.name,
-              rollNo: student.rollNo,
-            },
-            marks: [newMark],
-          });
+          const newMarkItem = new Mark({ ...newMark });
           newMarkItem.save({ session });
         }
       } catch (error) {
