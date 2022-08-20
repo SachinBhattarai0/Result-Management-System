@@ -20,12 +20,12 @@ exports.generateForStudent = async (req, res) => {
       "student.id": studentItem._id.toString(),
     }).lean({ virtuals: true });
 
+    if (!mark)
+      return sendError(res, "Student doesnot have mark for all exam!!");
+
     data.studentName = mark.student.name;
     data.rollNo = mark.student.rollNo;
     data.class = mark.class.name;
-
-    if (!mark)
-      return sendError(res, "Student doesnot have mark for all exam!!");
 
     const currentTotal = data.total;
     const newTotal = currentTotal + (percentage / 100) * mark.total;

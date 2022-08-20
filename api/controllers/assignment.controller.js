@@ -53,7 +53,7 @@ exports.getAssignmentListForUser = async (req, res) => {
   if (completed !== true) completed = false;
 
   const assignments = await Assignment.find({
-    userId,
+    user: userId,
     completed: completed,
   })
     .populate("exam")

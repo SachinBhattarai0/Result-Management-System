@@ -196,7 +196,7 @@ exports.getAllStudents = async (req, res) => {
   const students = await Student.find()
     .populate("class")
     .populate("subjects")
-    .sort({ rollNo: 1 })
+    .sort({ class: 1, rollNo: 1 })
     .lean();
 
   const currentPage = parseInt(req.query.page) || 1;
