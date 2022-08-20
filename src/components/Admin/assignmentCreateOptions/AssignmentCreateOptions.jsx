@@ -7,14 +7,18 @@ import Button from "../../form/Button";
 import FormContainer from "../formContainer/FormContainer";
 import { apiWithJwt } from "../../../axios/index";
 
+const defaultFormState = {
+  exam: "",
+  class: "",
+  subject: "",
+  teacher: "",
+};
+
 const AssignmentCreateOptions = () => {
-  const examRef = useRef();
-  const classRef = useRef();
-  const subjectRef = useRef();
-  const teacherRef = useRef();
-  const { updateAlert } = useAlert();
   const navigate = useNavigate();
+  const { updateAlert } = useAlert();
   const [creatingAssignment, setCreatingAssignment] = useState(false);
+  const [formState, setFormState] = useState(defaultFormState);
 
   const [createOptions, setCreateOptions] = useState({
     exam: [],
@@ -22,23 +26,17 @@ const AssignmentCreateOptions = () => {
     subject: [],
     teacher: [],
   });
-  const { exam, class: _class, subject, teacher } = createOptions;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const exam = examRef.current.value;
-    const _class = classRef.current.value;
-    const subject = subjectRef.current.value;
-    const teacher = teacherRef.current.value;
-
     try {
       setCreatingAssignment(true);
       const { data } = await apiWithJwt("/assignment/create/", {
-        user: teacher,
-        exam,
-        subject,
-        class: _class,
+        exam: formState.exam,
+        class: formState.class,
+        subject: formState.subject,
+        user: formState.teacher,
       });
       setCreatingAssignment(false);
 
@@ -51,20 +49,32 @@ const AssignmentCreateOptions = () => {
     }
   };
 
+  const handleChange = (target) => {
+    setFormState({ ...formState, [target.name]: target.value });
+  };
+
+  const handleClassChange = async (target) => {
+    //when class changes fetch subect for that class
+    setFormState({ ...formState, [target.name]: target.value });
+    const { data } = await apiWithJwt("/subject/get-for-class/", {
+      class: target.value,
+    });
+    setCreateOptions({ ...createOptions, subject: data.subjects });
+  };
+
   useEffect(() => {
     const getCreateOptions = async () => {
       try {
-        const [exams, classes, subjects, teachers] = await Promise.all([
+        const [exams, classes, teachers] = await Promise.all([
           apiWithJwt("/exam/get-all/"),
           apiWithJwt("/class/get-all/"),
-          apiWithJwt("/subject/get-all/"),
           apiWithJwt("/user/get-teachers/"),
         ]);
 
         setCreateOptions({
+          ...createOptions,
           exam: exams.data.exams,
           class: classes.data.class,
-          subject: subjects.data.subjects,
           teacher: teachers.data.teachers,
         });
       } catch (error) {
@@ -79,8 +89,8 @@ const AssignmentCreateOptions = () => {
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col">
           <label>Exam:</label>
-          <Select name="exam" ref={examRef}>
-            {exam.map((i) => (
+          <Select name="exam" onChange={(e) => handleChange(e.target)}>
+            {createOptions.exam.map((i) => (
               <option key={i._id} value={i._id}>
                 {i.name}
               </option>
@@ -89,8 +99,8 @@ const AssignmentCreateOptions = () => {
         </div>
         <div className="flex flex-col">
           <label>Class:</label>
-          <Select name="class" ref={classRef}>
-            {_class.map((i) => (
+          <Select name="class" onChange={(e) => handleClassChange(e.target)}>
+            {createOptions.class.map((i) => (
               <option key={i._id} value={i._id}>
                 {i.name}
               </option>
@@ -99,8 +109,8 @@ const AssignmentCreateOptions = () => {
         </div>
         <div className="flex flex-col">
           <label>Subject:</label>
-          <Select name="subject" ref={subjectRef}>
-            {subject.map((i) => (
+          <Select name="subject" onChange={(e) => handleChange(e.target)}>
+            {createOptions.subject.map((i) => (
               <option key={i._id} value={i._id}>
                 {i.name}
               </option>
@@ -109,8 +119,8 @@ const AssignmentCreateOptions = () => {
         </div>
         <div className="flex flex-col">
           <label>Teacher:</label>
-          <Select name="teacher" ref={teacherRef}>
-            {teacher.map((i) => (
+          <Select name="teacher" onChange={(e) => handleChange(e.target)}>
+            {createOptions.teacher.map((i) => (
               <option key={i._id} value={i._id}>
                 {i.name}
               </option>

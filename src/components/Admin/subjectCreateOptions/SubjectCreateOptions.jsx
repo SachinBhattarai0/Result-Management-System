@@ -46,10 +46,6 @@ const SubjectCreateOptions = ({ subjectState, setSubjectState }) => {
       setCreatingClass(true);
       const { data } = await apiWithJwt("/subject/create/", { ...formState });
 
-      const newSubjectList = subjectState.subjectList;
-      newSubjectList.push(data.subject);
-      setSubjectState({ ...subjectState, subjectList: newSubjectList });
-
       setFormState({ ...defaultFormState });
       updateAlert(data.message, SUCCESS);
     } catch (error) {

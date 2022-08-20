@@ -54,7 +54,9 @@ exports.assignmentValidator = [
   }),
   check("subject").custom(async (id, { req }) => {
     if (!isValidObjectId(id)) throw new Error("Invalid subjectId");
-    const subjectItem = await Subject.findById(req.body.subject).lean();
+    const subjectItem = await Subject.findById(req.body.subject)
+      .populate("class")
+      .lean();
 
     if (!subjectItem) throw new Error("Invalid subjectId");
 
@@ -68,6 +70,13 @@ exports.assignmentValidator = [
     if (!classItem) throw new Error("Invalid classId");
 
     req.class = classItem;
+    return true;
+  }),
+  check("subject").custom((_, { req }) => {
+    const index = req.subject.class.findIndex(
+      (_class) => _class._id.toString() === req.class._id.toString()
+    );
+    if (index < 0) throw new Error("the subject is not made for the class!!");
     return true;
   }),
 ];
