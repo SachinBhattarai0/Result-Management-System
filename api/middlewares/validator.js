@@ -81,6 +81,20 @@ exports.assignmentValidator = [
   }),
 ];
 
+exports.assignmentCompletedValidator = [
+  check("id").custom(async (id, { req }) => {
+    if (!isValidObjectId(id)) throw new Error("invalid id");
+
+    const assignment = await Assignment.findById(id);
+    if (!assignment) throw new Error("Invalid assignment Id!!");
+    req.assignment = assignment;
+
+    if (assignment.completed) throw new Error("Assignment already completed!!");
+
+    return true;
+  }),
+];
+
 exports.subjectValidator = [
   check("name").trim().not().isEmpty().withMessage("Name is missing!"),
   check("classes")

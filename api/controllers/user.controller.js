@@ -64,6 +64,12 @@ exports.deleteTeacher = async (req, res) => {
 exports.getAllTeachers = async (req, res) => {
   const teachers = await User.find({ role: TEACHER }).lean();
 
+  return res.json({ error: false, teachers });
+};
+
+exports.getAllTeachersPaginated = async (req, res) => {
+  const teachers = await User.find({ role: TEACHER }).lean();
+
   const currentPage = parseInt(req.query.page) || 1;
   const NoOfItemsPerPage = 30;
   const { paginatedList, pager } = paginator(
@@ -72,7 +78,7 @@ exports.getAllTeachers = async (req, res) => {
     currentPage
   );
 
-  res.json({ error: false, pager, teachers: paginatedList });
+  return res.json({ error: false, pager, teachers: paginatedList });
 };
 
 exports.signIn = async (req, res) => {
@@ -183,7 +189,7 @@ exports.deleteStudent = async (req, res) => {
   }
 };
 
-exports.getAllStudents = async (req, res) => {
+exports.getAllStudentsPaginated = async (req, res) => {
   const students = await Student.find()
     .populate("class")
     .populate("subjects")

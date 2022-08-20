@@ -54,7 +54,9 @@ const Teacher = () => {
     const fetchTeacherList = async () => {
       try {
         setTeacherState({ ...teacherState, isPending: true });
-        const { data } = await apiWithJwt("/user/get-teachers?page=" + pageNo);
+        const { data } = await apiWithJwt(
+          "/user/get-teachers-paginated?page=" + pageNo
+        );
         setTeacherState({
           ...teacherState,
           pager: data.pager,

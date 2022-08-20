@@ -23,7 +23,9 @@ const Assignment = () => {
     const fetchAssignmentList = async () => {
       try {
         setAssignments({ ...assignments, isPending: true });
-        const { data } = await apiWithJwt("/assignment/get-all?page=" + pageNo);
+        const { data } = await apiWithJwt(
+          "/assignment/get-all-paginated?page=" + pageNo
+        );
         setAssignments({
           ...assignments,
           pager: data.pager,

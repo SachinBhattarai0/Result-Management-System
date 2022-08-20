@@ -55,7 +55,9 @@ const Exam = () => {
     const fetchexamList = async () => {
       try {
         setExamState({ ...examState, isPending: true });
-        const { data } = await apiWithJwt("/exam/get-all?page=" + pageNo);
+        const { data } = await apiWithJwt(
+          "/exam/get-all-paginated?page=" + pageNo
+        );
         setExamState({
           ...examState,
           isPending: false,

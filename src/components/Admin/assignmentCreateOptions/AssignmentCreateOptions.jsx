@@ -68,7 +68,7 @@ const AssignmentCreateOptions = () => {
         const [exams, classes, teachers] = await Promise.all([
           apiWithJwt("/exam/get-all/"),
           apiWithJwt("/class/get-all/"),
-          apiWithJwt("/user/get-teachers/"),
+          apiWithJwt("/user/get-all-teachers/"),
         ]);
 
         setCreateOptions({

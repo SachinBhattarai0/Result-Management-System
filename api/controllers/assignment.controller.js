@@ -1,3 +1,4 @@
+const { isValidObjectId } = require("mongoose");
 const Assignment = require("../models/assignment.model");
 const Student = require("../models/student.model");
 const { paginator } = require("../utils/utils");
@@ -27,7 +28,53 @@ exports.createAssignment = async (req, res) => {
   });
 };
 
+exports.updateAssignment = async (req, res) => {
+  const { user, exam, subject, class: _class } = req.body;
+  const { assignment } = req;
+
+  try {
+    assignment.user = user;
+    assignment.exam = exam;
+    assignment.subject = subject;
+    assignment.class = _class;
+    await assignment.save();
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+
+  return res.json({
+    error: false,
+    message: "Assignment update successfully!",
+  });
+};
+
+exports.deleteAssignment = async (req, res) => {
+  const { id } = req.body;
+  if (!isValidObjectId(id)) return sendError(res, "id is invlaid!!");
+
+  try {
+    await Assignment.findByIdAndDelete(id);
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+
+  return res.json({
+    error: false,
+    message: "Assignment deleted successfully!",
+  });
+};
+
 exports.getAllAssignments = async (req, res) => {
+  const assignments = await Assignment.find({})
+    .populate("user")
+    .populate("exam")
+    .populate("subject")
+    .lean();
+
+  res.json({ error: false, assignments });
+};
+
+exports.getAllPaginatedAssignments = async (req, res) => {
   const assignments = await Assignment.find({})
     .populate("user")
     .populate("exam")

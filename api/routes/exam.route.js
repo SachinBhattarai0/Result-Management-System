@@ -1,5 +1,6 @@
 const { validate } = require("../middlewares/validator");
 const { createExam } = require("../controllers/exam.controller");
+const { getPaginatedExam } = require("../controllers/exam.controller");
 const { getAllExam } = require("../controllers/exam.controller");
 const { updateExam } = require("../controllers/exam.controller");
 const { deleteExam } = require("../controllers/exam.controller");
@@ -35,5 +36,11 @@ router.post(
 );
 
 router.post("/get-all/", userValidator, allowedRoles("admin"), getAllExam);
+router.post(
+  "/get-all-paginated/",
+  userValidator,
+  allowedRoles("admin"),
+  getPaginatedExam
+);
 
 module.exports = router;

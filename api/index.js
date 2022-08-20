@@ -26,9 +26,7 @@ app.use("/api/pdf/", pdfRoutes);
 app.listen(8000, () => console.log("Listening at port 8000!"));
 
 // Things to be done later
-console.log(
-  "before updating assignemts check if the assignment is already done or not"
-);
+console.log("Test everything by adding at least 80 item in each of model");
 console.log("Promote student");
 console.log("Add Advanced filter for student");
 console.log("Add filter in student marks and assignment page");

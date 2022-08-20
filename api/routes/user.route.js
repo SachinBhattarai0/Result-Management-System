@@ -4,9 +4,10 @@ const { passwordValidator } = require("../middlewares/validator");
 const { studentInfoValidator } = require("../middlewares/validator");
 const { signInValidator } = require("../middlewares/validator");
 const { updatePassword } = require("../controllers/user.controller");
+const { getAllTeachersPaginated } = require("../controllers/user.controller");
+const { getAllStudentsPaginated } = require("../controllers/user.controller");
 const { createStudent } = require("../controllers/user.controller");
 const { getAllTeachers } = require("../controllers/user.controller");
-const { getAllStudents } = require("../controllers/user.controller");
 const { signIn } = require("../controllers/user.controller");
 const { verify } = require("../controllers/user.controller");
 const { validate } = require("../middlewares/validator");
@@ -56,10 +57,17 @@ router.post(
 );
 
 router.post(
-  "/get-teachers",
+  "/get-all-teachers",
   userValidator,
   allowedRoles("admin"),
   getAllTeachers
+);
+
+router.post(
+  "/get-teachers-paginated",
+  userValidator,
+  allowedRoles("admin"),
+  getAllTeachersPaginated
 );
 
 router.post(
@@ -88,10 +96,10 @@ router.post(
 );
 
 router.post(
-  "/get-students",
+  "/get-students-paginated",
   userValidator,
   allowedRoles("admin"),
-  getAllStudents
+  getAllStudentsPaginated
 );
 
 router.post("/verify", userValidator, validate, verify);

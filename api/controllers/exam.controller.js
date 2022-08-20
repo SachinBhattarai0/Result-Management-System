@@ -50,6 +50,12 @@ exports.deleteExam = async (req, res) => {
 exports.getAllExam = async (req, res) => {
   const exams = await Exam.find().select("name year month date").lean();
 
+  return res.json({ error: false, exams: exams });
+};
+
+exports.getPaginatedExam = async (req, res) => {
+  const exams = await Exam.find().select("name year month date").lean();
+
   const currentPage = parseInt(req.query.page) || 1;
   const NoOfItemsPerPage = 30;
   const { paginatedList, pager } = paginator(

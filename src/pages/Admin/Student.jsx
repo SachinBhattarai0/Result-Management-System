@@ -56,7 +56,9 @@ const Student = () => {
     const fetchstudentList = async () => {
       try {
         setStudentState({ ...studentState, isPending: true });
-        const { data } = await apiWithJwt("/user/get-students?page=" + pageNo);
+        const { data } = await apiWithJwt(
+          "/user/get-students-paginated?page=" + pageNo
+        );
         setStudentState({
           ...studentState,
           studentList: data.students,
@@ -94,7 +96,7 @@ const Student = () => {
                   {student.name}
                 </td>
                 <td className="border-2 py-3 px-1 text-center">
-                  {student.class.name}
+                  {student.class ? student.class.name : "deleted"}
                 </td>
                 <td className="border-2 py-3 px-1 text-center text-xs">
                   <Popover>
