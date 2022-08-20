@@ -23,6 +23,7 @@ import UpdateTeacher from "./pages/Admin/UpdateTeacher";
 import UpdateSubject from "./pages/Admin/UpdateSubjects";
 import UpdateExam from "./pages/Admin/UpdateExam";
 import UpdateClass from "./pages/Admin/UpdateClass";
+import UpdateAssignment from "./pages/Admin/UpdateAssignment";
 
 function App() {
   return (
@@ -74,6 +75,10 @@ function App() {
           <Route
             path={"/rms/admin/subject/update/"}
             element={<UpdateSubject />}
+          />
+          <Route
+            path={"/rms/admin/assignment/update/"}
+            element={<UpdateAssignment />}
           />
           <Route path={"/rms/admin/exam/update/"} element={<UpdateExam />} />
           <Route path={"/rms/admin/class/update/"} element={<UpdateClass />} />

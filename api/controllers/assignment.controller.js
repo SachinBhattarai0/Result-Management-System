@@ -68,6 +68,7 @@ exports.getAllAssignments = async (req, res) => {
   const assignments = await Assignment.find({})
     .populate("user")
     .populate("exam")
+    .populate("class")
     .populate("subject")
     .lean();
 
@@ -78,6 +79,7 @@ exports.getAllPaginatedAssignments = async (req, res) => {
   const assignments = await Assignment.find({})
     .populate("user")
     .populate("exam")
+    .populate("class")
     .populate("subject")
     .lean();
 

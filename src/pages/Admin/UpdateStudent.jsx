@@ -93,13 +93,9 @@ const UpdateStudent = () => {
             onChange={handleChange}
           />
           <label>Class:</label>
-          <Select defaultOpt={false} name="class" onChange={handleChange}>
+          <Select value={formState.class} name="class" onChange={handleChange}>
             {formOptions.classOptions.map((classItem, i) => (
-              <option
-                key={i}
-                value={classItem._id}
-                defaultChecked={formState.class === classItem._id}
-              >
+              <option key={i} value={classItem._id}>
                 {classItem.name}
               </option>
             ))}

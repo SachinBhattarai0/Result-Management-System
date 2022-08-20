@@ -92,7 +92,7 @@ const AssignmentCreateOptions = () => {
           <Select name="exam" onChange={(e) => handleChange(e.target)}>
             {createOptions.exam.map((i) => (
               <option key={i._id} value={i._id}>
-                {i.name}
+                {i.name} ({i.year}-{i.month}-{i.date})
               </option>
             ))}
           </Select>

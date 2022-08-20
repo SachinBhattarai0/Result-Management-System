@@ -8,9 +8,9 @@ const examSchema = mongoose.Schema({
   date: { type: Number, required: true },
 });
 
-// examSchema.post("remove", async function () {
-//   await Assignment.deleteMany({ exam: this._id.toString() });
-// });
+examSchema.post("remove", async function () {
+  await Assignment.deleteMany({ exam: this._id.toString() });
+});
 
 // examSchema.index({ name: 1 }, { unique: true });
 

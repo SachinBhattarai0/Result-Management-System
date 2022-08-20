@@ -8,9 +8,9 @@ import FormConainer from "../formContainer/FormContainer";
 
 const defaultFormState = {
   name: "",
-  theoryMark: "",
-  practicalMark: "",
-  passMark: "",
+  theoryMark: 75,
+  practicalMark: 25,
+  passMark: 40,
   classes: [],
 };
 
@@ -68,12 +68,14 @@ const SubjectCreateOptions = () => {
   return (
     <FormConainer title="Create Subject:">
       <form onSubmit={handleSubmit} className="mt-3 flex flex-col space-y-1">
+        <label>Name:</label>
         <Input
           placeholder="Enter Name"
           value={name}
           name="name"
           onChange={handleChange}
         />
+        <label>TheoryMark:</label>
         <Input
           placeholder="Enter Theory Mark"
           value={theoryMark}
@@ -81,6 +83,7 @@ const SubjectCreateOptions = () => {
           type="number"
           onChange={handleChange}
         />
+        <label>PracticalMark:</label>
         <Input
           placeholder="Enter Practical Mark"
           value={practicalMark}
@@ -88,6 +91,7 @@ const SubjectCreateOptions = () => {
           type="number"
           onChange={handleChange}
         />
+        <label>PassMark:</label>
         <Input
           placeholder="Enter Pass Mark"
           value={passMark}
@@ -95,17 +99,17 @@ const SubjectCreateOptions = () => {
           type="number"
           onChange={handleChange}
         />
-
+        <label>Class:</label>
         <div className="flex flex-wrap mt-1 space-x-2">
           {classList.map((_class, i) => (
             <div className="flex space-x-1" key={i}>
-              <div>{_class.name}</div>
               <input
                 type="checkbox"
                 class_id={_class._id}
                 checked={formState.classes.includes(_class._id) ? true : false}
                 onChange={handleCheckboxChange}
               />
+              <div>{_class.name}</div>
             </div>
           ))}
         </div>
