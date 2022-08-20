@@ -52,11 +52,9 @@ exports.deleteTeacher = async (req, res) => {
     if (!teacher) return sendError(res, "teacher id is invalid!!");
 
     await teacher.delete();
-    const newTeacherList = await User.find({ role: "teacher" }).lean();
     return res.json({
       error: false,
       message: "Teacher deleted successfully!!",
-      teacherList: newTeacherList,
     });
   } catch (error) {
     return sendError(res, error.message);
@@ -176,16 +174,9 @@ exports.deleteStudent = async (req, res) => {
     if (!student) return sendError(res, "Student id is invalid!!");
     await student.delete();
 
-    const newStudentList = await Student.find({})
-      .populate("class")
-      .populate("subjects")
-      .lean()
-      .sort({ rollNo: 1 });
-
     return res.json({
       error: false,
       message: "Student deleted successfully!!",
-      studentList: newStudentList,
     });
   } catch (error) {
     return sendError(res, error.message);

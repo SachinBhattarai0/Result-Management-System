@@ -18,6 +18,7 @@ const Student = () => {
   const navigate = useNavigate();
   const { updateAlert } = useAlert();
   const { showModal, closeModal } = useModalState();
+  const [studentDeleted, setStudentDeleted] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const [studentState, setStudentState] = useState({
     isPending: false,
@@ -31,11 +32,8 @@ const Student = () => {
       const { data } = await apiWithJwt("/user/delete-student/", { id });
       updateAlert(data.message, SUCCESS);
       closeModal();
-      setStudentState({
-        ...studentState,
-        studentList: data.studentList,
-        isPending: false,
-      });
+      //This state change will trigger useEffect to fetch new student list
+      setStudentDeleted(Math.random());
     } catch (error) {
       console.log(error);
       updateAlert(error.message);
@@ -71,7 +69,7 @@ const Student = () => {
       }
     };
     fetchstudentList();
-  }, [pageNo]);
+  }, [pageNo, studentDeleted]);
   return (
     <Content>
       <StudentCreateOptions />

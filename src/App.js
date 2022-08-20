@@ -17,9 +17,10 @@ import ReportCard from "./pages/Admin/ReportCard";
 import Student from "./pages/Admin/Student";
 import CompletedAssignments from "./pages/CompletedAssignments";
 import UserInfo from "./pages/Shared/UserInfo";
-import UpdateStudent from "./pages/Admin/UpdateStudent";
 import Modal from "./components/modal/Modal";
+import UpdateStudent from "./pages/Admin/UpdateStudent";
 import UpdateTeacher from "./pages/Admin/UpdateTeacher";
+import UpdateSubject from "./pages/Admin/UpdateSubjects";
 
 function App() {
   return (
@@ -67,6 +68,10 @@ function App() {
           <Route
             path={"/rms/admin/teacher/update/"}
             element={<UpdateTeacher />}
+          />
+          <Route
+            path={"/rms/admin/subject/update/"}
+            element={<UpdateSubject />}
           />
         </Route>
 

@@ -17,6 +17,7 @@ const Teacher = () => {
   const navigate = useNavigate();
   const { updateAlert } = useAlert();
   const [pageNo, setPageNo] = useState(1);
+  const [teacherDeleted, setTeacherDeleted] = useState("");
   const { showModal, closeModal } = useModalState();
   const [teacherState, setTeacherState] = useState({
     isPending: false,
@@ -30,11 +31,8 @@ const Teacher = () => {
       const { data } = await apiWithJwt("/user/delete-teacher/", { id });
       updateAlert(data.message, SUCCESS);
       closeModal();
-      setTeacherState({
-        ...teacherState,
-        teacherList: data.teacherList,
-        isPending: false,
-      });
+      //this state change will trigger useEffect to refetch new list of teachers
+      setTeacherDeleted(Math.random());
     } catch (error) {
       console.log(error);
       updateAlert(error.message);
@@ -69,7 +67,8 @@ const Teacher = () => {
       }
     };
     fetchTeacherList();
-  }, [pageNo]);
+  }, [pageNo, teacherDeleted]);
+
   return (
     <Content>
       <UserCreateCreteOptions />

@@ -272,6 +272,11 @@ exports.teacherUpdateInfoValidator = [
       );
     return true;
   }),
+  check("email").custom(async (email) => {
+    const user = await User.exists({ email });
+    if (user) throw new Error("email already exists!!");
+    return true;
+  }),
 ];
 
 exports.userValidator = async (req, res, next) => {

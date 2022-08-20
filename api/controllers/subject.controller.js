@@ -28,6 +28,41 @@ exports.createSubject = async (req, res) => {
     .json({ error: false, message: "Subject Created Successfully" });
 };
 
+exports.updateSubject = async (req, res) => {
+  const { name, theoryMark, practicalMark, passMark, classes, id } = req.body;
+  if (!isValidObjectId(id)) return sendError(res, "Invalid subject id");
+
+  try {
+    await Subject.findOneAndUpdate(
+      { _id: id },
+      { name, theoryMark, practicalMark, class: classes, passMark }
+    );
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+
+  return res.json({
+    error: false,
+    message: "subject updated successfully",
+  });
+};
+
+exports.deleteSubject = async (req, res) => {
+  const { id } = req.body;
+  if (!isValidObjectId(id)) return sendError(res, "Invalid subject id");
+
+  try {
+    await Subject.findByIdAndDelete(id);
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+
+  return res.json({
+    error: false,
+    message: "subject deleted successfully",
+  });
+};
+
 exports.getSubjectsForClass = async (req, res) => {
   if (!req.body.class || !isValidObjectId(req.body.class))
     return sendError(res, "Invalid class id");

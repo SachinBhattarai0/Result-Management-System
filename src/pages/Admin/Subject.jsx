@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { apiWithJwt } from "../../axios/index";
 import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
@@ -10,10 +11,17 @@ import Content from "../../components/content/Content";
 import SubjectCreateOptions from "../../components/Admin/subjectCreateOptions/SubjectCreateOptions";
 
 const Subject = () => {
+  const navigate = useNavigate();
   const [subjectState, setSubjectState] = useState({
     isPending: false,
     subjectList: [],
   });
+
+  const handleUpdateButtonClick = (subject) => {
+    navigate("/rms/admin/subject/update/", {
+      state: subject,
+    });
+  };
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -77,7 +85,10 @@ const Subject = () => {
                 <td className="border-2 py-3 px-1 text-center">
                   {" "}
                   <button className="text-xl ml-2">
-                    <AiFillEdit className="text-green-700" />
+                    <AiFillEdit
+                      className="text-green-700"
+                      onClick={() => handleUpdateButtonClick(subject)}
+                    />
                   </button>
                   <button className="text-xl ml-2">
                     <BiTrash className="text-red-700" />
