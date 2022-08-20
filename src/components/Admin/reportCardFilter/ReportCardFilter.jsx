@@ -127,9 +127,9 @@ const ReportCardFilter = ({
             .map((_, i) => (
               <div className="flex" key={i}>
                 <Select onChange={(e) => handleExamChange(e, i)}>
-                  {exam.map(({ _id, name }) => (
+                  {exam.map(({ _id, name, year, month, date }) => (
                     <option key={_id} value={_id}>
-                      {name}
+                      {name} ({year}-{month}-{date})
                     </option>
                   ))}
                 </Select>

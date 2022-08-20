@@ -205,6 +205,9 @@ exports.markValidator = [
     if (!assignment || assignment.completed)
       throw new Error("Some error occured");
 
+    if (assignment.user.toString() !== req.user._id.toString())
+      throw new Error("Some error occured!!");
+
     req.assignment = assignment;
     return true;
   }),
