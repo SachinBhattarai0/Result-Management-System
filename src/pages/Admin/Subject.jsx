@@ -71,10 +71,7 @@ const Subject = () => {
 
   return (
     <Content>
-      <SubjectCreateOptions
-        subjectState={subjectState}
-        setSubjectState={setSubjectState}
-      />
+      <SubjectCreateOptions />
       <table className="bg-white w-full rounded shadow-sm">
         <tbody>
           <tr>

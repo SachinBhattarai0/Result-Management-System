@@ -34,10 +34,7 @@ const Assignment = () => {
 
   return (
     <Content>
-      <ClassCreateOptions
-        setClassState={setClassState}
-        classState={classState}
-      />
+      <ClassCreateOptions />
       <table className="bg-white w-full rounded shadow-sm">
         <tbody>
           <tr>

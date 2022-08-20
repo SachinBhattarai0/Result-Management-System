@@ -14,7 +14,7 @@ const defaultFormState = {
   classes: [],
 };
 
-const SubjectCreateOptions = ({ subjectState, setSubjectState }) => {
+const SubjectCreateOptions = () => {
   const { updateAlert } = useAlert();
   const [formState, setFormState] = useState(defaultFormState);
   const [creatingClass, setCreatingClass] = useState(false);

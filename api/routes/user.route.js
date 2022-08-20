@@ -1,20 +1,8 @@
-const {
-  userValidator,
-  studentUpdateInfoValidator,
-  teacherUpdateInfoValidator,
-} = require("../middlewares/validator");
 const { allowedRoles } = require("../middlewares/validator");
 const { userInfoValidator } = require("../middlewares/validator");
 const { passwordValidator } = require("../middlewares/validator");
 const { studentInfoValidator } = require("../middlewares/validator");
 const { signInValidator } = require("../middlewares/validator");
-const {
-  createTeacher,
-  updateStudent,
-  deleteStudent,
-  updateTeacher,
-  deleteTeacher,
-} = require("../controllers/user.controller");
 const { updatePassword } = require("../controllers/user.controller");
 const { createStudent } = require("../controllers/user.controller");
 const { getAllTeachers } = require("../controllers/user.controller");
@@ -22,6 +10,14 @@ const { getAllStudents } = require("../controllers/user.controller");
 const { signIn } = require("../controllers/user.controller");
 const { verify } = require("../controllers/user.controller");
 const { validate } = require("../middlewares/validator");
+const { userValidator } = require("../middlewares/validator");
+const { studentUpdateInfoValidator } = require("../middlewares/validator");
+const { teacherUpdateInfoValidator } = require("../middlewares/validator");
+const { createTeacher } = require("../controllers/user.controller");
+const { updateStudent } = require("../controllers/user.controller");
+const { deleteStudent } = require("../controllers/user.controller");
+const { updateTeacher } = require("../controllers/user.controller");
+const { deleteTeacher } = require("../controllers/user.controller");
 
 const router = require("express").Router();
 

@@ -8,7 +8,6 @@ import Spinner from "../../spinner/Spinner";
 const ReportCardFilter = ({
   studentList,
   setStudentList,
-  pageNo,
   filterInfo,
   setFilterInfo,
 }) => {

@@ -55,13 +55,13 @@ const Assignment = () => {
             <tr key={i}>
               <td className="border-2 p-1 py-3 text-center">{i + 1}</td>
               <td className="border-2 p-1 py-3 text-center">
-                {assignment.user.name}
+                {assignment.user ? assignment.user.name : "deleted"}
               </td>
               <td className="border-2 p-1 py-3 text-center">
-                {assignment.exam.name}
+                {assignment.exam ? assignment.exam.name : "deleted"}
               </td>
               <td className="border-2 p-1 py-3 text-center">
-                {assignment.subject.name}
+                {assignment.subject ? assignment.subject.name : "deleted"}
               </td>
               <td className="border-2 p-1 py-3 text-center">
                 {assignment.completed ? (

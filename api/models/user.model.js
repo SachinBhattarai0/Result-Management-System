@@ -40,10 +40,10 @@ userSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, 8);
 });
 
-userSchema.post("remove", async function () {
-  if (this.role !== "teacher") return;
-  await Assignment.deleteMany({ user: this._id.toString() });
-});
+// userSchema.post("remove", async function () {
+//   if (this.role !== "teacher") return;
+//   await Assignment.deleteMany({ user: this._id.toString() });
+// });
 
 userSchema.methods.comparePassword = async function (value) {
   return await bcrypt.compare(value, this.password);

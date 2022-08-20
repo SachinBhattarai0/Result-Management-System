@@ -3,7 +3,6 @@ const { sendError } = require("../utils/utils");
 
 exports.createClass = async (req, res) => {
   const { name } = req.body;
-  if (!name) return sendError(res, "name is required!");
 
   const newClass = new Class({ name });
 
@@ -16,7 +15,39 @@ exports.createClass = async (req, res) => {
   return res.status(201).json({
     error: false,
     message: "Class created successfully",
-    class: { id: newClass._id, name: newClass.name },
+  });
+};
+
+exports.updateClass = async (req, res) => {
+  const { name, id } = req.body;
+  if (!id) return sendError(res, "id is missing!!");
+
+  try {
+    await Class.findByIdAndUpdate(id, { name });
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+
+  return res.json({
+    error: false,
+    message: "Class updated successfully",
+  });
+};
+
+exports.deleteClass = async (req, res) => {
+  const { id } = req.body;
+  if (!id) return sendError(res, "id is missing!!");
+
+  try {
+    const _class = await Class.findById(id);
+    await _class.delete();
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+
+  return res.json({
+    error: false,
+    message: "Class deleted successfully",
   });
 };
 

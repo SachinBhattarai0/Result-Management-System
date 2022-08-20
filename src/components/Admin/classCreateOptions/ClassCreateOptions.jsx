@@ -6,7 +6,7 @@ import Button from "../../form/Button";
 import FormContainer from "../formContainer/FormContainer";
 import { apiWithJwt } from "../../../axios";
 
-const ClassCreateOptions = ({ setClassState, classState }) => {
+const ClassCreateOptions = () => {
   const { updateAlert } = useAlert();
   const [className, setClassName] = useState("");
   const [creatingClass, setCreatingClass] = useState(false);
@@ -20,11 +20,6 @@ const ClassCreateOptions = ({ setClassState, classState }) => {
 
       if (!data.error) updateAlert("class created successfuly!!", SUCCESS);
       setClassName("");
-
-      const newClassList = classState.classList;
-      newClassList.push(data.class);
-
-      setClassState({ ...classState, classList: newClassList });
     } catch (error) {
       setCreatingClass(false);
       updateAlert(error.response.data.message);

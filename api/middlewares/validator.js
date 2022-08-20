@@ -279,6 +279,10 @@ exports.teacherUpdateInfoValidator = [
   }),
 ];
 
+exports.classInfoValidator = [
+  check("name").not().isEmpty().withMessage("name is missing!!"),
+];
+
 exports.userValidator = async (req, res, next) => {
   const jwtToken = req.headers.authorization?.split(" ")[1];
   if (!jwtToken) return sendError(res, "jwtToken is not present!");
