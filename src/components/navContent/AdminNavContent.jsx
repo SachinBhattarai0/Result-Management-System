@@ -67,10 +67,10 @@ export const AdminNavContent = () => {
           Subject
         </NavListItem>
         <NavListItem
-          to="/rms/admin/user/"
+          to="/rms/admin/teacher/"
           icon={<BiUser className="text-xl" />}
         >
-          User
+          Teacher
         </NavListItem>
         <NavListItem
           to="/rms/admin/student/"

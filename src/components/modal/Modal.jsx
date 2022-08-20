@@ -1,10 +1,16 @@
 import React from "react";
 import { MdOutlineClose } from "react-icons/md";
 import { useModalState } from "../../context/ModalContext";
+import Spinner from "../spinner/Spinner";
 import Button from "../form/Button";
 
 const Modal = () => {
-  const { modalState, closeModal } = useModalState();
+  const { modalState, setModalState, closeModal } = useModalState();
+
+  const handleClick = () => {
+    setModalState({ ...modalState, isPending: true });
+    modalState.onClick();
+  };
 
   if (!modalState.open) return null;
 
@@ -20,8 +26,8 @@ const Modal = () => {
         </div>
         <div className="py-3">{modalState.body}</div>
         <div className="flex flex-col space-y-1">
-          <Button variant="red" onClick={modalState.onClick}>
-            I am sure..
+          <Button variant="red" onClick={handleClick}>
+            {modalState.isPending ? <Spinner /> : "I am sure.."}
           </Button>
           <Button variant="gray" onClick={closeModal}>
             Cancel

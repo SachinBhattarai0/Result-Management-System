@@ -1,9 +1,10 @@
-const mongoose = require("mongoose");
-const User = require("../models/user.model");
 const Student = require("../models/student.model");
-const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 const { paginator } = require("../utils/utils");
-const { sendError, TEACHER } = require("../utils/utils");
+const { sendError } = require("../utils/utils");
+const { TEACHER } = require("../utils/utils");
+const User = require("../models/user.model");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 console.log("create admin");
@@ -51,11 +52,15 @@ exports.deleteTeacher = async (req, res) => {
     if (!teacher) return sendError(res, "teacher id is invalid!!");
 
     await teacher.delete();
+    const newTeacherList = await User.find({ role: "teacher" }).lean();
+    return res.json({
+      error: false,
+      message: "Teacher deleted successfully!!",
+      teacherList: newTeacherList,
+    });
   } catch (error) {
     return sendError(res, error.message);
   }
-
-  return res.json({ error: false, message: "Teacher deleted successfully!!" });
 };
 
 exports.getAllTeachers = async (req, res) => {
@@ -170,11 +175,21 @@ exports.deleteStudent = async (req, res) => {
     const student = await Student.findById(id);
     if (!student) return sendError(res, "Student id is invalid!!");
     await student.delete();
+
+    const newStudentList = await Student.find({})
+      .populate("class")
+      .populate("subjects")
+      .lean()
+      .sort({ rollNo: 1 });
+
+    return res.json({
+      error: false,
+      message: "Student deleted successfully!!",
+      studentList: newStudentList,
+    });
   } catch (error) {
     return sendError(res, error.message);
   }
-
-  return res.json({ error: false, message: "Student deleted successfully!!" });
 };
 
 exports.getAllStudents = async (req, res) => {

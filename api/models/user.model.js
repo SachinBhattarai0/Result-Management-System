@@ -42,7 +42,7 @@ userSchema.pre("save", async function () {
 
 userSchema.post("remove", async function () {
   if (this.role !== "teacher") return;
-  await Assignment.deleteMany({ user: this._id });
+  await Assignment.deleteMany({ user: this._id.toString() });
 });
 
 userSchema.methods.comparePassword = async function (value) {

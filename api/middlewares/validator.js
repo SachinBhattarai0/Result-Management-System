@@ -254,6 +254,15 @@ exports.teacherUpdateInfoValidator = [
     if (!isValidObjectId(id)) throw new Error("invalid id!!");
     return true;
   }),
+  check("password").custom((password) => {
+    if (!password) return true;
+
+    if (password.length < 8 || password.length > 20)
+      throw new Error(
+        "password must be greater than 8 and less than 20 characer long"
+      );
+    return true;
+  }),
 ];
 
 exports.userValidator = async (req, res, next) => {

@@ -36,7 +36,9 @@ studentSchema.post("remove", async function () {
     await s.updateOne({ rollNo: i + 1 });
   });
 
-  await Mark.deleteMany({ "student.id": this._id });
+  await Mark.deleteMany({
+    "student.id": this._id.toString(),
+  });
 });
 
 // studentSchema.index({ class: 1, rollNo: 1 }, { unique: true });

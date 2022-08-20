@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { AiFillEdit } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
 import { apiWithJwt } from "../../axios";
-import { SUCCESS, useAlert } from "../../context/AlertContext";
+import { SUCCESS } from "../../context/AlertContext";
+import { useAlert } from "../../context/AlertContext";
 import { useModalState } from "../../context/ModalContext";
 import Content from "../../components/content/Content";
 import Spinner from "../../components/spinner/Spinner";
@@ -24,13 +25,19 @@ const Student = () => {
     studentList: [],
   });
 
-  const deleteStudent = async (id, target) => {
+  const deleteStudent = async (id) => {
     try {
+      setStudentState({ ...studentState, isPending: true });
       const { data } = await apiWithJwt("/user/delete-student/", { id });
       updateAlert(data.message, SUCCESS);
       closeModal();
-      target.parentElement.parentElement.parentElement.remove();
+      setStudentState({
+        ...studentState,
+        studentList: data.studentList,
+        isPending: false,
+      });
     } catch (error) {
+      console.log(error);
       updateAlert(error.message);
     }
   };
@@ -39,11 +46,11 @@ const Student = () => {
     navigate("/rms/admin/student/update", { state: student });
   };
 
-  const handleDeleteButtonClick = (student, target) => {
+  const handleDeleteButtonClick = (student) => {
     showModal(
       "Are you sure?",
       "Deleting student will delete all its associated marks",
-      () => deleteStudent(student._id, target)
+      () => deleteStudent(student._id)
     );
   };
 
@@ -107,9 +114,7 @@ const Student = () => {
                   </button>
                   <button className="text-xl ml-2">
                     <BiTrash
-                      onClick={(e) =>
-                        handleDeleteButtonClick(student, e.target)
-                      }
+                      onClick={() => handleDeleteButtonClick(student)}
                       className="text-red-700"
                     />
                   </button>

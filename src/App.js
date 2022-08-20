@@ -11,7 +11,7 @@ import Assignment from "./pages/Admin/Assignment";
 import Class from "./pages/Admin/Class";
 import Exam from "./pages/Admin/Exam";
 import Subject from "./pages/Admin/Subject";
-import User from "./pages/Admin/User";
+import Teacher from "./pages/Admin/Teacher";
 import SignIn from "./pages/SignIn";
 import ReportCard from "./pages/Admin/ReportCard";
 import Student from "./pages/Admin/Student";
@@ -19,6 +19,7 @@ import CompletedAssignments from "./pages/CompletedAssignments";
 import UserInfo from "./pages/Shared/UserInfo";
 import UpdateStudent from "./pages/Admin/UpdateStudent";
 import Modal from "./components/modal/Modal";
+import UpdateTeacher from "./pages/Admin/UpdateTeacher";
 
 function App() {
   return (
@@ -57,11 +58,15 @@ function App() {
           <Route path={"/rms/admin/class/"} element={<Class />} />
           <Route path={"/rms/admin/exam/"} element={<Exam />} />
           <Route path={"/rms/admin/subject/"} element={<Subject />} />
-          <Route path={"/rms/admin/user/"} element={<User />} />
+          <Route path={"/rms/admin/teacher/"} element={<Teacher />} />
           <Route path={"/rms/admin/student/"} element={<Student />} />
           <Route
             path={"/rms/admin/student/update/"}
             element={<UpdateStudent />}
+          />
+          <Route
+            path={"/rms/admin/teacher/update/"}
+            element={<UpdateTeacher />}
           />
         </Route>
 

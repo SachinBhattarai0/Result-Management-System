@@ -50,6 +50,7 @@ markSchema.index(
   { "exam.id": 1, "class.id": 1, "student.id": 1 },
   { unique: true }
 );
+markSchema.index({ "student.id": 1 });
 
 markSchema.virtual("total").get(function () {
   return this.marks.reduce((pv, cv) => {

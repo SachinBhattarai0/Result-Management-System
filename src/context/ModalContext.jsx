@@ -10,6 +10,7 @@ const ModalProvider = ({ children }) => {
     open: false,
     title: "",
     body: "",
+    isPending: false,
     onClick: () => {},
   });
 
@@ -19,7 +20,9 @@ const ModalProvider = ({ children }) => {
   const closeModal = () => setModalState({ ...modalState, open: false });
 
   return (
-    <ModalContext.Provider value={{ modalState, showModal, closeModal }}>
+    <ModalContext.Provider
+      value={{ modalState, showModal, closeModal, setModalState }}
+    >
       {children}
     </ModalContext.Provider>
   );
