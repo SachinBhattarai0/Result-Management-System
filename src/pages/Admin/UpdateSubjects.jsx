@@ -82,6 +82,7 @@ const UpdateSubject = () => {
           />
           <label>TheoryMark:</label>
           <Input
+            type="number"
             placeholder="Enter theoryMark"
             value={formState.theoryMark}
             name="theoryMark"
@@ -89,6 +90,7 @@ const UpdateSubject = () => {
           />
           <label>PracticalMark:</label>
           <Input
+            type="number"
             placeholder="Enter practicalMark"
             value={formState.practicalMark}
             name="practicalMark"
@@ -96,6 +98,7 @@ const UpdateSubject = () => {
           />
           <label>PassMark:</label>
           <Input
+            type="number"
             placeholder="Enter passMark"
             value={formState.passMark}
             name="passMark"

@@ -21,6 +21,7 @@ import Modal from "./components/modal/Modal";
 import UpdateStudent from "./pages/Admin/UpdateStudent";
 import UpdateTeacher from "./pages/Admin/UpdateTeacher";
 import UpdateSubject from "./pages/Admin/UpdateSubjects";
+import UpdateExam from "./pages/Admin/UpdateExam";
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
             path={"/rms/admin/subject/update/"}
             element={<UpdateSubject />}
           />
+          <Route path={"/rms/admin/exam/update/"} element={<UpdateExam />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
