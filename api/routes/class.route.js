@@ -27,14 +27,7 @@ router.post(
   updateClass
 );
 
-router.post(
-  "/delete",
-  userValidator,
-  allowedRoles("admin"),
-  classInfoValidator,
-  validate,
-  deleteClass
-);
+router.post("/delete", userValidator, allowedRoles("admin"), deleteClass);
 
 router.post("/get-all/", userValidator, allowedRoles("admin"), getAllClass);
 
