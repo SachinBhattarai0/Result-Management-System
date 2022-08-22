@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const { sendError } = require("../utils/utils");
+const { paginator } = require("../utils/utils");
 const Mark = require("../models/mark.model");
 const Student = require("../models/student.model");
-const { sendError } = require("../utils/utils");
 
 exports.createMarks = async (req, res) => {
   const { marks } = req.body;
@@ -96,4 +97,18 @@ exports.getSudentsListForExam = async (req, res) => {
   const studentList = MarkList.map((i) => i.student);
 
   return res.json({ error: false, studentList });
+};
+
+exports.getAllPaginatedMark = async (req, res) => {
+  const marks = await Mark.find({}).lean();
+
+  const currentPage = parseInt(req.query.page) || 1;
+  const NoOfItemsPerPage = 50;
+  const { paginatedList, pager } = paginator(
+    marks,
+    NoOfItemsPerPage,
+    currentPage
+  );
+
+  return res.json({ error: false, pager, marks: paginatedList });
 };

@@ -1,4 +1,5 @@
 const { getSudentsListForExam } = require("../controllers/mark.controller");
+const { getAllPaginatedMark } = require("../controllers/mark.controller");
 const { createMarks } = require("../controllers/mark.controller");
 const { allowedRoles } = require("../middlewares/validator");
 const { userValidator } = require("../middlewares/validator");
@@ -24,6 +25,13 @@ router.post(
   classAndExamsValidator,
   validate,
   getSudentsListForExam
+);
+
+router.post(
+  "/get-marks-paginated/",
+  userValidator,
+  allowedRoles(["admin"]),
+  getAllPaginatedMark
 );
 
 module.exports = router;
