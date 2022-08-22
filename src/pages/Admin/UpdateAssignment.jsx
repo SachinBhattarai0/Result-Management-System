@@ -62,8 +62,6 @@ const UpdateStudent = () => {
     setFormOptions({ ...formOptions, subjectOptions: data.subjects });
   };
 
-  //   console.log(formOptions);
-
   useEffect(() => {
     const getFormOptions = async () => {
       try {

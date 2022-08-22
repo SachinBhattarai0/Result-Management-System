@@ -1,7 +1,7 @@
 import React from "react";
 
 const button = ({ children, sm, variant, isPending = false, ...rest }) => {
-  const variantColor = {
+  const variantOptions = {
     blue: "bg-bluish hover:bg-blue-500",
     green: "bg-green-700 hover:bg-green-600",
     darkBlue: "bg-blue-900 hover:bg-blue-500",
@@ -13,7 +13,7 @@ const button = ({ children, sm, variant, isPending = false, ...rest }) => {
       className={`
       ${sm ? "px-2 py-1" : "py-3 px-8"}
       ${isPending ? "pointer-events-none" : "pointer-events-auto"}
-      ${variantColor[variant] || variantColor["blue"]} 
+      ${variantOptions[variant] || variantOptions["blue"]} 
       text-white rounded transition
        `}
       {...rest}
