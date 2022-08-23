@@ -140,8 +140,17 @@ exports.studentInfoValidator = [
   check("subjects")
     .isArray({ min: 1 })
     .withMessage("subjects must be a array!"),
-  check("subjects").custom((subjectArr) => {
+  check("subjects").custom(async (subjectArr, { req }) => {
     if (subjectArr.length === 0) throw new Error("subjects cannot be empty!");
+
+    for (let subject of subjectArr) {
+      const exists = await Subject.findOne({
+        _id: subject,
+        class: req.body.class,
+      });
+      if (!exists)
+        throw new Error("some subjects are not made for the class!!");
+    }
 
     const invalidIndex = subjectArr.findIndex((id) => isValidObjectId(id));
     if (invalidIndex < 0) throw new Error("Invalid classId!");
