@@ -70,6 +70,7 @@ exports.getAllAssignments = async (req, res) => {
     .populate("exam")
     .populate("class")
     .populate("subject")
+    .sort({ createdAt: -1 })
     .lean();
 
   res.json({ error: false, assignments });
@@ -81,6 +82,7 @@ exports.getAllPaginatedAssignments = async (req, res) => {
     .populate("exam")
     .populate("class")
     .populate("subject")
+    .sort({ createdAt: -1 })
     .lean();
 
   const currentPage = parseInt(req.query.page) || 1;

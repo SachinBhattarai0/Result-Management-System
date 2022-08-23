@@ -26,9 +26,24 @@ const SubjectCheckbox = ({
     }
   };
 
+  //This useEffect makes sure that whenever user changes class
+  //the subject which belong to previous class doesnot remain
+  //in the formState
   useEffect(() => {
-    setFormState({ ...formState, [name]: [] });
+    let newSubjects = formState[name];
+    if (!subjectOptions[0]) return;
 
+    //filter down the subject which belong to previous calss and this
+    //class as well
+    newSubjects = newSubjects.filter((i) =>
+      subjectOptions.map((s) => s._id).includes(i)
+    );
+
+    //set new class to the formState
+    setFormState({ ...formState, [name]: newSubjects });
+  }, [subjectOptions]);
+
+  useEffect(() => {
     if (nameOfClass) {
       apiWithJwt("/subject/get-for-class/", { class: nameOfClass })
         .then(({ data }) => setSubjectOptions(data.subjects))

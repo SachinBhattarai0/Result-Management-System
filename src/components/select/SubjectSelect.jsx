@@ -18,9 +18,18 @@ const SubjectSelect = ({
     setFormState({ ...formState, [name]: target.value });
   };
 
+  //This useEffect makes sure that whenever user changes class
+  //the subject which belong to previous class doesnot remain
+  //in the formState
   useEffect(() => {
-    setFormState({ ...formState, [name]: "" });
+    if (!subjectOptions[0]) return;
 
+    const prevSubject = formState.subject;
+    if (!subjectOptions.map((s) => s._id).includes(prevSubject))
+      setFormState({ ...formState, [name]: "" });
+  }, [subjectOptions]);
+
+  useEffect(() => {
     if (nameOfClass) {
       apiWithJwt("/subject/get-for-class/", { class: nameOfClass })
         .then(({ data }) => setSubjectOptions(data.subjects))
