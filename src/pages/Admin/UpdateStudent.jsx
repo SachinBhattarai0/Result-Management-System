@@ -9,7 +9,7 @@ import Input from "../../container/form/Input";
 import Button from "../../container/form/Button";
 import Select from "../../container/form/Select";
 import Content from "../../container/content/Content";
-import FormContainer from "../../components/Admin/formContainer/FormContainer";
+import FormContainer from "../../components/formContainer/FormContainer";
 
 const UpdateStudent = () => {
   const navigate = useNavigate();

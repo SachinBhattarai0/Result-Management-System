@@ -12,7 +12,7 @@ import Content from "../../container/content/Content";
 import Spinner from "../../container/spinner/Spinner";
 import Popover from "../../container/popovers/Popover";
 import Pagination from "../../container/pagination/Pagination";
-import StudentCreateOptions from "../../components/Admin/studentCreateOptions/StudentCreateOptions";
+import StudentCreateOptions from "../../components/studentCreateOptions/StudentCreateOptions";
 
 const Student = () => {
   const navigate = useNavigate();

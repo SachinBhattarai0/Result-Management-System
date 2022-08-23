@@ -13,7 +13,7 @@ import { useModalState } from "../../context/ModalContext";
 import Content from "../../container/content/Content";
 import Spinner from "../../container/spinner/Spinner";
 import Pagination from "../../container/pagination/Pagination";
-import AssignmentCreateOptions from "../../components/Admin/assignmentCreateOptions/AssignmentCreateOptions";
+import AssignmentCreateOptions from '../../components/assignmentCreateOptions/AssignmentCreateOptions'
 
 const Assignment = () => {
   const navigate = useNavigate();

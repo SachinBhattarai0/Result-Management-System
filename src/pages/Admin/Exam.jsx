@@ -11,7 +11,7 @@ import { useAlert } from "../../context/AlertContext";
 import Spinner from "../../container/spinner/Spinner";
 import Content from "../../container/content/Content";
 import Pagination from "../../container/pagination/Pagination";
-import ExamCreateCreteOptions from "../../components/Admin/examCreteOptions/ExamCreateOptions";
+import ExamCreateCreteOptions from "../../components/examCreteOptions/ExamCreateOptions";
 
 const Exam = () => {
   const navigate = useNavigate();

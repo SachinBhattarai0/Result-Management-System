@@ -9,7 +9,7 @@ import { useAlert } from "../../context/AlertContext";
 import Input from "../../container/form/Input";
 import Button from "../../container/form/Button";
 import Content from "../../container/content/Content";
-import FormContainer from "../../components/Admin/formContainer/FormContainer";
+import FormContainer from "../../components/formContainer/FormContainer";
 
 const UpdateSubject = () => {
   const navigate = useNavigate();

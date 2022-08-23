@@ -6,7 +6,7 @@ import { SUCCESS } from "../../context/AlertContext";
 import { useNavState } from "../../context/NavContext";
 import { useUserState } from "../../context/UserContext";
 import { AdminNavContent } from "../navContent/AdminNavContent";
-import { TeachersNavContent } from "../../components/Admin/navContent/TeachersNavContent";
+import { TeachersNavContent } from "../../container/navContent/TeachersNavContent";
 
 const Navbar = () => {
   const { navState } = useNavState();

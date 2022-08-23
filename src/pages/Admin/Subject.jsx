@@ -11,7 +11,7 @@ import { useModalState } from "../../context/ModalContext";
 import Spinner from "../../container/spinner/Spinner";
 import Popover from "../../container/popovers/Popover";
 import Content from "../../container/content/Content";
-import SubjectCreateOptions from "../../components/Admin/subjectCreateOptions/SubjectCreateOptions";
+import SubjectCreateOptions from "../../components/subjectCreateOptions/SubjectCreateOptions";
 
 const Subject = () => {
   const navigate = useNavigate();

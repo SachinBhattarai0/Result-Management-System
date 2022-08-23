@@ -11,7 +11,7 @@ import { useModalState } from "../../context/ModalContext";
 import Spinner from "../../container/spinner/Spinner";
 import Content from "../../container/content/Content";
 import Pagination from "../../container/pagination/Pagination";
-import UserCreateCreteOptions from "../../components/Admin/userCreateOpions/UserCreateOptions";
+import UserCreateCreteOptions from "../../components/userCreateOpions/UserCreateOptions";
 
 const Teacher = () => {
   const navigate = useNavigate();

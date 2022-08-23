@@ -10,7 +10,7 @@ import { useAlert } from "../../context/AlertContext";
 import { useModalState } from "../../context/ModalContext";
 import Content from "../../container/content/Content";
 import Spinner from "../../container/spinner/Spinner";
-import ClassCreateOptions from "../../components/Admin/classCreateOptions/ClassCreateOptions";
+import ClassCreateOptions from "../../components/classCreateOptions/ClassCreateOptions";
 
 const Assignment = () => {
   const navigate = useNavigate();

@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import Content from "../../container/content/Content";
-import ReportCardFilter from "../../components/Admin/reportCardFilter/ReportCardFilter";
-import StudentListForReportCard from "../../components/Admin/studentRowForReportCard/studentRowForReportCard";
+import ReportCardFilter from "../../components/reportCardFilter/ReportCardFilter";
+import StudentListForReportCard from "../../components/studentRowForReportCard/studentRowForReportCard";
 
 const ReportCard = () => {
   const [studentList, setStudentList] = useState({
