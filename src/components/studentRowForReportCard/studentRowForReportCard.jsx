@@ -1,10 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import { fetchWithJwt } from "../../../utils/utils";
-import { downloadFromBlob } from "../../../utils/utils";
-import { useAlert } from "../../../context/AlertContext";
-import Spinner from "../../spinner/Spinner";
-import Button from "../../form/Button";
+import { fetchWithJwt } from "../../utils/utils";
+import { downloadFromBlob } from "../../utils/utils";
+import { useAlert } from "../../context/AlertContext";
+import Spinner from "../../container/spinner/Spinner";
+import Button from "../../container/form/Button";
 
 const StudentListForReportCard = ({ filterInfo, student, index }) => {
   const { updateAlert } = useAlert();

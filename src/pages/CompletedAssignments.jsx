@@ -3,10 +3,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { apiWithJwt } from "../axios";
 import { Link } from "react-router-dom";
-import Spinner from "../components/spinner/Spinner";
-import Button from "../components/form/Button";
-import Content from "../components/content/Content";
-import Pagination from "../components/pagination/Pagination";
+import Spinner from "../container/spinner/Spinner";
+import Button from "../container/form/Button";
+import Content from "../container/content/Content";
+import Pagination from "../container/pagination/Pagination";
 
 const CompletedAssignments = () => {
   const [pageNo, setPageNo] = useState(1);

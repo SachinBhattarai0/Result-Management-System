@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import Content from "../../components/content/Content";
+import Content from "../../container/content/Content";
 import ReportCardFilter from "../../components/Admin/reportCardFilter/ReportCardFilter";
 import StudentListForReportCard from "../../components/Admin/studentRowForReportCard/studentRowForReportCard";
 

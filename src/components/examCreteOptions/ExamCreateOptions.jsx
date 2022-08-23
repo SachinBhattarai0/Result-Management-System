@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { SUCCESS, useAlert } from "../../../context/AlertContext";
-import Input from "../../form/Input";
-import Spinner from "../../spinner/Spinner";
-import Button from "../../form/Button";
+import { SUCCESS, useAlert } from "../../context/AlertContext";
+import Input from "../../container/form/Input";
+import Spinner from "../../container/spinner/Spinner";
+import Button from "../../container/form/Button";
 import FormContainer from "../formContainer/FormContainer";
-import { apiWithJwt } from "../../../axios";
+import { apiWithJwt } from "../../axios";
 
 const defaultFormState = {
   name: "",

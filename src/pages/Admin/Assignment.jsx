@@ -10,9 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { SUCCESS } from "../../context/AlertContext";
 import { useAlert } from "../../context/AlertContext";
 import { useModalState } from "../../context/ModalContext";
-import Content from "../../components/content/Content";
-import Spinner from "../../components/spinner/Spinner";
-import Pagination from "../../components/pagination/Pagination";
+import Content from "../../container/content/Content";
+import Spinner from "../../container/spinner/Spinner";
+import Pagination from "../../container/pagination/Pagination";
 import AssignmentCreateOptions from "../../components/Admin/assignmentCreateOptions/AssignmentCreateOptions";
 
 const Assignment = () => {

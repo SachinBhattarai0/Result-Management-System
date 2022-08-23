@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Select from "../../form/Select";
-import Button from "../../form/Button";
-import { useAlert } from "../../../context/AlertContext";
-import { apiWithJwt } from "../../../axios";
-import Spinner from "../../spinner/Spinner";
+import Select from "../../container/form/Select";
+import Button from "../../container/form/Button";
+import { useAlert } from "../../context/AlertContext";
+import { apiWithJwt } from "../../axios";
+import Spinner from "../../container/spinner/Spinner";
 
 const ReportCardFilter = ({
   studentList,

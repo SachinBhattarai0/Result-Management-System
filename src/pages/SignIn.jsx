@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { useAlert } from "../context/AlertContext";
 import { useUserState } from "../context/UserContext";
 import { SUCCESS } from "../context/AlertContext";
-import Form from "../components/form/Form";
-import Button from "../components/form/Button";
-import Input from "../components/form/Input";
-import Spinner from "../components/spinner/Spinner";
+import Form from "../container/form/Form";
+import Button from "../container/form/Button";
+import Input from "../container/form/Input";
+import Spinner from "../container/spinner/Spinner";
 
 const SignIn = () => {
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });

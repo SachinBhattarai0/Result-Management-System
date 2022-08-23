@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { SUCCESS } from "../../context/AlertContext";
 import { useAlert } from "../../context/AlertContext";
 import { useModalState } from "../../context/ModalContext";
-import Spinner from "../../components/spinner/Spinner";
-import Content from "../../components/content/Content";
-import Pagination from "../../components/pagination/Pagination";
+import Spinner from "../../container/spinner/Spinner";
+import Content from "../../container/content/Content";
+import Pagination from "../../container/pagination/Pagination";
 import UserCreateCreteOptions from "../../components/Admin/userCreateOpions/UserCreateOptions";
 
 const Teacher = () => {

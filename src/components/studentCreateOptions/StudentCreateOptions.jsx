@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Button from "../../form/Button";
-import Select from "../../form/Select";
-import Spinner from "../../spinner/Spinner";
-import { SUCCESS, useAlert } from "../../../context/AlertContext";
-import { apiWithJwt } from "../../../axios/index";
+import Button from "../../container/form/Button";
+import Select from "../../container/form/Select";
+import Spinner from "../../container/spinner/Spinner";
+import { SUCCESS, useAlert } from "../../context/AlertContext";
+import { apiWithJwt } from "../../axios/index";
 import FormContainer from "../formContainer/FormContainer";
 
 const defaultState = { studentNames: "", class: "", subjects: [] };

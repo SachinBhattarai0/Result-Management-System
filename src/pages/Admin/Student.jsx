@@ -8,10 +8,10 @@ import { apiWithJwt } from "../../axios";
 import { SUCCESS } from "../../context/AlertContext";
 import { useAlert } from "../../context/AlertContext";
 import { useModalState } from "../../context/ModalContext";
-import Content from "../../components/content/Content";
-import Spinner from "../../components/spinner/Spinner";
-import Popover from "../../components/popovers/Popover";
-import Pagination from "../../components/pagination/Pagination";
+import Content from "../../container/content/Content";
+import Spinner from "../../container/spinner/Spinner";
+import Popover from "../../container/popovers/Popover";
+import Pagination from "../../container/pagination/Pagination";
 import StudentCreateOptions from "../../components/Admin/studentCreateOptions/StudentCreateOptions";
 
 const Student = () => {

@@ -4,9 +4,9 @@ import { SUCCESS, useAlert } from "../../context/AlertContext";
 import { useUserState } from "../../context/UserContext";
 import { apiWithJwt } from "../../axios";
 import { useNavigate } from "react-router-dom";
-import Spinner from "../../components/spinner/Spinner";
-import Button from "../../components/form/Button";
-import Content from "../../components/content/Content";
+import Spinner from "../../container/spinner/Spinner";
+import Button from "../../container/form/Button";
+import Content from "../../container/content/Content";
 
 const UserInfo = () => {
   const navigate = useNavigate();

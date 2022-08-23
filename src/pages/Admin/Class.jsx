@@ -8,8 +8,8 @@ import { BiTrash } from "react-icons/bi";
 import { SUCCESS } from "../../context/AlertContext";
 import { useAlert } from "../../context/AlertContext";
 import { useModalState } from "../../context/ModalContext";
-import Content from "../../components/content/Content";
-import Spinner from "../../components/spinner/Spinner";
+import Content from "../../container/content/Content";
+import Spinner from "../../container/spinner/Spinner";
 import ClassCreateOptions from "../../components/Admin/classCreateOptions/ClassCreateOptions";
 
 const Assignment = () => {

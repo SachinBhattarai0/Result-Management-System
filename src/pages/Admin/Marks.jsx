@@ -3,9 +3,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { apiWithJwt } from "../../axios";
 import { useAlert } from "../../context/AlertContext";
-import Content from "../../components/content/Content";
-import Spinner from "../../components/spinner/Spinner";
-import Pagination from "../../components/pagination/Pagination";
+import Content from "../../container/content/Content";
+import Spinner from "../../container/spinner/Spinner";
+import Pagination from "../../container/pagination/Pagination";
 import MarkListItem from "../../components/Admin/markListItem/MarkListItem";
 
 const Marks = () => {

@@ -2,9 +2,9 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { MdOutlineAssignment } from "react-icons/md";
 import { MdAssignmentTurnedIn } from "react-icons/md";
-import { useNavState } from "../../../context/NavContext";
+import { useNavState } from "../../context/NavContext";
 import { AiOutlineSetting } from "react-icons/ai";
-import NavListItem from "../../Navbar/NavlistItem";
+import NavListItem from "../../container/Navbar/NavlistItem";
 
 export const TeachersNavContent = () => {
   const { navState } = useNavState();

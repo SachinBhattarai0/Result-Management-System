@@ -8,9 +8,9 @@ import { BiTrash } from "react-icons/bi";
 import { useAlert } from "../../context/AlertContext";
 import { SUCCESS } from "../../context/AlertContext";
 import { useModalState } from "../../context/ModalContext";
-import Spinner from "../../components/spinner/Spinner";
-import Popover from "../../components/popovers/Popover";
-import Content from "../../components/content/Content";
+import Spinner from "../../container/spinner/Spinner";
+import Popover from "../../container/popovers/Popover";
+import Content from "../../container/content/Content";
 import SubjectCreateOptions from "../../components/Admin/subjectCreateOptions/SubjectCreateOptions";
 
 const Subject = () => {

@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { useModalState } from "../../context/ModalContext";
 import { SUCCESS } from "../../context/AlertContext";
 import { useAlert } from "../../context/AlertContext";
-import Spinner from "../../components/spinner/Spinner";
-import Content from "../../components/content/Content";
-import Pagination from "../../components/pagination/Pagination";
+import Spinner from "../../container/spinner/Spinner";
+import Content from "../../container/content/Content";
+import Pagination from "../../container/pagination/Pagination";
 import ExamCreateCreteOptions from "../../components/Admin/examCreteOptions/ExamCreateOptions";
 
 const Exam = () => {

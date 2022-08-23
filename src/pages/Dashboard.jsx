@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { useUserState } from "../context/UserContext";
 import { apiWithJwt } from "../axios";
 import { Link } from "react-router-dom";
-import Button from "../components/form/Button";
-import Spinner from "../components/spinner/Spinner";
-import Content from "../components/content/Content";
+import Button from "../container/form/Button";
+import Spinner from "../container/spinner/Spinner";
+import Content from "../container/content/Content";
 
 const Dashboard = () => {
   const navigate = useNavigate();

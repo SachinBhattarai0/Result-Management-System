@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { SUCCESS, useAlert } from "../../../context/AlertContext";
-import Select from "../../form/Select";
-import Spinner from "../../spinner/Spinner";
-import Button from "../../form/Button";
+import { SUCCESS, useAlert } from "../../context/AlertContext";
+import Select from "../../container/form/Select";
+import Spinner from "../../container/spinner/Spinner";
+import Button from "../../container/form/Button";
 import FormContainer from "../formContainer/FormContainer";
-import { apiWithJwt } from "../../../axios/index";
+import { apiWithJwt } from "../../axios/index";
 
 const defaultFormState = {
   exam: "",

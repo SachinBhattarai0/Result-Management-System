@@ -4,9 +4,9 @@ import { apiWithJwt } from "../../axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { SUCCESS, useAlert } from "../../context/AlertContext";
-import Input from "../../components/form/Input";
-import Button from "../../components/form/Button";
-import Content from "../../components/content/Content";
+import Input from "../../container/form/Input";
+import Button from "../../container/form/Button";
+import Content from "../../container/content/Content";
 import FormContainer from "../../components/Admin/formContainer/FormContainer";
 
 const UpdateTeacher = () => {
