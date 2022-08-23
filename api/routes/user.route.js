@@ -1,16 +1,18 @@
+const { signIn } = require("../controllers/user.controller");
+const { verify } = require("../controllers/user.controller");
+const { validate } = require("../middlewares/validator");
 const { allowedRoles } = require("../middlewares/validator");
+const { studentPrmoteInfoValidator } = require("../middlewares/validator");
 const { userInfoValidator } = require("../middlewares/validator");
 const { passwordValidator } = require("../middlewares/validator");
 const { studentInfoValidator } = require("../middlewares/validator");
 const { signInValidator } = require("../middlewares/validator");
+const { promoteStudent } = require("../controllers/user.controller");
 const { updatePassword } = require("../controllers/user.controller");
 const { getAllTeachersPaginated } = require("../controllers/user.controller");
 const { getAllStudentsPaginated } = require("../controllers/user.controller");
 const { createStudent } = require("../controllers/user.controller");
 const { getAllTeachers } = require("../controllers/user.controller");
-const { signIn } = require("../controllers/user.controller");
-const { verify } = require("../controllers/user.controller");
-const { validate } = require("../middlewares/validator");
 const { userValidator } = require("../middlewares/validator");
 const { studentUpdateInfoValidator } = require("../middlewares/validator");
 const { teacherUpdateInfoValidator } = require("../middlewares/validator");
@@ -100,6 +102,14 @@ router.post(
   userValidator,
   allowedRoles("admin"),
   getAllStudentsPaginated
+);
+
+router.post(
+  "/promote-student/",
+  userValidator,
+  allowedRoles("admin"),
+  studentPrmoteInfoValidator,
+  promoteStudent
 );
 
 router.post("/verify", userValidator, validate, verify);

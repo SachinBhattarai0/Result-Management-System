@@ -2,7 +2,7 @@ import React from "react";
 import { BiUser } from "react-icons/bi";
 import { TbSchool } from "react-icons/tb";
 import { BiBookAlt } from "react-icons/bi";
-import { MdChecklist } from "react-icons/md";
+import { MdChecklist, MdOutlineSelfImprovement } from "react-icons/md";
 import { TbReportSearch } from "react-icons/tb";
 import { MdOutlineAssignment } from "react-icons/md";
 import { SiGoogleclassroom } from "react-icons/si";
@@ -77,6 +77,12 @@ export const AdminNavContent = () => {
           icon={<FaUserGraduate className="text-xl" />}
         >
           Student
+        </NavListItem>
+        <NavListItem
+          to="/rms/admin/promote/"
+          icon={<MdOutlineSelfImprovement className="text-xl" />}
+        >
+          Promote
         </NavListItem>
         <NavListItem
           to="/rms/admin/my-info/"

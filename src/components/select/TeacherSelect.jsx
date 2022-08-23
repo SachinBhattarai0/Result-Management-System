@@ -4,7 +4,12 @@ import { useEffect } from "react";
 import { apiWithJwt } from "../../axios";
 import Select from "../../container/form/Select";
 
-const TeacherSelect = ({ formState, setFormState, name = "teacher" }) => {
+const TeacherSelect = ({
+  formState,
+  setFormState,
+  name = "teacher",
+  label = "Teacher",
+}) => {
   const [teacherOptions, setTeacherOptions] = useState([]);
 
   const handleChange = (target) => {
@@ -19,7 +24,7 @@ const TeacherSelect = ({ formState, setFormState, name = "teacher" }) => {
 
   return (
     <div className="flex flex-col">
-      <label>Teacher:</label>
+      <label>{label}:</label>
       <Select
         name={name}
         onChange={(e) => handleChange(e.target)}

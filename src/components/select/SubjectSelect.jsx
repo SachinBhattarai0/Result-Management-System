@@ -9,6 +9,7 @@ const SubjectSelect = ({
   setFormState,
   forClass: nameOfClass,
   name = "subject",
+  label = "Subject",
 }) => {
   const selectRef = useRef();
   const [subjectOptions, setSubjectOptions] = useState([]);
@@ -33,7 +34,7 @@ const SubjectSelect = ({
 
   return (
     <div className="flex flex-col">
-      <label>Subject:</label>
+      <label>{label}:</label>
       <Select
         name={name}
         onChange={(e) => handleChange(e.target)}

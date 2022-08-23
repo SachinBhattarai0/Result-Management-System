@@ -207,6 +207,39 @@ exports.getAllStudentsPaginated = async (req, res) => {
   return res.json({ error: false, pager, students: paginatedList });
 };
 
+exports.promoteStudent = async (req, res) => {
+  const { classToPromote, classToPromoteTo } = req;
+  const { passed } = req.body;
+
+  try {
+    if (passed) {
+      await Student.updateMany(
+        { class: classToPromote._id.toString(), passed: false },
+        { passed: true }
+      );
+    } else {
+      await Student.updateMany(
+        { class: classToPromote._id.toString(), passed: false },
+        { class: classToPromoteTo._id.toString() }
+      );
+
+      //updating the roll numbers
+      const stdList = await Student.find({
+        class: classToPromoteTo,
+        passed: false,
+      }).sort({ name: 1 });
+
+      stdList.forEach(async (s, i) => {
+        await s.updateOne({ rollNo: i + 1 });
+      });
+    }
+  } catch (error) {
+    return sendError(res, "Unable to promote!!");
+  }
+
+  return res.json({ error: false, message: "Student promoted successfully!!" });
+};
+
 exports.verify = (req, res) => {
   const user = req.user;
   if (user)

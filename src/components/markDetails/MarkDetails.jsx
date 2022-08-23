@@ -1,7 +1,6 @@
 import React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
-import ButtonSm from "../../container/form/ButtonSm";
+import ButtonOutlined from "../../container/form/ButtonOutlined";
 
 const MarkDetails = ({ marks, markId }) => {
   const defaultFormState = marks.reduce((pv, cv) => {
@@ -15,7 +14,6 @@ const MarkDetails = ({ marks, markId }) => {
   }, {});
   const [formState, setFormState] = useState(defaultFormState);
   const [markEditOpen, setMarkEditOpen] = useState(false);
-  const [formPending, setFormPending] = useState(false);
 
   const handleMarkSaveButtonClick = () => {
     setMarkEditOpen(!markEditOpen);
@@ -37,11 +35,13 @@ const MarkDetails = ({ marks, markId }) => {
   return (
     <div className="relative mx-12 flex flex-col space-y-3">
       {markEditOpen ? (
-        <ButtonSm onClick={handleMarkSaveButtonClick} variant="green">
+        <ButtonOutlined onClick={handleMarkSaveButtonClick} variant="green">
           Save
-        </ButtonSm>
+        </ButtonOutlined>
       ) : (
-        <ButtonSm onClick={() => setMarkEditOpen(!markEditOpen)}>Edit</ButtonSm>
+        <ButtonOutlined onClick={() => setMarkEditOpen(!markEditOpen)}>
+          Edit
+        </ButtonOutlined>
       )}
       {marks.map((subjectMark, i) => (
         <div key={i} className="flex space-x-10">

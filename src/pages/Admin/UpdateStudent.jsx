@@ -23,7 +23,7 @@ const UpdateStudent = () => {
     name: student.name,
     class: student.class._id,
     subjects: student.subjects.map((sub) => sub._id),
-    passed: false,
+    passed: student.passed,
   });
 
   const handleChange = ({ target }) => {

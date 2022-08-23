@@ -1,4 +1,4 @@
-const { check, validationResult } = require("express-validator");
+const { check, validationResult, oneOf } = require("express-validator");
 const { isValidObjectId } = require("mongoose");
 const { sendError, TEACHER } = require("../utils/utils");
 const User = require("../models/user.model");
@@ -280,6 +280,33 @@ exports.passwordValidator = [
       return sendError(res, "password donot match!!");
     next();
   },
+];
+
+exports.studentPrmoteInfoValidator = [
+  check("classToPromote")
+    .not()
+    .isEmpty()
+    .withMessage("please select class to promote!!"),
+  check("classToPromoteTo")
+    .not()
+    .isEmpty()
+    .withMessage("please select class to promote to!!"),
+  check("classToPromote").custom(async (classId, { req }) => {
+    if (!isValidObjectId(classId)) throw new Error("Invalid classId!!");
+
+    const classToPromote = await Class.findById(classId).lean();
+    if (!classToPromote) throw new Error("Class does not exist!!");
+    req.classToPromote = classToPromote;
+  }),
+
+  check("classToPromoteTo").custom(async (classId, { req }) => {
+    if (req.body.passed) return true;
+    if (!isValidObjectId(classId)) throw new Error("Invalid classId!!");
+
+    const classToPromoteTo = await Class.findById(classId).lean();
+    if (!classToPromoteTo) throw new Error("Class does not exist!!");
+    req.classToPromoteTo = classToPromoteTo;
+  }),
 ];
 
 exports.teacherUpdateInfoValidator = [
