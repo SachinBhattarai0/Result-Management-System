@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { SUCCESS, useAlert } from "../../context/AlertContext";
+import React from "react";
+import { useState } from "react";
+import { SUCCESS } from "../../context/AlertContext";
+import { useAlert } from "../../context/AlertContext";
+import { apiWithJwt } from "../../axios";
 import Input from "../../container/form/Input";
 import Spinner from "../../container/spinner/Spinner";
 import Button from "../../container/form/Button";
 import FormContainer from "../formContainer/FormContainer";
-import { apiWithJwt } from "../../axios";
 
 const defaultFormState = {
   name: "",
@@ -13,7 +15,7 @@ const defaultFormState = {
   date: "",
 };
 
-const ExamCreateCreteOptions = () => {
+const ExamCreateCreteOptions = ({ setExamCreatedOrDeleted }) => {
   const [formState, setformState] = useState(defaultFormState);
   const [creatingExam, setCreatingExam] = useState(false);
   const { updateAlert } = useAlert();
@@ -29,7 +31,10 @@ const ExamCreateCreteOptions = () => {
       setCreatingExam(true);
       const { data } = await apiWithJwt("/exam/create/", { ...formState });
 
-      if (!data.error) updateAlert(data.message, SUCCESS);
+      //This state change will trigger useEffect to fetch new student list
+      setExamCreatedOrDeleted(Math.random());
+
+      updateAlert(data.message, SUCCESS);
       setformState(defaultFormState);
     } catch (error) {
       updateAlert(error.response.data.message);

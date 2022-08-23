@@ -18,7 +18,7 @@ const Student = () => {
   const navigate = useNavigate();
   const { updateAlert } = useAlert();
   const { showModal, closeModal } = useModalState();
-  const [studentDeleted, setStudentDeleted] = useState("");
+  const [studentCreatedOrDeleted, setStudentCreatedOrDeleted] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const [studentState, setStudentState] = useState({
     isPending: false,
@@ -33,7 +33,7 @@ const Student = () => {
       updateAlert(data.message, SUCCESS);
       closeModal();
       //This state change will trigger useEffect to fetch new student list
-      setStudentDeleted(Math.random());
+      setStudentCreatedOrDeleted(Math.random());
     } catch (error) {
       console.log(error);
       updateAlert(error.message);
@@ -71,10 +71,12 @@ const Student = () => {
       }
     };
     fetchstudentList();
-  }, [pageNo, studentDeleted]);
+  }, [pageNo, studentCreatedOrDeleted]);
   return (
     <Content>
-      <StudentCreateOptions />
+      <StudentCreateOptions
+        setStudentCreatedOrDeleted={setStudentCreatedOrDeleted}
+      />
 
       <table className="bg-white w-full rounded shadow-sm">
         <tbody>

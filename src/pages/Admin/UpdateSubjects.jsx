@@ -1,21 +1,22 @@
 import React from "react";
 import { useState } from "react";
-import { useEffect } from "react";
 import { apiWithJwt } from "../../axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { SUCCESS } from "../../context/AlertContext";
 import { useAlert } from "../../context/AlertContext";
+import Spinner from "../../container/spinner/Spinner";
 import Input from "../../container/form/Input";
 import Button from "../../container/form/Button";
 import Content from "../../container/content/Content";
+import ClassCheckbox from "../../components/checkbox/ClassCheckbox";
 import FormContainer from "../../components/formContainer/FormContainer";
 
 const UpdateSubject = () => {
   const navigate = useNavigate();
   const { state: subject } = useLocation();
   const { updateAlert } = useAlert();
-  const [classList, setClassList] = useState([]);
+  const [updatingSubject, setupdatingSubject] = useState(false);
 
   const [formState, setFormState] = useState({
     id: subject._id,
@@ -32,6 +33,7 @@ const UpdateSubject = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setupdatingSubject(true);
 
     try {
       const { data } = await apiWithJwt("/subject/update/", {
@@ -42,32 +44,9 @@ const UpdateSubject = () => {
     } catch (error) {
       updateAlert(error.response.data.message);
     }
+
+    setupdatingSubject(false);
   };
-
-  const handleCheckboxChange = ({ target }) => {
-    const classid = target.getAttribute("class_id");
-    const newClasses = formState.classes;
-
-    if (target.checked) {
-      newClasses.push(classid);
-      setFormState({ ...formState, classes: newClasses });
-    } else {
-      newClasses.splice(newClasses.indexOf(classid), 1);
-      setFormState({ ...formState, classes: newClasses });
-    }
-  };
-
-  useEffect(() => {
-    const fetchclassList = async () => {
-      try {
-        const { data } = await apiWithJwt("/class/get-all/");
-        setClassList(data.class);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchclassList();
-  }, []);
 
   return (
     <Content>
@@ -104,25 +83,11 @@ const UpdateSubject = () => {
             name="passMark"
             onChange={handleChange}
           />
-          <label>Classes:</label>
-          <div className="flex flex-wrap mt-1 space-x-2">
-            {classList.map((_class, i) => (
-              <div className="flex space-x-1" key={i}>
-                <div>{_class.name}</div>
-                <input
-                  type="checkbox"
-                  class_id={_class._id}
-                  checked={
-                    formState.classes.includes(_class._id) ? true : false
-                  }
-                  onChange={handleCheckboxChange}
-                />
-              </div>
-            ))}
-          </div>
-
+          <ClassCheckbox formState={formState} setFormState={setFormState} />
           <div className="flex flex-col">
-            <Button variant="green">Update</Button>
+            <Button variant="green">
+              {updatingSubject ? <Spinner /> : "Update"}
+            </Button>
           </div>
         </form>
       </FormContainer>

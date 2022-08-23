@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { SUCCESS, useAlert } from "../../context/AlertContext";
+import React from "react";
+import { useState } from "react";
+import { useAlert } from "../../context/AlertContext";
+import { SUCCESS } from "../../context/AlertContext";
+import { apiWithJwt } from "../../axios";
 import Input from "../../container/form/Input";
 import Spinner from "../../container/spinner/Spinner";
 import Button from "../../container/form/Button";
 import FormContainer from "../formContainer/FormContainer";
-import { apiWithJwt } from "../../axios";
 
-const ClassCreateOptions = () => {
+const ClassCreateOptions = ({ setClassCreatedOrDeleted }) => {
   const { updateAlert } = useAlert();
   const [className, setClassName] = useState("");
   const [creatingClass, setCreatingClass] = useState(false);
@@ -15,15 +17,18 @@ const ClassCreateOptions = () => {
     e.preventDefault();
 
     try {
-      setCreatingClass(false);
+      setCreatingClass(true);
       const { data } = await apiWithJwt("/class/create/", { name: className });
 
-      if (!data.error) updateAlert("class created successfuly!!", SUCCESS);
+      //This state change will trigger useEffect to fetch new class list
+      setClassCreatedOrDeleted(Math.random());
+
+      updateAlert(data.message, SUCCESS);
       setClassName("");
     } catch (error) {
-      setCreatingClass(false);
       updateAlert(error.response.data.message);
     }
+    setCreatingClass(false);
   };
 
   return (

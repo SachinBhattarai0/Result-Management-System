@@ -1,24 +1,23 @@
 import React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import { apiWithJwt } from "../../axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { SUCCESS, useAlert } from "../../context/AlertContext";
+import { SUCCESS } from "../../context/AlertContext";
+import { useAlert } from "../../context/AlertContext";
+import Spinner from "../../container/spinner/Spinner";
 import Input from "../../container/form/Input";
 import Button from "../../container/form/Button";
-import Select from "../../container/form/Select";
 import Content from "../../container/content/Content";
+import SubjectCheckbox from "../../components/checkbox/SubjectCheckbox";
+import ClassSelect from "../../components/select/ClassSelect";
 import FormContainer from "../../components/formContainer/FormContainer";
 
 const UpdateStudent = () => {
   const navigate = useNavigate();
   const { state: student } = useLocation();
   const { updateAlert } = useAlert();
-  const [formOptions, setFormOptions] = useState({
-    classOptions: [],
-    subjectOptions: [],
-  });
+  const [updatingStudent, setUpdatingStudent] = useState(false);
   const [formState, setFormState] = useState({
     id: student._id,
     name: student.name,
@@ -27,28 +26,14 @@ const UpdateStudent = () => {
     passed: false,
   });
 
-  const handleCheckboxChange = ({ target }) => {
-    const subjectId = target.getAttribute("subid");
-    const newSubjects = formState.subjects;
-
-    if (target.checked) {
-      newSubjects.push(subjectId);
-      setFormState({ ...formState, subjects: newSubjects });
-    } else {
-      newSubjects.splice(newSubjects.indexOf(subjectId), 1);
-      setFormState({
-        ...formState,
-        subjects: newSubjects,
-      });
-    }
-  };
-
   const handleChange = ({ target }) => {
     setFormState({ ...formState, [target.name]: target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUpdatingStudent(true);
+
     try {
       const { data } = await apiWithJwt("/user/update-student", {
         ...formState,
@@ -58,28 +43,8 @@ const UpdateStudent = () => {
     } catch (error) {
       updateAlert(error.response.data.message);
     }
+    setUpdatingStudent(false);
   };
-
-  useEffect(() => {
-    const fetchClassSubject = async () => {
-      try {
-        const [subjects, _class] = await Promise.all([
-          apiWithJwt("/subject/get-all/"),
-          apiWithJwt("/class/get-all/"),
-        ]);
-
-        setFormOptions({
-          ...formOptions,
-          classOptions: _class.data.class,
-          subjectOptions: subjects.data.subjects,
-        });
-      } catch (error) {
-        updateAlert(error.message);
-      }
-    };
-
-    fetchClassSubject();
-  }, []);
 
   return (
     <Content>
@@ -92,28 +57,14 @@ const UpdateStudent = () => {
             name="name"
             onChange={handleChange}
           />
-          <label>Class:</label>
-          <Select value={formState.class} name="class" onChange={handleChange}>
-            {formOptions.classOptions.map((classItem, i) => (
-              <option key={i} value={classItem._id}>
-                {classItem.name}
-              </option>
-            ))}
-          </Select>
-          <div className="flex space-x-2">
-            <label>Subjects:</label>
-            {formOptions.subjectOptions.map((subjectItem, i) => (
-              <div className="flex mr-2 space-x-1" key={i}>
-                <span>{subjectItem.name}</span>
-                <input
-                  type="checkbox"
-                  subid={subjectItem._id}
-                  checked={formState.subjects.includes(subjectItem._id)}
-                  onChange={handleCheckboxChange}
-                />
-              </div>
-            ))}
-          </div>
+          <ClassSelect formState={formState} setFormState={setFormState} />
+
+          <SubjectCheckbox
+            formState={formState}
+            setFormState={setFormState}
+            forClass={formState.class}
+          />
+
           <div className="flex items-center space-x-1">
             <label>Passed: </label>
             <input
@@ -125,7 +76,9 @@ const UpdateStudent = () => {
             />
           </div>
           <div className="flex flex-col">
-            <Button variant="green">Update</Button>
+            <Button variant="green">
+              {updatingStudent ? <Spinner /> : "Update"}
+            </Button>
           </div>
         </form>
       </FormContainer>

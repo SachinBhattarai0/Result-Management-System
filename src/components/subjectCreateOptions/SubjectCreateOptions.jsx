@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Input from "../../container/form/Input";
 import Button from "../../container/form/Button";
 import Spinner from "../../container/spinner/Spinner";
 import { SUCCESS, useAlert } from "../../context/AlertContext";
 import { apiWithJwt } from "../../axios";
+import ClassCheckbox from "../checkbox/ClassCheckbox";
 import FormConainer from "../formContainer/FormContainer";
 
 const defaultFormState = {
@@ -14,29 +15,15 @@ const defaultFormState = {
   classes: [],
 };
 
-const SubjectCreateOptions = () => {
+const SubjectCreateOptions = ({ setSubjectCreatedOrDeleted }) => {
   const { updateAlert } = useAlert();
   const [formState, setFormState] = useState(defaultFormState);
   const [creatingClass, setCreatingClass] = useState(false);
-  const [classList, setClassList] = useState([]);
   const { name, theoryMark, practicalMark, passMark } = formState;
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setFormState({ ...formState, [name]: value });
-  };
-
-  const handleCheckboxChange = ({ target }) => {
-    const classid = target.getAttribute("class_id");
-    const newClasses = formState.classes;
-
-    if (target.checked) {
-      newClasses.push(classid);
-      setFormState({ ...formState, classes: newClasses });
-    } else {
-      newClasses.splice(newClasses.indexOf(classid), 1);
-      setFormState({ ...formState, classes: newClasses });
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -46,6 +33,9 @@ const SubjectCreateOptions = () => {
       setCreatingClass(true);
       const { data } = await apiWithJwt("/subject/create/", { ...formState });
 
+      //This state change will trigger useEffect to fetch new student list
+      setSubjectCreatedOrDeleted(Math.random());
+
       setFormState({ ...defaultFormState });
       updateAlert(data.message, SUCCESS);
     } catch (error) {
@@ -54,17 +44,6 @@ const SubjectCreateOptions = () => {
     setCreatingClass(false);
   };
 
-  useEffect(() => {
-    const fetchclassList = async () => {
-      try {
-        const { data } = await apiWithJwt("/class/get-all/");
-        setClassList(data.class);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchclassList();
-  }, []);
   return (
     <FormConainer title="Create Subject:">
       <form onSubmit={handleSubmit} className="mt-3 flex flex-col space-y-1">
@@ -99,20 +78,8 @@ const SubjectCreateOptions = () => {
           type="number"
           onChange={handleChange}
         />
-        <label>Class:</label>
-        <div className="flex flex-wrap mt-1 space-x-2">
-          {classList.map((_class, i) => (
-            <div className="flex space-x-1" key={i}>
-              <input
-                type="checkbox"
-                class_id={_class._id}
-                checked={formState.classes.includes(_class._id) ? true : false}
-                onChange={handleCheckboxChange}
-              />
-              <div>{_class.name}</div>
-            </div>
-          ))}
-        </div>
+        <ClassCheckbox formState={formState} setFormState={setFormState} />
+
         <div className="flex flex-col mt-1">
           <Button variant={"green"} isPending={creatingClass}>
             {creatingClass ? <Spinner /> : "Create"}

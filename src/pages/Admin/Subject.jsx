@@ -17,7 +17,7 @@ const Subject = () => {
   const navigate = useNavigate();
   const { updateAlert } = useAlert();
   const { showModal, closeModal } = useModalState();
-  const [subjectDeleted, setSubjectDeleted] = useState("");
+  const [subjectCreatedOrDeleted, setSubjectCreatedOrDeleted] = useState("");
   const [subjectState, setSubjectState] = useState({
     isPending: false,
     subjectList: [],
@@ -30,7 +30,7 @@ const Subject = () => {
       updateAlert(data.message, SUCCESS);
       closeModal();
       //This state change will trigger useEffect to fetch new student list
-      setSubjectDeleted(Math.random());
+      setSubjectCreatedOrDeleted(Math.random());
     } catch (error) {
       console.log(error);
       updateAlert(error.message);
@@ -67,11 +67,13 @@ const Subject = () => {
       }
     };
     fetchSubjects();
-  }, [subjectDeleted]);
+  }, [subjectCreatedOrDeleted]);
 
   return (
     <Content>
-      <SubjectCreateOptions />
+      <SubjectCreateOptions
+        setSubjectCreatedOrDeleted={setSubjectCreatedOrDeleted}
+      />
       <table className="bg-white w-full rounded shadow-sm">
         <tbody>
           <tr>

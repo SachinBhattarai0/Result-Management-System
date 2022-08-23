@@ -141,7 +141,7 @@ exports.studentInfoValidator = [
     .isArray({ min: 1 })
     .withMessage("subjects must be a array!"),
   check("subjects").custom((subjectArr) => {
-    if (subjectArr.length === 0) throw new Error("Array cannot be empty!");
+    if (subjectArr.length === 0) throw new Error("subjects cannot be empty!");
 
     const invalidIndex = subjectArr.findIndex((id) => isValidObjectId(id));
     if (invalidIndex < 0) throw new Error("Invalid classId!");

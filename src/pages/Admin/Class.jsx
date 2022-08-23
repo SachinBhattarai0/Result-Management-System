@@ -15,7 +15,7 @@ import ClassCreateOptions from "../../components/classCreateOptions/ClassCreateO
 const Assignment = () => {
   const navigate = useNavigate();
   const { updateAlert } = useAlert();
-  const [classDeleted, setClassDeleted] = useState("");
+  const [classCreatedOrDeleted, setClassCreatedOrDeleted] = useState("");
   const { showModal, closeModal } = useModalState();
   const [classState, setClassState] = useState({
     isPending: false,
@@ -24,12 +24,11 @@ const Assignment = () => {
 
   const deleteClass = async (id) => {
     try {
-      setClassState({ ...classState, isPending: true });
       const { data } = await apiWithJwt("/class/delete/", { id });
       updateAlert(data.message, SUCCESS);
       closeModal();
-      //This state change will trigger useEffect to fetch new student list
-      setClassDeleted(Math.random());
+      //This state change will trigger useEffect to fetch new class list
+      setClassCreatedOrDeleted(Math.random());
     } catch (error) {
       console.log(error);
       updateAlert(error.message);
@@ -64,11 +63,11 @@ const Assignment = () => {
       }
     };
     fetchClassList();
-  }, [classDeleted]);
+  }, [classCreatedOrDeleted]);
 
   return (
     <Content>
-      <ClassCreateOptions />
+      <ClassCreateOptions setClassCreatedOrDeleted={setClassCreatedOrDeleted} />
       <table className="bg-white w-full rounded shadow-sm">
         <tbody>
           <tr>

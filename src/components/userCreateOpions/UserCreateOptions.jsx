@@ -13,7 +13,7 @@ const defaultState = {
   role: "teacher",
 };
 
-const UserCreateCreteOptions = () => {
+const UserCreateOptions = ({ setTeacherCreatedOrDeleted }) => {
   const [formState, setFormState] = useState(defaultState);
   const [creatingUser, setCreatingUser] = useState(false);
   const { updateAlert } = useAlert();
@@ -28,6 +28,10 @@ const UserCreateCreteOptions = () => {
       const { data } = await apiWithJwt("/user/create-teacher", {
         ...formState,
       });
+
+      //This state change will trigger useEffect to fetch new teacher list
+      setTeacherCreatedOrDeleted(Math.random());
+
       setFormState(defaultState);
       updateAlert(data.message, SUCCESS);
 
@@ -71,4 +75,4 @@ const UserCreateCreteOptions = () => {
   );
 };
 
-export default UserCreateCreteOptions;
+export default UserCreateOptions;

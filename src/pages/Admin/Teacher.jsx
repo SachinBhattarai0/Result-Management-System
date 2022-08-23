@@ -11,13 +11,13 @@ import { useModalState } from "../../context/ModalContext";
 import Spinner from "../../container/spinner/Spinner";
 import Content from "../../container/content/Content";
 import Pagination from "../../container/pagination/Pagination";
-import UserCreateCreteOptions from "../../components/userCreateOpions/UserCreateOptions";
+import UserCreateOptions from "../../components/userCreateOpions/UserCreateOptions";
 
 const Teacher = () => {
   const navigate = useNavigate();
   const { updateAlert } = useAlert();
   const [pageNo, setPageNo] = useState(1);
-  const [teacherDeleted, setTeacherDeleted] = useState("");
+  const [teacherCreatedOrDeleted, setTeacherCreatedOrDeleted] = useState("");
   const { showModal, closeModal } = useModalState();
   const [teacherState, setTeacherState] = useState({
     isPending: false,
@@ -32,7 +32,7 @@ const Teacher = () => {
       updateAlert(data.message, SUCCESS);
       closeModal();
       //this state change will trigger useEffect to refetch new list of teachers
-      setTeacherDeleted(Math.random());
+      setTeacherCreatedOrDeleted(Math.random());
     } catch (error) {
       console.log(error);
       updateAlert(error.message);
@@ -69,11 +69,13 @@ const Teacher = () => {
       }
     };
     fetchTeacherList();
-  }, [pageNo, teacherDeleted]);
+  }, [pageNo, teacherCreatedOrDeleted]);
 
   return (
     <Content>
-      <UserCreateCreteOptions />
+      <UserCreateOptions
+        setTeacherCreatedOrDeleted={setTeacherCreatedOrDeleted}
+      />
 
       <table className="bg-white w-full rounded shadow-sm">
         <tbody>

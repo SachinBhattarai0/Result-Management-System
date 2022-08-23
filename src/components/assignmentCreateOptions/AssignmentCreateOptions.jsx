@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { SUCCESS, useAlert } from "../../context/AlertContext";
-import Select from "../../container/form/Select";
+import React from "react";
+import { useState } from "react";
+import { SUCCESS } from "../../context/AlertContext";
+import { useAlert } from "../../context/AlertContext";
+import { apiWithJwt } from "../../axios/index";
 import Spinner from "../../container/spinner/Spinner";
 import Button from "../../container/form/Button";
 import FormContainer from "../formContainer/FormContainer";
-import { apiWithJwt } from "../../axios/index";
+import ClassSelect from "../select/ClassSelect";
+import ExamSelect from "../select/ExamSelect";
+import SubjectSelect from "../select/SubjectSelect";
+import TeacherSelect from "../select/TeacherSelect";
 
 const defaultFormState = {
   exam: "",
@@ -14,18 +18,10 @@ const defaultFormState = {
   teacher: "",
 };
 
-const AssignmentCreateOptions = () => {
-  const navigate = useNavigate();
+const AssignmentCreateOptions = ({ setAssignmentDeletedOrCreated }) => {
   const { updateAlert } = useAlert();
   const [creatingAssignment, setCreatingAssignment] = useState(false);
   const [formState, setFormState] = useState(defaultFormState);
-
-  const [createOptions, setCreateOptions] = useState({
-    exam: [],
-    class: [],
-    subject: [],
-    teacher: [],
-  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,9 +35,11 @@ const AssignmentCreateOptions = () => {
         user: formState.teacher,
       });
       setCreatingAssignment(false);
+      //This state change will trigger useEffect to fetch new assignment list
+      setAssignmentDeletedOrCreated(Math.random());
+      setFormState(defaultFormState);
 
-      updateAlert("Assignment created Sucessfully", SUCCESS);
-      if (!data.error) return navigate("/rms/admin/assignment/");
+      updateAlert(data.message, SUCCESS);
     } catch (error) {
       setCreatingAssignment(false);
       console.log(error);
@@ -49,84 +47,18 @@ const AssignmentCreateOptions = () => {
     }
   };
 
-  const handleChange = (target) => {
-    setFormState({ ...formState, [target.name]: target.value });
-  };
-
-  const handleClassChange = async (target) => {
-    //when class changes fetch subect for that class
-    setFormState({ ...formState, [target.name]: target.value });
-    const { data } = await apiWithJwt("/subject/get-for-class/", {
-      class: target.value,
-    });
-    setCreateOptions({ ...createOptions, subject: data.subjects });
-  };
-
-  useEffect(() => {
-    const getCreateOptions = async () => {
-      try {
-        const [exams, classes, teachers] = await Promise.all([
-          apiWithJwt("/exam/get-all/"),
-          apiWithJwt("/class/get-all/"),
-          apiWithJwt("/user/get-all-teachers/"),
-        ]);
-
-        setCreateOptions({
-          ...createOptions,
-          exam: exams.data.exams,
-          class: classes.data.class,
-          teacher: teachers.data.teachers,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getCreateOptions();
-  }, []);
-
   return (
     <FormContainer title="Create Assignments:">
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col">
-          <label>Exam:</label>
-          <Select name="exam" onChange={(e) => handleChange(e.target)}>
-            {createOptions.exam.map((i) => (
-              <option key={i._id} value={i._id}>
-                {i.name} ({i.year}-{i.month}-{i.date})
-              </option>
-            ))}
-          </Select>
-        </div>
-        <div className="flex flex-col">
-          <label>Class:</label>
-          <Select name="class" onChange={(e) => handleClassChange(e.target)}>
-            {createOptions.class.map((i) => (
-              <option key={i._id} value={i._id}>
-                {i.name}
-              </option>
-            ))}
-          </Select>
-        </div>
-        <div className="flex flex-col">
-          <label>Subject:</label>
-          <Select name="subject" onChange={(e) => handleChange(e.target)}>
-            {createOptions.subject.map((i) => (
-              <option key={i._id} value={i._id}>
-                {i.name}
-              </option>
-            ))}
-          </Select>
-        </div>
-        <div className="flex flex-col">
-          <label>Teacher:</label>
-          <Select name="teacher" onChange={(e) => handleChange(e.target)}>
-            {createOptions.teacher.map((i) => (
-              <option key={i._id} value={i._id}>
-                {i.name}
-              </option>
-            ))}
-          </Select>
-        </div>
+        <ExamSelect formState={formState} setFormState={setFormState} />
+        <ClassSelect formState={formState} setFormState={setFormState} />
+        <SubjectSelect
+          formState={formState}
+          setFormState={setFormState}
+          forClass={formState.class}
+        />
+        <TeacherSelect formState={formState} setFormState={setFormState} />
+
         <div className="flex flex-col mt-1">
           <Button variant={"green"} isPending={creatingAssignment}>
             {creatingAssignment ? <Spinner /> : "Create"}

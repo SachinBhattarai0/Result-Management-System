@@ -13,14 +13,15 @@ import { useModalState } from "../../context/ModalContext";
 import Content from "../../container/content/Content";
 import Spinner from "../../container/spinner/Spinner";
 import Pagination from "../../container/pagination/Pagination";
-import AssignmentCreateOptions from '../../components/assignmentCreateOptions/AssignmentCreateOptions'
+import AssignmentCreateOptions from "../../components/assignmentCreateOptions/AssignmentCreateOptions";
 
 const Assignment = () => {
   const navigate = useNavigate();
   const { updateAlert } = useAlert();
-  const [assignmentDeleted, setAssignmentDeleted] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const { showModal, closeModal } = useModalState();
+  const [assignmentDeletedOrCreated, setAssignmentDeletedOrCreated] =
+    useState("");
   const [assignments, setAssignments] = useState({
     isPending: false,
     pager: {},
@@ -29,12 +30,11 @@ const Assignment = () => {
 
   const deleteAssignment = async (id) => {
     try {
-      setAssignments({ ...assignments, isPending: true });
       const { data } = await apiWithJwt("/assignment/delete/", { id });
       updateAlert(data.message, SUCCESS);
       closeModal();
-      //This state change will trigger useEffect to fetch new student list
-      setAssignmentDeleted(Math.random());
+      //This state change will trigger useEffect to fetch new assignment list
+      setAssignmentDeletedOrCreated(Math.random());
     } catch (error) {
       console.log(error);
       updateAlert(error.message);
@@ -71,11 +71,13 @@ const Assignment = () => {
       }
     };
     fetchAssignmentList();
-  }, [pageNo, assignmentDeleted]);
+  }, [pageNo, assignmentDeletedOrCreated]);
 
   return (
     <Content>
-      <AssignmentCreateOptions />
+      <AssignmentCreateOptions
+        setAssignmentDeletedOrCreated={setAssignmentDeletedOrCreated}
+      />
       <table className="bg-white w-full rounded shadow-sm">
         <tbody>
           <tr>

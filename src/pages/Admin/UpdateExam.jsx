@@ -4,6 +4,7 @@ import { apiWithJwt } from "../../axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { SUCCESS, useAlert } from "../../context/AlertContext";
+import Spinner from "../../container/spinner/Spinner";
 import Input from "../../container/form/Input";
 import Button from "../../container/form/Button";
 import Content from "../../container/content/Content";
@@ -12,6 +13,7 @@ import FormContainer from "../../components/formContainer/FormContainer";
 const UpdateExam = () => {
   const navigate = useNavigate();
   const { state: exam } = useLocation();
+  const [updatingExam, setUpdatingExam] = useState(false);
   const { updateAlert } = useAlert();
   const [formState, setFormState] = useState({
     id: exam._id,
@@ -27,7 +29,7 @@ const UpdateExam = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formState);
+    setUpdatingExam(true);
     try {
       const { data } = await apiWithJwt("/exam/update/", {
         ...formState,
@@ -37,6 +39,7 @@ const UpdateExam = () => {
     } catch (error) {
       updateAlert(error.response.data.message);
     }
+    setUpdatingExam(false);
   };
 
   return (
@@ -76,7 +79,9 @@ const UpdateExam = () => {
           />
 
           <div className="flex flex-col">
-            <Button variant="green">Update</Button>
+            <Button variant="green">
+              {updatingExam ? <Spinner /> : "Update"}
+            </Button>
           </div>
         </form>
       </FormContainer>

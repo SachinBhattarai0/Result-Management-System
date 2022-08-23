@@ -4,12 +4,14 @@ import { apiWithJwt } from "../../axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { SUCCESS, useAlert } from "../../context/AlertContext";
+import Spinner from "../../container/spinner/Spinner";
 import Input from "../../container/form/Input";
 import Button from "../../container/form/Button";
 import Content from "../../container/content/Content";
 import FormContainer from "../../components/formContainer/FormContainer";
 
 const UpdateTeacher = () => {
+  const [updatingTeacher, setupdatingTeacher] = useState(false);
   const navigate = useNavigate();
   const { state: teacher } = useLocation();
   const { updateAlert } = useAlert();
@@ -27,6 +29,7 @@ const UpdateTeacher = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setupdatingTeacher(false);
     try {
       const { data } = await apiWithJwt("/user/update-teacher", {
         ...formState,
@@ -36,6 +39,7 @@ const UpdateTeacher = () => {
     } catch (error) {
       updateAlert(error.response.data.message);
     }
+    setupdatingTeacher(true);
   };
 
   return (
@@ -66,7 +70,9 @@ const UpdateTeacher = () => {
           />
 
           <div className="flex flex-col">
-            <Button variant="green">Update</Button>
+            <Button variant="green">
+              {updatingTeacher ? <Spinner /> : "Update"}
+            </Button>
           </div>
         </form>
       </FormContainer>

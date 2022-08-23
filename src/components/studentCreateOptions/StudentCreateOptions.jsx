@@ -1,41 +1,23 @@
-import React, { useState, useEffect } from "react";
-import Button from "../../container/form/Button";
-import Select from "../../container/form/Select";
-import Spinner from "../../container/spinner/Spinner";
-import { SUCCESS, useAlert } from "../../context/AlertContext";
+import React from "react";
+import { useState } from "react";
+import { SUCCESS } from "../../context/AlertContext";
+import { useAlert } from "../../context/AlertContext";
 import { apiWithJwt } from "../../axios/index";
+import ClassSelect from "../select/ClassSelect";
+import SubjectCheckbox from "../checkbox/SubjectCheckbox";
+import Button from "../../container/form/Button";
+import Spinner from "../../container/spinner/Spinner";
 import FormContainer from "../formContainer/FormContainer";
 
 const defaultState = { studentNames: "", class: "", subjects: [] };
 
-const StudentCreateOptions = () => {
+const StudentCreateOptions = ({ setStudentCreatedOrDeleted }) => {
   const { updateAlert } = useAlert();
   const [formState, setFormState] = useState(defaultState);
   const [creatingStudents, setCreatingStudents] = useState(false);
-  const [formOptions, setFormOptions] = useState({
-    classOptions: [],
-    subjectOptions: [],
-  });
-  // console.log(formState);
 
   const handleChange = ({ target }) => {
     setFormState({ ...formState, [target.name]: target.value });
-  };
-
-  const handleCheckboxChange = ({ target }) => {
-    const subjectId = target.getAttribute("subid");
-    const newSubjects = formState.subjects;
-
-    if (target.checked) {
-      newSubjects.push(subjectId);
-      setFormState({ ...formState, subjects: newSubjects });
-    } else {
-      newSubjects.splice(newSubjects.indexOf(subjectId), 1);
-      setFormState({
-        ...formState,
-        subjects: newSubjects,
-      });
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -49,33 +31,16 @@ const StudentCreateOptions = () => {
       const { data } = await apiWithJwt("/user/create-student/", {
         ...formDatas,
       });
+      //This state change will trigger useEffect to fetch new student list
+      setStudentCreatedOrDeleted(true);
+
       setFormState(defaultState);
       updateAlert(data.message, SUCCESS);
-      console.log(data);
     } catch (error) {
       updateAlert(error.response.data.message);
     }
     setCreatingStudents(false);
   };
-
-  useEffect(() => {
-    const getFormOptions = async () => {
-      try {
-        const res = await Promise.all([
-          apiWithJwt("/class/get-all/"),
-          apiWithJwt("/subject/get-all/"),
-        ]);
-        setFormOptions({
-          ...formOptions,
-          classOptions: res[0].data.class,
-          subjectOptions: res[1].data.subjects,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getFormOptions();
-  }, []);
 
   return (
     <FormContainer title="Create Students:">
@@ -95,34 +60,17 @@ const StudentCreateOptions = () => {
           </label>
         </div>
 
-        <Select label="Class:" name="class" onChange={handleChange}>
-          {formOptions.classOptions.map((classItem, i) => (
-            <option key={i} value={classItem._id}>
-              {classItem.name}
-            </option>
-          ))}
-        </Select>
+        <ClassSelect formState={formState} setFormState={setFormState} />
 
-        <div className="mt-2">
-          <label>Subjects:</label>
-          <div className="flex flex-wrap">
-            {formOptions.subjectOptions.map((subjectItem, i) => (
-              <div className="flex mr-2 space-x-1" key={i}>
-                <span>{subjectItem.name}</span>
-                <input
-                  type="checkbox"
-                  subid={subjectItem._id}
-                  checked={formState.subjects.includes(subjectItem._id)}
-                  onChange={handleCheckboxChange}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        <SubjectCheckbox
+          formState={formState}
+          setFormState={setFormState}
+          forClass={formState.class}
+        />
 
         <div className="py-2 w-full flex flex-wrap">
-          {formState.studentNames.split(",").map((name, i) => {
-            return (
+          {formState.studentNames.split(",").map(
+            (name, i) =>
               name && (
                 <span
                   key={i}
@@ -131,8 +79,7 @@ const StudentCreateOptions = () => {
                   {name}
                 </span>
               )
-            );
-          })}
+          )}
         </div>
         <Button variant="green" isPending={creatingStudents}>
           {creatingStudents ? <Spinner /> : "Create"}
