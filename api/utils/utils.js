@@ -1,4 +1,5 @@
 const paginate = require("jw-paginate");
+const { isValidObjectId } = require("mongoose");
 
 const TEACHER = "teacher";
 const ADMIN = "admin";
@@ -24,4 +25,10 @@ exports.paginator = (listOfItems, pageSize, page) => {
   );
 
   return { paginatedList: paginatedListOfItems, pager };
+};
+
+exports.validateObjectId = (id) => {
+  if (!isValidObjectId(id)) {
+    throw new Error("invalid id");
+  }
 };

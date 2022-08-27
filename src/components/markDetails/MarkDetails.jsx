@@ -1,5 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import { apiWithJwt } from "../../axios";
+import { SUCCESS } from "../../context/AlertContext";
+import { useAlert } from "../../context/AlertContext";
+import Spinner from "../../container/spinner/Spinner";
 import ButtonOutlined from "../../container/form/ButtonOutlined";
 
 const MarkDetails = ({ marks, markId }) => {
@@ -14,11 +18,22 @@ const MarkDetails = ({ marks, markId }) => {
   }, {});
   const [formState, setFormState] = useState(defaultFormState);
   const [markEditOpen, setMarkEditOpen] = useState(false);
+  const [isUpdating, setisUpdating] = useState(false);
+  const { updateAlert } = useAlert();
 
-  const handleMarkSaveButtonClick = () => {
-    setMarkEditOpen(!markEditOpen);
-    console.log(formState, markId);
-    //save the mark
+  const handleMarkSaveButtonClick = async () => {
+    setisUpdating(true);
+    try {
+      const { data } = await apiWithJwt("/mark/update-marks/", {
+        marks: { ...formState },
+        markId,
+      });
+      updateAlert(data.message, SUCCESS);
+      setMarkEditOpen(false);
+    } catch (error) {
+      updateAlert(error.response.data.message);
+    }
+    setisUpdating(false);
   };
 
   const handleTheoryMarkChange = (target, subject) => {
@@ -36,7 +51,7 @@ const MarkDetails = ({ marks, markId }) => {
     <div className="relative mx-12 flex flex-col space-y-3">
       {markEditOpen ? (
         <ButtonOutlined onClick={handleMarkSaveButtonClick} variant="green">
-          Save
+          {isUpdating ? <Spinner /> : "Save"}
         </ButtonOutlined>
       ) : (
         <ButtonOutlined onClick={() => setMarkEditOpen(!markEditOpen)}>

@@ -46,10 +46,8 @@ const Assignment = () => {
   };
 
   const handleDeleteButtonClick = (assignment) => {
-    showModal(
-      "Are you sure?",
-      "You are about to delete the subject " + assignment.name,
-      () => deleteAssignment(assignment._id)
+    showModal("Are you sure?", "You are about to delete the assignment? ", () =>
+      deleteAssignment(assignment._id)
     );
   };
 

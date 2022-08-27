@@ -78,6 +78,30 @@ exports.createMarks = async (req, res) => {
     .send({ error: false, message: "Mark added successfuly!!" });
 };
 
+exports.updateMarks = async (req, res) => {
+  const { marks, markId } = req.body;
+  const { markItem } = req;
+
+  const currentMarks = markItem.marks;
+
+  const newMarks = currentMarks.map((item) => {
+    const { theoryMark, practicalMark } = marks[item.subject];
+
+    item.theoryMark = theoryMark;
+    item.practicalMark = practicalMark;
+
+    return item;
+  });
+
+  await Mark.findOneAndUpdate({ _id: markId }, { marks: newMarks });
+
+  return res.send({
+    error: false,
+    message: "mark updated successfully",
+    markItem,
+  });
+};
+
 exports.getSudentsListForExam = async (req, res) => {
   const { class: _class, exams } = req.body;
 

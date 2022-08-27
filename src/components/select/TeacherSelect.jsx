@@ -9,11 +9,13 @@ const TeacherSelect = ({
   setFormState,
   name = "teacher",
   label = "Teacher",
+  extraOnChangeEvent = () => {}, //this is any extra event to run on value change
 }) => {
   const [teacherOptions, setTeacherOptions] = useState([]);
 
-  const handleChange = (target) => {
-    setFormState({ ...formState, [name]: target.value });
+  const handleChange = (e) => {
+    setFormState({ ...formState, [name]: e.target.value });
+    extraOnChangeEvent(e);
   };
 
   useEffect(() => {
@@ -25,11 +27,7 @@ const TeacherSelect = ({
   return (
     <div className="flex flex-col">
       <label>{label}:</label>
-      <Select
-        name={name}
-        onChange={(e) => handleChange(e.target)}
-        value={formState[name]}
-      >
+      <Select name={name} onChange={handleChange} value={formState[name]}>
         {teacherOptions.map((teacher) => (
           <option key={teacher._id} value={teacher._id}>
             {teacher.name}

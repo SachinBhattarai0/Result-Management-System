@@ -1,9 +1,10 @@
-const { check, validationResult, oneOf } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const { isValidObjectId } = require("mongoose");
 const { sendError, TEACHER } = require("../utils/utils");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const Exam = require("../models/exam.model");
+const Mark = require("../models/mark.model");
 const Subject = require("../models/subject.model");
 const Assignment = require("../models/assignment.model");
 const Class = require("../models/class.model");
@@ -84,13 +85,11 @@ exports.assignmentValidator = [
 exports.assignmentCompletedValidator = [
   check("id").custom(async (id, { req }) => {
     if (!isValidObjectId(id)) throw new Error("invalid id");
-
     const assignment = await Assignment.findById(id);
     if (!assignment) throw new Error("Invalid assignment Id!!");
+
     req.assignment = assignment;
-
     if (assignment.completed) throw new Error("Assignment already completed!!");
-
     return true;
   }),
 ];
@@ -102,10 +101,8 @@ exports.subjectValidator = [
     .withMessage("Class must be a non empty array!"),
   check("classes").custom(async (classArr, { req }) => {
     const classItems = [];
-
     classArr.forEach(async (id) => {
       if (!isValidObjectId(id)) throw new Error("invalid classIds");
-
       const classItem = await Class.findById(id).lean();
       if (!classItem) throw new Error("invalid classIds");
       classItems.push(classItem);
@@ -254,6 +251,64 @@ exports.markValidator = [
   }),
 ];
 
+exports.markUpdateInfoValidator = [
+  check("markId").trim().not().isEmpty().withMessage("markId is not present!!"),
+  check("marks").isObject().withMessage("marks must be a object!!"),
+  check("markId").custom(async (markId, { req }) => {
+    if (!isValidObjectId(markId)) throw new Error("invalid markId");
+    const markItem = await Mark.findById(markId).lean();
+    if (!markItem) throw new Error("invalid markId!!");
+
+    req.markItem = markItem;
+    return true;
+  }),
+  check("marks").custom((subjectMarks, { req }) => {
+    const { markItem } = req;
+    const { marks } = req.body;
+    for (const key in subjectMarks) {
+      const subjectMark = subjectMarks[key];
+
+      if (!subjectMark.theoryMark || !subjectMark.practicalMark)
+        throw new Error(
+          "mark item is invalid!! ust inclue theoryMark and practicalMark!!"
+        );
+
+      if (isNaN(subjectMark.theoryMark) || isNaN(subjectMark.practicalMark)) {
+        throw new Error("mark item is invalid!!");
+      }
+
+      const currentMarks = markItem.marks;
+
+      currentMarks.forEach((item) => {
+        const subjectMark = marks[item.subject];
+
+        if (!subjectMark) {
+          throw new Error(
+            "either some subject are missing or some subjectName is invalid"
+          );
+        }
+        if (
+          +subjectMark.theoryMark > +item.fullTheoryMark ||
+          subjectMark.theoryMark < 0
+        ) {
+          throw new Error(
+            `invlaid theoryMark must for ${item.subject} be less than ${item.fullTheoryMark} and gerater than 0`
+          );
+        }
+        if (
+          +subjectMark.practicalMark > +item.fullPracticalMark ||
+          subjectMark.practicalMark < 0
+        ) {
+          throw new Error(
+            `invlaid practicalMark must for ${item.subject} be less than ${item.fullPracticalMark} and gerater than 0`
+          );
+        }
+      });
+    }
+    return true;
+  }),
+];
+
 exports.classAndExamsValidator = [
   check("class").trim().not().isEmpty().withMessage("class is requried!!"),
   check("exams")
@@ -351,11 +406,10 @@ exports.userValidator = async (req, res, next) => {
 
   try {
     const { userId } = await jwt.verify(jwtToken, process.env.JWT_SECRET);
-
     const user = await User.findById(userId).lean();
     if (!user) return sendError(res, "Invalid jwtToken!");
-
     req.user = user;
+
     next();
   } catch (error) {
     return sendError(res, error.message);
@@ -368,7 +422,6 @@ exports.allowedRoles = (roles) => {
   return (req, res, next) => {
     const user = req.user;
     if (!user) return sendError(res, "User is not validated!");
-
     if (!roles.includes(user.role))
       return sendError(res, "user is unauthorized", 401);
     next();

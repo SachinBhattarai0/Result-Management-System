@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
-import Select from "../../container/form/Select";
-import Button from "../../container/form/Button";
+import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import { useAlert } from "../../context/AlertContext";
 import { apiWithJwt } from "../../axios";
+import Select from "../../container/form/Select";
+import Button from "../../container/form/Button";
 import Spinner from "../../container/spinner/Spinner";
 
 const ReportCardFilter = ({
@@ -122,25 +124,23 @@ const ReportCardFilter = ({
               -
             </span>
           </label>
-          {Array(filterInfo?.noOfExam)
-            .fill("")
-            .map((_, i) => (
-              <div className="flex" key={i}>
-                <Select onChange={(e) => handleExamChange(e, i)}>
-                  {exam.map(({ _id, name, year, month, date }) => (
-                    <option key={_id} value={_id}>
-                      {name} ({year}-{month}-{date})
-                    </option>
-                  ))}
-                </Select>
-                <input
-                  type="number"
-                  onChange={(e) => handleExamPercentChange(e, i)}
-                  className="w-10 px-1 outline-none border border-gray-300 focus:border-blue-600"
-                  defaultValue={100}
-                />
-              </div>
-            ))}
+          {[...Array(filterInfo?.noOfExam)].map((_, i) => (
+            <div className="flex" key={i}>
+              <Select onChange={(e) => handleExamChange(e, i)}>
+                {exam.map(({ _id, name, year, month, date }) => (
+                  <option key={_id} value={_id}>
+                    {name} ({year}-{month}-{date})
+                  </option>
+                ))}
+              </Select>
+              <input
+                type="number"
+                onChange={(e) => handleExamPercentChange(e, i)}
+                className="w-10 px-1 outline-none border border-gray-300 focus:border-blue-600"
+                defaultValue={100}
+              />
+            </div>
+          ))}
         </div>
 
         <div className="flex flex-col mt-2">

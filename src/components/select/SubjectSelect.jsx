@@ -10,12 +10,14 @@ const SubjectSelect = ({
   forClass: nameOfClass,
   name = "subject",
   label = "Subject",
+  extraOnChangeEvent = () => {}, //this is any extra event to run on value change
 }) => {
   const selectRef = useRef();
   const [subjectOptions, setSubjectOptions] = useState([]);
 
-  const handleChange = (target) => {
-    setFormState({ ...formState, [name]: target.value });
+  const handleChange = (e) => {
+    setFormState({ ...formState, [name]: e.target.value });
+    extraOnChangeEvent(e);
   };
 
   //This useEffect makes sure that whenever user changes class
@@ -44,11 +46,7 @@ const SubjectSelect = ({
   return (
     <div className="flex flex-col">
       <label>{label}:</label>
-      <Select
-        name={name}
-        onChange={(e) => handleChange(e.target)}
-        value={formState[name]}
-      >
+      <Select name={name} onChange={handleChange} value={formState[name]}>
         {subjectOptions.map((subject) => (
           <option key={subject._id} value={subject._id} ref={selectRef}>
             {subject.name}

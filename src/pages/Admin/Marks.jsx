@@ -2,14 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { apiWithJwt } from "../../axios";
-import { useAlert } from "../../context/AlertContext";
 import Content from "../../container/content/Content";
 import Spinner from "../../container/spinner/Spinner";
 import Pagination from "../../container/pagination/Pagination";
 import MarkListItem from "../../components/markListItem/MarkListItem";
 
 const Marks = () => {
-  const { updateAlert } = useAlert();
   const [pageNo, setPageNo] = useState(1);
   const [markState, setMarkState] = useState({
     isPending: false,
@@ -30,9 +28,7 @@ const Marks = () => {
           pager: data.pager,
           markList: data.marks,
         });
-        console.log(data);
       } catch (error) {
-        console.log(error);
         setMarkState({ ...markState, isPending: false });
       }
     };

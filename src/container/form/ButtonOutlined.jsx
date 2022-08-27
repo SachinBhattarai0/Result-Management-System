@@ -1,6 +1,6 @@
 import React from "react";
 
-const ButtonSm = ({ children, variant, ...rest }) => {
+const ButtonOutlined = ({ children, variant, ...rest }) => {
   const variantOptions = {
     blue: "border-blue-800 text-blue-800 hover:shadow-blue-200 hover:shadow-md hover:bg-blue-800",
     green:
@@ -18,4 +18,4 @@ const ButtonSm = ({ children, variant, ...rest }) => {
   );
 };
 
-export default ButtonSm;
+export default ButtonOutlined;
